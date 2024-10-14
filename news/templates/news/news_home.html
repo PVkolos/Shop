@@ -1,0 +1,94 @@
+{% extends 'base/layout.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'news/css/news.css' %}">
+{% endblock %}
+
+{% block content %}
+<!--    <h1>Добавление товара</h1>-->
+    {% if user.is_superuser %}
+        <div id="content" class="colM">
+
+              <h1>Добавить Товар</h1>
+
+              <div id="content-main">
+                <form method="post" enctype="multipart/form-data" id="products_form" action="{% url 'add_product' %}" novalidate=""><input type="hidden" name="csrfmiddlewaretoken" value="0emvpvbJy0DT5TzbBMQsZaSLFuWYuTX8T7oKAETMsqOUk1axtXCL7GuXlUdghMHO">
+                  {% csrf_token %}
+                    <fieldset class="module aligned ">
+
+                        <div class="form-title">
+                                        <div class="flex-container">
+                                                <label class="required" for="id_title">Название товара:</label>
+                                                    <input type="text" name="title" class="vTextField" maxlength="200" required="" id="id_title">
+                                        </div>
+                        </div>
+                        <div class="form-price">
+                                        <div class="flex-container">
+                                                <label class="required" for="id_price">Цена товара:</label>
+                                                    <input type="number" name="price" class="vIntegerField" required="" id="id_price">
+                                        </div>
+                        </div>
+                        <div class="form-additional_info">
+                                        <div class="flex-container">
+                                                <label class="required" for="id_additional_info">Описание товара:</label>
+                                                    <textarea name="additional_info" cols="40" rows="10" class="vLargeTextField" required="" id="id_additional_info"></textarea>
+                                        </div>
+                        </div>
+                        <div class="form-photo_products">
+                            <div class="flex-container">
+                                <label class="required" for="id_image">Картинка:</label>
+                                <input type="file" name="image" accept="image/*" required="" id="id_image">
+                            </div>
+                        </div>
+                        <div class="form-category">
+                            <div class="flex-container">
+                                <label class="required" for="id_category">Категория:</label>
+                                <select name="category" required="" id="id_category">
+                                  <option value="" selected="">---------</option>
+                                  <option value="Пакеты">Пакеты</option>
+                                  <option value="Пластиковая одноразовая посуда">Пластиковая одноразовая посуда</option>
+                                  <option value="Бумажная одноразовая посуда">Бумажная одноразовая посуда</option>
+                                  <option value="Пластиковая упаковка">Пластиковая упаковка</option>
+                                  <option value="Бумажная упаковка">Бумажная упаковка</option>
+                                  <option value="Ланч боксы и лотки">Ланч боксы и лотки</option>
+                                  <option value="Пленка и скотч">Пленка и скотч</option>
+                                  <option value="Товары хоз назначения">Товары хоз назначения</option>
+                                  <option value="Монтажные летны">Монтажные летны</option>
+                                  <option value="Сезонные товары">Сезонные товары</option>
+                                  <option value="Продукты питания">Продукты питания</option>
+                                  <option value="Бытовая химия">Бытовая химия</option>
+                                  <option value="Подарочная упаковка">Подарочная упаковка</option>
+                                  <option value="Новогодняя продукция">Новогодняя продукция</option>
+                                  <option value="Канцелярские товары">Канцелярские товары</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row field-quantity">
+                            <div class="flex-container">
+                                <label class="required" for="id_quantity">Штук в наличии:</label>
+                                <input type="number" name="quantity" class="vIntegerField" required="" id="id_quantity">
+                            </div>
+                        </div>
+
+                </fieldset>
+                <div class="submit-row">
+                    <input type="submit" value="Добавить" class="default" name="_save">
+                </div>
+                </form>
+              </div>
+              <br class="clear">
+            </div>
+    {% else %}
+    <div class="description">
+        <h1>Увы, вы не админ</h1>
+        <p>К сожалению, мы не можем предоставить вам доступ к этой странице</p>
+	</div>
+    {% endif %}
+{% endblock %}
+
+
+{% block title %}
+    Добавление товара
+{% endblock %}
+

@@ -1,0 +1,270 @@
+{% extends 'base/layout.html' %}
+
+{% block content %}
+{% load static %}
+    <div class="abs_basket">
+        {% for el in products %}
+<!--            <div class="assortment_basket">-->
+<!--                <div class="text_block">-->
+<!--                    <img src="media/{{el.image}}">-->
+<!--                    <h3>{{ el.title }}</h3><br>-->
+<!--                    <p>{{ el.price }}</p>-->
+<!--                </div>-->
+
+<!--                <div class="info_product">-->
+<!--                    <div class="quantity_product">-->
+<!--                      <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>-->
+<!--                      <input type="number" class="counter-input" value="1" min="1" max="100" data-product-id="{{ el.id }}">-->
+<!--                      <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>-->
+<!--                    </div>-->
+<!--&lt;!&ndash;                    <button class="btn btn-warning"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Убрать из корзины</a></button>&ndash;&gt;-->
+<!--                    <button class="btn btn-danger"><span class="text_out1" id="2span_delete-to-cart-{{ el.id }}"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Из корзины</a></span></button>-->
+<!--                </div>-->
+<!--            </div>-->
+	    {% endfor %}
+        {% for el in products %}
+            <div class="assortment">
+                <img src="/media/{{el.image}}" onclick="openImage('/media/{{el.image}}')">
+
+                 <dialog id="dialog-{{ el.id }}">
+                        <h2>Описание товара: {{ el.title }}</h2>
+                        <p>Описание товара: {{ el.additional_info }}</p><br><br>
+                        <button onclick="closeDialog('{{ el.id }}')">X</button>
+                 </dialog>
+
+                    <div class="text_block">
+                        <div class="button_bask" style="">
+                            <button class="btn btn-info" onclick="openDialog('{{ el.id }}')">
+                                <span class="text_about1">Описание</span>
+                            </button>
+                            <button id="delete-to-cart-{{ el.id }}" class="btn btn-danger" onclick="removeFromCart('{{ el.id }}')">
+                                <span class="text_out1"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Из корзины</a></span>
+                            </button>
+                            <div class="quantity_product" id="product-card" quantity="{{ el.quantity }}">
+                                  <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
+                                  <input type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="100" data-product-id="{{ el.id }}">
+                                  <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-top: -40px;">{{ el.title }}</h3><br>
+                        <h4>Цена: {{ el.price }}</h4>
+                        <h5>В наличии: {{ el.quantity }}</h5>
+                </div>
+
+            </div>
+	    {% endfor %}
+
+    </div>
+
+    <div class="bask">
+        <div class="pad_text_basket">
+            <h5 class="total-quantity">Товары: {{number}} штук</h5>
+            <h3 class="total-price">Итого: {{summa}} рублей</h3>
+            <div class="button_buy">
+                <button onclick="openPopup()" class="btn btn-success">Заказать</button>
+            </div>
+        </div>
+    </div>
+
+
+    <form id="order-form" method="post" action="{% url 'order' %}">
+        {% csrf_token %}
+        <div id="popup" class="popup">
+          <div class="popup-content">
+            <input type="hidden" id="products-input" name="products" value="{{ products_id }}">
+            <input type="hidden" id="email-input" name="email" value="{{ request.user.email }}">
+            <input type="hidden" id="valuesInput" name="values" value="">
+            <h2>Ваш номер телефона</h2>
+            <p>Введите свой номер телефона в таком формате: 8(xxx)xxx-xx-xx
+                (Будьте внимательны, через него с вами будут связываться наши менеджеры для уточнения условий заказа):</p>
+            <input type="tel" id="phone" name="phone">
+              <p id="p_err" class="error_form_popup"></p>
+            <button onclick="submitForm(event)" type="button" class="btn btn-success">Заказать</button>
+            <button onclick="closePopup()" type="button" class="btn btn-danger">Отмена</button>
+          </div>
+        </div>
+    </form>
+
+    <div class="mobile_bask">
+        <div class="pad_text">
+            <h5 class="total-q">Товары: {{number}} штук</h5>
+            <h3 class="total-p">Итого: {{summa}} рублей</h3>
+            <button onclick="openPopup()" class="btn btn-success">Заказать</button>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal">
+      <span class="close" onclick="closeImageModal()">&times;</span>
+      <img id="modalImage" src="">
+    </div>
+
+
+<script>
+const increaseBtns = document.querySelectorAll('.increase-btn');
+const decreaseBtns = document.querySelectorAll('.decrease-btn');
+
+// Добавляем обработчики событий к каждой кнопке увеличения
+increaseBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const counterInput = btn.parentNode.querySelector('.counter-input');
+    const quantity = btn.closest('#product-card').getAttribute('quantity');
+    if (parseInt(counterInput.value) + 1 <= quantity){
+        counterInput.value = parseInt(counterInput.value) + 1;
+        updateCartData();
+    }
+
+  });
+});
+
+
+// Добавляем обработчики событий к каждой кнопке уменьшения
+decreaseBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const counterInput = btn.parentNode.querySelector('.counter-input');
+    if (counterInput.value > counterInput.min) {
+      counterInput.value = parseInt(counterInput.value) - 1;
+      updateCartData();
+    }
+  });
+});
+
+    // Функция для обновления данных о корзине
+function updateCartData() {
+    const counterInputs = document.querySelectorAll('.counter-input');
+    const totalQuantityElement = document.querySelector('.total-quantity');
+    const totalPriceElement = document.querySelector('.total-price');
+    const totalQuantityElement2 = document.querySelector('.total-q');
+    const totalPriceElement2 = document.querySelector('.total-p');
+
+
+    let requests = [];
+    let totalQuantity = 0;
+    let totalPrice = 0;
+
+    counterInputs.forEach(input => {
+        const productId = input.dataset.productId;
+        const quantity = input.value;
+        console.log(productId, quantity);
+
+        totalQuantity += parseInt(quantity);
+
+        // Создаем асинхронный запрос на сервер и добавляем его в массив запросов
+        let request = fetch('/update_cart/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': "{{ csrf_token }}"
+            },
+            body: JSON.stringify({
+                'product_id': productId,
+                'quantity': quantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Обновляем общую стоимость
+            console.log(data.product_price);
+            totalPrice += data.product_price;
+        })
+        .catch(error => {
+            console.error('Ошибка при обновлении корзины:', error);
+        });
+
+        requests.push(request);
+    });
+
+    // Дожидаемся выполнения всех запросов
+    Promise.all(requests)
+    .then(() => {
+        console.log(totalPrice, totalQuantity);
+        // Обновляем отображение общего количества и общей стоимости в шаблоне
+        totalQuantityElement.textContent = 'Товары: ' + totalQuantity + ' штук';
+        totalQuantityElement2.textContent = 'Товары: ' + totalQuantity + ' штук';
+        totalPriceElement.textContent = 'Итого: ' + totalPrice + ' рублей';
+        totalPriceElement2.textContent = 'Итого: ' + totalPrice + ' рублей';
+    });
+}
+
+// Обработчик события изменения количества товара в input
+function handleQuantityChange(event) {
+    updateCartData();
+}
+
+// Добавляем обработчик события изменения количества товара для каждого input
+const counterInputs = document.querySelectorAll('.counter-input');
+counterInputs.forEach(input => {
+    input.addEventListener('change', handleQuantityChange);
+});
+
+
+function openPopup() {
+  var popup = document.getElementById("popup");
+  popup.style.display = "block";
+}
+
+function closePopup() {
+  var popup = document.getElementById("popup");
+  popup.style.display = "none";
+}
+
+function submitForm(event) {
+    var p = document.getElementById("p_err");
+    var inputs = document.getElementsByClassName("counter-input");
+    var input = document.getElementById('phone');
+    input = input.value.trim();
+    try {
+        if (input === ''){
+            p.textContent = 'Ошибка. Проверьте, что поле не пустое'
+        }
+        else{
+         var values = [];
+          for (var i = 0; i < inputs.length; i++) {
+            var value = inputs[i].value;
+            values.push(value);
+        }
+          var valuesInput = document.getElementById("valuesInput");
+          valuesInput.value = values.join(",");
+
+          event.preventDefault();
+          var form = document.getElementById("order-form");
+
+          form.submit(); // Отправка формы
+          closePopup();
+        }
+  } catch(error) {
+      p.textContent = 'Возникла ошибка. Проверьте подключение к интернету';
+      console.error('Ошибка при обновлении корзины:', error);
+  }
+}
+
+function openImage(imageUrl) {
+  var modal = document.getElementById("imageModal");
+  var modalImage = document.getElementById("modalImage");
+  modalImage.src = imageUrl;
+  modal.style.display = "block";
+}
+
+function closeImageModal() {
+  var modal = document.getElementById("imageModal");
+  modal.style.display = "none";
+}
+
+function openDialog(dialogId) {
+    const dialog = document.getElementById(`dialog-${dialogId}`);
+    dialog.showModal();
+}
+
+function closeDialog(dialogId) {
+    const dialog = document.getElementById(`dialog-${dialogId}`);
+    dialog.close();
+}
+
+</script>
+
+
+{% endblock %}
+
+{% block title %}
+    Корзина
+{% endblock %}

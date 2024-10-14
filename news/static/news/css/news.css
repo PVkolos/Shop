@@ -1,0 +1,41 @@
+.colM {
+    margin: 10% 15% 20% 25%;
+    font-family: Comic Sans MS, Comic Sans, cursive;
+    color: #00D4C6;
+}
+
+.colM h1{
+    margin-bottom: 5%;
+}
+
+.flex-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.flex-container label {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-weight: bold;
+}
+
+textarea {
+     height: 100px;
+     margin-bottom: 2%;
+}
+
+.colM input{
+    margin-bottom: 2%;
+    font-size: 30px;
+}
+
+.colM select {
+    margin-bottom: 2%;
+    font-size: 30px;
+}
+
+.colM label {
+    font-size: 20px;
+    margin: -1% 0% 0% 0%;
+}

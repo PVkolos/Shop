@@ -1,0 +1,380 @@
+{% extends 'base/layout.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="shapka" style="display: flex;">
+        <div class="mobilebtn">
+            <div class="but_mobile">
+                <button class="btn btn-primary" onclick="openMobile()" >
+                    <span>
+                        <a><i class="fa fa-bars" aria-hidden="true"></i> Каталог</a>
+                    </span>
+                </button>
+            </div>
+            <h3 class="active_category">{{ category }}</h3>
+        </div>
+
+        <form action=""  method="GET" class="search_container">
+                <input class="search__input" type="search" name="search" placeholder="Поиск">
+                <button class="btn_search" type="submit">Искать</button>
+        </form>
+
+    </div>
+
+
+
+    <ul class="div_menu_list">
+        <li><a class="list_menu"><h3>Каталог</h3><i class="fa fa-bars" aria-hidden="true"></i></a>
+            <ul class="ul_list_menu">
+                <li><a href="{% url 'assortment' %}?category=Все товары">Все товары</a></li>
+                <li><a href="{% url 'assortment' %}?category=Пакеты">Пакеты</a></li>
+                <li><a href="{% url 'assortment' %}?category=Пластиковая одноразовая посуда">Пластиковая одноразовая посуда</a></li>
+                <li><a href="{% url 'assortment' %}?category=Бумажная одноразовая посуда">Бумажная одноразовая посуда</a></li>
+                <li><a href="{% url 'assortment' %}?category=Пластиковая упаковка">Пластиковая упаковка</a></li>
+                <li><a href="{% url 'assortment' %}?category=Бумажная упаковка">Бумажная упаковка</a></li>
+                <li><a href="{% url 'assortment' %}?category=Ланч боксы и лотки">Ланч боксы и лотки</a></li>
+                <li><a href="{% url 'assortment' %}?category=Пленка и скотч">Пленка и скотч</a></li>
+                <li><a href="{% url 'assortment' %}?category=Товары хоз назначения">Товары хоз назначения</a></li>
+                <li><a href="{% url 'assortment' %}?category=Монтажные летны">Монтажные летны</a></li>
+                <li><a href="{% url 'assortment' %}?category=Сезонные товары">Сезонные товары</a></li>
+                <li><a href="{% url 'assortment' %}?category=Продукты питания">Продукты питания</a></li>
+                <li><a href="{% url 'assortment' %}?category=Бытовая химия">Бытовая химия</a></li>
+                <li><a href="{% url 'assortment' %}?category=Подарочная упаковка">Подарочная упаковка</a></li>
+                <li><a href="{% url 'assortment' %}?category=Новогодняя продукция">Новогодняя продукция</a></li>
+                <li><a href="{% url 'assortment' %}?category=Канцелярские товары">Канцелярские товары</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="abs">
+        {% for el in products %}
+            {% if category == el.category or category == "Все товары"%}
+                <div class="assortment">
+                    <img src="/media/{{el.image}}" onclick="openImage('/media/{{el.image}}')">
+
+<!--                     <dialog id="dialog-{{ el.id }}" class="dialog_menu">-->
+<!--                            <h2>{{ el.title }}</h2>-->
+<!--                            <p>{{ el.additional_info }}</p><br><br>-->
+<!--                            <button onclick="closeDialog('{{ el.id }}')">X</button>-->
+<!--                     </dialog>-->
+                    <dialog id="dialog-{{ el.id }}" class="dialog_menu">
+                         <h2>{{ el.title }}</h2>
+                        <p>Описание выбранного вами товара:</p>
+                         <p>{{ el.additional_info }}</p>
+                        <p></p>
+                        <button onclick="closeDialog('{{ el.id }}')" aria-label="close" class="x">❌</button>
+                    </dialog>
+
+                        <div class="text_block">
+                            <div class="button_asort" style="">
+                                <button class="btn btn-info" onclick="openDialog('{{ el.id }}')">
+                                    <span class="text_about1">Описание</span>
+                                    <span class="text_about2"><img src="/media/svg_ico/card-text.svg"></span>
+                                </button>
+
+                                {% if not request.user.is_authenticated %}
+                                    <a href="{% url 'register' %}"><button class="btn btn-success">
+                                        <span class="text_in1">В корзину</span>
+                                        <span class="text_in2"><img src="/media/svg_ico/cart-plus.svg"></span>
+                                    </button></a>
+
+                                {% elif el.id not in products_itog %}
+        <!--                            <a href="{% url 'add_to_cart' %}?id={{el.id}}"><button class="btn btn-warning">В корзину</button></a>-->
+                                    <button id="add-to-cart-{{ el.id }}" class="btn btn-success" onclick="addToCart('{{ el.id }}')">
+                                        <span class="text_in1" id="2span_add-to-cart-{{ el.id }}">В корзину</span>
+                                        <span class="text_in2" id="span_add-to-cart-{{ el.id }}"><img src="/media/svg_ico/cart-plus.svg"></span>
+                                    </button>
+                                {% else %}
+        <!--                            <a href="{% url 'delete_to_cart' %}?id={{el.id}}"><button class="btn btn-warning">Убрать из корзины</button></a>-->
+                                    <button id="delete-to-cart-{{ el.id }}" class="btn btn-danger" onclick="removeFromCart('{{ el.id }}')">
+                                        <span class="text_out1" id="2span_delete-to-cart-{{ el.id }}">Из корзины</span>
+                                        <span class="text_out2" id="span_delete-to-cart-{{ el.id }}"><img src="/media/svg_ico/cart-dash.svg"></span>
+                                    </button>
+                                {% endif %}
+                            </div>
+                                <div class="quantity_product_a" data-id="{{ el.id }}" id="product-card" quantity="{{ el.quantity }}">
+                                      <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
+                                      <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="100" data-product-id="{{ el.id }}">
+                                      <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>
+                                </div>
+
+                            <h3 style="margin-top: -100px;">{{ el.title }}</h3><br>
+                            <h4>Цена: {{ el.price }}</h4>
+                            <h5>В наличии: {{ el.quantity }}</h5>
+                    </div>
+                </div>
+            {% endif %}
+	    {% endfor %}
+
+<!--        <div class="footer-spacer"></div>-->
+<!--        <div class="footer"></div>-->
+    </div>
+
+    <div id="imageModal" class="modal">
+      <span class="close" onclick="closeImageModal()">&times;</span>
+      <img id="modalImage" src="">
+    </div>
+
+    <dialog id="dialogMobile" class="dMobile">
+        <button onclick="closeDialogMobile()" class="exit_mobile"><i class="fa-solid fa-xmark"></i></button>
+        <div class="mobileUl">
+            <ul class="list-mobile">
+                <li><a href="{% url 'assortment' %}?category=Все товары"><i class="fa-solid fa-globe"></i> Все товары</a></li>
+                <li><a href="{% url 'assortment' %}?category=Пакеты"><i class="fa-solid fa-bag-shopping"></i> Пакеты</a></li>
+                <li><a href="{% url 'assortment' %}?category=Пластиковая одноразовая посуда"><i class="fa-solid fa-utensils"></i> Пластиковая одноразовая посуда</a></li>
+                <li><a href="{% url 'assortment' %}?category=Бумажная одноразовая посуда"><i class="fa-solid fa-utensils"></i> Бумажная одноразовая посуда</a></li>
+                <li><a href="{% url 'assortment' %}?category=Пластиковая упаковка"><i class="fa-solid fa-boxes-packing"></i> Пластиковая упаковка</a></li>
+                <li><a href="{% url 'assortment' %}?category=Бумажная упаковка"><i class="fa-solid fa-box"></i> Бумажная упаковка</a></li>
+                <li><a href="{% url 'assortment' %}?category=Ланч боксы и лотки"><i class="fa-sharp fa-thin fa-box-archive"></i> Ланч боксы и лотки</a></li>
+                <li><a href="{% url 'assortment' %}?category=Пленка и скотч"><i class="fa-solid fa-tape"></i> Пленка и скотч</a></li>
+                <li><a href="{% url 'assortment' %}?category=Товары хоз назначения"><i class="fa-solid fa-toilet-paper"></i> Товары хоз назначения</a></li>
+                <li><a href="{% url 'assortment' %}?category=Монтажные летны"><i class="fa-solid fa-sheet-plastic"></i> Монтажные летны</a></li>
+                <li><a href="{% url 'assortment' %}?category=Сезонные товары"><i class="fa-solid fa-fire"></i> Сезонные товары</a></li>
+                <li><a href="{% url 'assortment' %}?category=Продукты питания"><i class="fa-solid fa-burger"></i> Продукты питания</a></li>
+                <li><a href="{% url 'assortment' %}?category=Бытовая химия"><i class="fa-solid fa-bottle-droplet"></i> Бытовая химия</a></li>
+                <li><a href="{% url 'assortment' %}?category=Подарочная упаковка"><i class="fa-solid fa-gift"></i> Подарочная упаковка</a></li>
+                <li><a href="{% url 'assortment' %}?category=Новогодняя продукция"><i class="fa-solid fa-star"></i> Новогодняя продукция</a></li>
+                <li><a href="{% url 'assortment' %}?category=Канцелярские товары"><i class="fa-solid fa-paperclip"></i> Канцелярские товары</a></li>
+                <li><a> </a></li>
+            </ul>
+        </div>
+    </dialog>
+
+    <div class="pad">
+        <div class="pad_text">
+            <h3 class="navig">КАТАЛОГ:</h3>
+            <ul class="category">
+                <li><a class="categ" href="{% url 'assortment' %}?category=Все товары">Все товары</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Пакеты">Пакеты</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Пластиковая одноразовая посуда">Пластиковая одноразовая посуда</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Бумажная одноразовая посуда">Бумажная одноразовая посуда</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Пластиковая упаковка">Пластиковая упаковка</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Бумажная упаковка">Бумажная упаковка</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Ланч боксы и лотки">Ланч боксы и лотки</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Пленка и скотч">Пленка и скотч</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Товары хоз назначения">Товары хоз назначения</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Монтажные летны">Монтажные летны</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Сезонные товары">Сезонные товары</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Продукты питания">Продукты питания</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Бытовая химия">Бытовая химия</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Подарочная упаковка">Подарочная упаковка</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Новогодняя продукция">Новогодняя продукция</a></li>
+                <li><a class="categ" href="{% url 'assortment' %}?category=Канцелярские товары">Канцелярские товары</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+<script>
+
+// function toggleDropdown() {
+//     console.log(12);
+//   var dropdown = document.getElementById("dropdownMenu");
+//
+//   dropdown.classList.toggle("show");
+// }
+
+const increaseBtns = document.querySelectorAll('.increase-btn');
+const decreaseBtns = document.querySelectorAll('.decrease-btn');
+
+// Добавляем обработчики событий к каждой кнопке увеличения
+increaseBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const counterInput = btn.parentNode.querySelector('.counter-input');
+    const productId = btn.closest('#product-card').getAttribute('data-id'); // Получаем id карточки товара
+    const quantity = btn.closest('#product-card').getAttribute('quantity'); // Получаем количество товара
+    if (parseInt(counterInput.value) + 1 <= quantity) {
+        if (parseInt(counterInput.value) == 0) {
+            addToCart(productId);
+        }
+        counterInput.value = parseInt(counterInput.value) + 1;
+        updateCartData();
+        }
+
+  });
+});
+
+
+// Добавляем обработчики событий к каждой кнопке уменьшения
+decreaseBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const counterInput = btn.parentNode.querySelector('.counter-input');
+    if (counterInput.value > counterInput.min) {
+      counterInput.value = parseInt(counterInput.value) - 1;
+      updateCartData();
+    }
+  });
+});
+
+
+function updateCartData() {
+    const counterInputs = document.querySelectorAll('.counter-input');
+
+    let requests = [];
+
+    counterInputs.forEach(input => {
+        const productId = input.dataset.productId;
+        const quantity = input.value;
+        console.log(productId, quantity);
+
+        if (quantity != 0){
+            // Создаем асинхронный запрос на сервер и добавляем его в массив запросов
+            let request = fetch('/update_cart/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': "{{ csrf_token }}"
+            },
+            body: JSON.stringify({
+                'product_id': productId,
+                'quantity': quantity
+            })
+        })
+        .catch(error => {
+            console.error('Ошибка при обновлении корзины:', error);
+        });
+
+        requests.push(request);
+        }
+
+    });
+
+    // Дожидаемся выполнения всех запросов
+    Promise.all(requests)
+}
+
+
+function openMobile(){
+    const dialog = document.getElementById(`dialogMobile`);
+    dialog.showModal();
+}
+
+function closeDialogMobile() {
+    const dialog = document.getElementById(`dialogMobile`);
+    dialog.close();
+}
+
+function openImage(imageUrl) {
+  var modal = document.getElementById("imageModal");
+  var modalImage = document.getElementById("modalImage");
+  modalImage.src = imageUrl;
+  modal.style.display = "block";
+}
+
+function closeImageModal() {
+  var modal = document.getElementById("imageModal");
+  modal.style.display = "none";
+}
+
+
+function openDialog(dialogId) {
+    const dialog = document.getElementById(`dialog-${dialogId}`);
+    dialog.showModal();
+}
+
+function closeDialog(dialogId) {
+    const dialog = document.getElementById(`dialog-${dialogId}`);
+    dialog.close();
+}
+
+
+function addToCart(productId) {
+    fetch('/add_to_cart/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+            'product_id': productId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Товар добавлен в корзину:', data);
+        // Здесь можно выполнить дополнительные действия после добавления товара в корзину
+
+         const addToCartButton = document.getElementById(`add-to-cart-${productId}`);
+         const addToCartSpan = document.getElementById(`span_add-to-cart-${productId}`);
+         const addToCart2Span = document.getElementById(`2span_add-to-cart-${productId}`);
+         const quantity = document.getElementById(`input_${productId}`);
+         // const windowInnerWidth = window.innerWidth;
+         // if (windowInnerWidth <= 500){
+         addToCartSpan.innerHTML = '<img src="/media/svg_ico/cart-dash.svg">';
+         addToCartSpan.id = 'span_delete-to-cart-' + productId;
+         addToCartSpan.className = 'text_out2';
+         quantity.value = '1';
+         // }
+         // else{
+        // console.log(addToCart2Span);
+        // console.log();
+         addToCart2Span.textContent = 'Из корзины';
+         addToCart2Span.id = '2span_delete-to-cart-' + productId;
+         addToCart2Span.className = 'text_out1';
+         // }
+        // Изменить метод onclick на функцию removeFromCart()
+        addToCartButton.onclick = function() {
+            removeFromCart(productId);
+        };
+
+        addToCartButton.id = 'delete-to-cart-' + productId;
+
+        addToCartButton.className = "btn btn-danger";
+        console.log(addToCartButton);
+
+    })
+    .catch(error => {
+        console.error('Ошибка при добавлении товара в корзину:', error);
+    });
+
+}
+
+
+function removeFromCart(productId) {
+    fetch('/delete_to_cart/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+            'product_id': productId
+        })
+    })
+
+    // Найдите кнопку "Убрать из корзины" по ее уникальному ID
+    const removeFromCartButton = document.getElementById(`delete-to-cart-${productId}`);
+     const removeFromCartSpan = document.getElementById(`span_delete-to-cart-${productId}`);
+     const removeFromCart2Span = document.getElementById(`2span_delete-to-cart-${productId}`);
+     const quantity = document.getElementById(`input_${productId}`);
+     // const windowInnerWidth = window.innerWidth;
+     // if (windowInnerWidth <= 500){
+     removeFromCartSpan.innerHTML = '<img src="/media/svg_ico/cart-plus.svg">';
+     removeFromCartSpan.id = 'span_add-to-cart-' + productId;
+     removeFromCartSpan.className = 'text_in2';
+     // }
+     // else{
+     removeFromCart2Span.textContent = 'В корзину';
+     removeFromCart2Span.id = '2span_add-to-cart-' + productId;
+     removeFromCart2Span.className = 'text_in1';
+     quantity.value = '0';
+     // }
+
+    removeFromCartButton.className = "btn btn-success";
+    removeFromCartButton.id = 'add-to-cart-' + productId;
+
+    // Изменить метод onclick на функцию addToCart()
+    removeFromCartButton.onclick = function() {
+        addToCart(productId);
+    };
+    console.log(removeFromCartButton);
+}
+
+
+</script>
+{% endblock %}
+
+{% block title %}
+    Ассортимент
+{% endblock %}

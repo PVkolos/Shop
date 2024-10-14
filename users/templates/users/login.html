@@ -1,0 +1,22 @@
+{% extends 'base/layout.html' %}
+
+{% block content %}
+<div class="register_div">
+    <h1>{{title}}</h1>
+    <a href="{% url 'register' %}">
+        <h3 class="registr">(Регистрация)</h3>
+    </a>
+
+    <form class="register" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-warning" type="submit">Войти</button>
+    </form>
+
+</div>
+
+{% endblock %}
+
+{% block title %}
+    Вход
+{% endblock %}

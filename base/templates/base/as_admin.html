@@ -1,0 +1,202 @@
+<div id="content" class="colM">
+
+          <h1>Добавить Товар</h1>
+
+          <div id="content-main">
+
+
+
+<form enctype="multipart/form-data" method="post" id="products_form" novalidate=""><input type="hidden" name="csrfmiddlewaretoken" value="Yqfy56ws4IiEn6hyfZyo28SQKrD9GxMcgezgoxG64yxV1aDUQ9iu3iz6uWgrU8Fy">
+<div>
+
+
+
+
+
+
+
+
+<fieldset class="module aligned ">
+
+
+
+        <div class="form-row field-title">
+
+
+                <div>
+
+                        <div class="flex-container">
+
+                                <label class="required" for="id_title">Название товара:</label>
+
+                                    <input type="text" name="title" class="vTextField" maxlength="200" required="" id="id_title">
+
+
+                        </div>
+
+                </div>
+
+
+        </div>
+
+        <div class="form-row field-price">
+
+
+                <div>
+
+                        <div class="flex-container">
+
+                                <label class="required" for="id_price">Цена товара:</label>
+
+                                    <input type="number" name="price" class="vIntegerField" required="" id="id_price">
+
+
+                        </div>
+
+                </div>
+
+
+        </div>
+
+        <div class="form-row field-additional_info">
+
+
+                <div>
+
+                        <div class="flex-container">
+
+                                <label class="required" for="id_additional_info">Описание товара:</label>
+
+                                    <textarea name="additional_info" cols="40" rows="10" class="vLargeTextField" required="" id="id_additional_info"></textarea>
+
+
+                        </div>
+
+                </div>
+
+
+        </div>
+
+        <div class="form-row field-image">
+
+
+                <div>
+
+                        <div class="flex-container">
+
+                                <label class="required" for="id_image">Картинка:</label>
+
+                                    <input type="file" name="image" accept="image/*" required="" id="id_image">
+
+
+                        </div>
+
+                </div>
+
+
+        </div>
+
+        <div class="form-row field-category">
+
+
+                <div>
+
+                        <div class="flex-container">
+
+                                <label class="required" for="id_category">Категория:</label>
+
+                                    <select name="category" required="" id="id_category">
+  <option value="" selected="">---------</option>
+
+  <option value="одежда">Одежда</option>
+
+  <option value="сувениры">Сувениры</option>
+
+  <option value="туристическое">Туристическое</option>
+
+  <option value="сумки">Сумки</option>
+
+  <option value="интерьер">Интерьер</option>
+
+  <option value="канцелярия">Канцелярия</option>
+
+  <option value="посуда">Посуда</option>
+
+  <option value="игрушки">Игрушки</option>
+
+  <option value="расходники">Расходники</option>
+
+</select>
+
+
+                        </div>
+
+                </div>
+
+
+        </div>
+
+        <div class="form-row field-quantity">
+
+
+                <div>
+
+                        <div class="flex-container">
+
+                                <label class="required" for="id_quantity">Штук в наличии:</label>
+
+                                    <input type="number" name="quantity" class="vIntegerField" required="" id="id_quantity">
+
+
+                        </div>
+
+                </div>
+
+
+        </div>
+
+
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="submit-row">
+
+<input type="submit" value="Сохранить" class="default" name="_save">
+
+<input type="submit" value="Сохранить и добавить другой объект" name="_addanother">
+<input type="submit" value="Сохранить и продолжить редактирование" name="_continue">
+
+
+
+</div>
+
+
+
+    <script id="django-admin-form-add-constants" src="/static/admin/js/change_form.js" data-model-name="products" async="">
+    </script>
+
+
+
+
+<script id="django-admin-prepopulated-fields-constants" src="/static/admin/js/prepopulate_init.js" data-prepopulated-fields="[]">
+</script>
+
+
+</div>
+</form></div>
+
+
+          <br class="clear">
+        </div>

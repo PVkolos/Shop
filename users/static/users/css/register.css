@@ -1,0 +1,181 @@
+/*.register_div {*/
+/*    !*background: radial-gradient(circle, rgba(231,231,231,1) 0%, rgba(23,24,65,0.76234243697479) 100%);*!*/
+/*    margin:15% 0% 0 15%;*/
+/*    !*margin-left: ;*!*/
+/*}*/
+
+/*.register_div .btn-warning {*/
+/*    margin-left: 200px;*/
+/*    font-size: 40px;*/
+/*}*/
+
+/*.register_div h1, .login, .registr{*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.register li {*/
+/*    font-family: Comic Sans MS, Comic Sans, cursive;*/
+/*	font-weight: bold;*/
+/*    color: #FFFF00;*/
+/*    list-style: none;*/
+/*}*/
+
+/*.registr{*/
+/*    font-family: Comic Sans MS, Comic Sans, cursive;*/
+/*	font-weight: bold;*/
+/*    color: #00D4C6;*/
+/*    transition: transform .6s ease;*/
+/*}*/
+
+/*.registr:hover {*/
+/*    transform: scale(1.05);*/
+/*}*/
+
+/*.login {*/
+/*    font-family: Comic Sans MS, Comic Sans, cursive;*/
+/*	font-weight: bold;*/
+/*    color: #00D4C6;*/
+/*    transition: transform .6s ease;*/
+/*}*/
+
+/*.login:hover{*/
+/*    transform: scale(1.05);*/
+/*}*/
+
+/*.register_div label  {*/
+/*    font-size: 50px;*/
+/*    font-family: Comic Sans MS, Comic Sans, cursive;*/
+/*	font-weight: bold;*/
+/*    color: #00D4C6;*/
+/*}*/
+
+/*.register_div h1{*/
+/*    font-size: 70px;*/
+/*    font-family: Comic Sans MS, Comic Sans, cursive;*/
+/*	font-weight: bold;*/
+/*    color: #00D4C6;*/
+/*}*/
+
+/*.form-input{*/
+/*    width: 300px;*/
+/*  font-size: 13px;*/
+/*  padding: 6px 0 4px 10px;*/
+/*  border: 1px solid #cecece;*/
+/*  background: #F6F6f6;*/
+/*  border-radius: 8px;*/
+/*}*/
+
+
+
+
+.register_div {
+  /*background: radial-gradient(circle, rgba(231,231,231,1) 0%, rgba(23,24,65,0.76234243697479) 100%);*/
+  margin: 15% 0% 0 15%;
+  /*margin-left: ;*/
+}
+
+.register_div .btn-warning {
+  margin-left: 200px;
+  font-size: 40px;
+}
+
+.register_div h1, .login, .registr {
+  display: inline-block;
+}
+
+.register li {
+  font-family: Comic Sans MS, Comic Sans, cursive;
+  font-weight: bold;
+  color: #FFFF00;
+  list-style: none;
+}
+
+.registr {
+  font-family: Comic Sans MS, Comic Sans, cursive;
+  font-weight: bold;
+  color: #00D4C6;
+  transition: transform .6s ease;
+}
+
+.registr:hover {
+  transform: scale(1.05);
+}
+
+.login {
+  font-family: Comic Sans MS, Comic Sans, cursive;
+  font-weight: bold;
+  color: #00D4C6;
+  transition: transform .6s ease;
+}
+
+.login:hover {
+  transform: scale(1.05);
+}
+
+.register_div label {
+  font-size: 50px;
+  font-family: Comic Sans MS, Comic Sans, cursive;
+  font-weight: bold;
+  color: #00D4C6;
+}
+
+.register_div h1 {
+  font-size: 70px;
+  font-family: Comic Sans MS, Comic Sans, cursive;
+  font-weight: bold;
+  color: #00D4C6;
+}
+
+.form-input {
+  width: 300px;
+  font-size: 13px;
+  padding: 6px 0 4px 10px;
+  border: 1px solid #cecece;
+  background: #F6F6f6;
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  .register_div {
+    margin-top: 200px;
+  }
+
+  .register_div .btn-warning {
+    margin-left: 15%;
+    font-size: 5vw;
+    width: 80%;
+    max-width: 220px;
+    max-height: 100px;
+  }
+
+  .register_div label {
+    font-size: 30px;
+  }
+
+  .register_div h1 {
+    font-size: 50px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1200px) {
+  .register_div {
+    margin-top: 200px;
+  }
+
+  .register_div label {
+    font-size: 40px;
+  }
+
+  .register_div h1 {
+    font-size: 60px;
+  }
+}
+
+@media only screen and (max-width: 385px){
+  .register_div {
+    margin-left: 10px;
+  }
+  .register_div h1{
+    font-size: 40px;
+  }
+}
