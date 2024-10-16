@@ -1,11 +1,19 @@
-import os
-
 from opensearchpy import OpenSearch, RequestError
+
 
 #todo добавить логгирование
 
 
-class Search:
+class SingletonMeta(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+
+class Search(metaclass=SingletonMeta):
     def __init__(self):
         host = 'localhost'
         port = 9200
@@ -40,13 +48,22 @@ class Search:
           'additional_info': additional_info,
           'category': category
         }
-        answer = self.client.index(
+        response = self.client.index(
             index = index,
             body = document,
             id = id,
             refresh = True
         )
-        print(answer)
+        print(response)
+
+
+    def delete_product(self, index, id):
+        response = self.client.delete(
+            index=index,
+            id=id
+        )
+        print(response)
+
 
     def search_product(self, query: str, fields: list):
         query = {
@@ -58,15 +75,14 @@ class Search:
                 }
             }
         }
-        answer = self.client.search(
+        response = self.client.search(
             body=query,
             index='search_products'
         )
-        print(answer)
+        return response
 
 
 client = Search()
-client.create_index('search_products')
 
 
 if __name__ == '__main__':

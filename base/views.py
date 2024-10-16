@@ -1,10 +1,15 @@
+from pprint import pprint
+from re import search
+
 from django.shortcuts import render, redirect
 from news.models import Products
+from unicodedata import category
 from users.models import Basket
 from django.http import JsonResponse
 import json
 from .forms import OrderForm
 import requests
+from shop.search import client
 
 
 def index(request):
@@ -15,15 +20,43 @@ def about(request):
     return render(request, 'base/about.html', {'active_b': 'about'})
 
 
+def search_on(request, query):
+    response = client.search_product(query, ['title', 'additional_info', 'category'])
+    # pprint(response)
+    ids = []
+    products = []
+    products_itog = []
+    for product in response['hits']['hits']:
+        if product['_id'].isdigit():
+            ids.append([int(product['_id']), product['_score']])
+            products.append(Products.objects.get(id=int(product['_id'])))
+
+    return render(request, 'base/assortment.html', {'products': products, 'flag': 'true', 'products_itog': products_itog, 'active_b': 'assortment'})
+
+
 def assortment(request):
     request.session['button_active'] = 'assortment'
-    print(request.GET)
+    if 'search' in request.GET:
+        category = f'Результат запроса: "{request.GET.get('search')}"'
+        response = client.search_product(request.GET.get('search'), ['title', 'additional_info', 'category'])
+        ids = []
+        products = []
+        flag = 'true'
+        for product in response['hits']['hits']:
+            if product['_id'].isdigit():
+                ids.append([int(product['_id']), product['_score']])
+                products.append(Products.objects.get(id=int(product['_id'])))
 
-    category = request.GET.get("category", "Все товары")
-    products = Products.objects.all()
+        # return render(request, 'base/assortment.html',
+        #               {'products': products, 'flag': 'true', 'products_itog': products_itog, 'active_b': 'assortment'})
+
+    else:
+        category = request.GET.get("category", "Все товары")
+        products = Products.objects.all()
+        flag = 'false'
 
     products_ = list(Basket.objects.filter(username=request.user.username))
-    products_itog = [] # id товаров из корзины
+    products_itog = []  # id товаров из корзины
     for el in products_: # Перебираем все продукты из корзины пользователя
         product_user = Products.objects.get(id=el.id_product) # Достаем данные о товаре из общей таблицы
         products_itog.append(product_user.id)
@@ -34,7 +67,7 @@ def assortment(request):
         else:
             el.quantity_basket = 0
 
-    return render(request, 'base/assortment.html', {'products': products, 'category': category, 'products_itog': products_itog, 'active_b': 'assortment'})
+    return render(request, 'base/assortment.html', {'flag': flag, 'products': products, 'category': category, 'products_itog': products_itog, 'active_b': 'assortment'})
 
 
 def contacts(request):

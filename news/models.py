@@ -1,4 +1,7 @@
 from django.db import models
+from shop.search import client
+
+from users.models import Basket
 
 
 class Products(models.Model):
@@ -30,14 +33,36 @@ class Products(models.Model):
     def __str__(self):
         return self.title
 
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     es = Elasticsearch()
-    #     es.index(index='products', id=self.id, body={
-    #         'name': self.name,
-    #         'description': self.description,
-    #         'price': self.price
-    #     })
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        # Добавление товара в opensearch
+        try:
+            client.create_product(
+                id=self.id,
+                index='search_products',
+                title=self.title,
+                additional_info=self.additional_info,
+                category=self.category
+            )
+            print("SUCCESS ADDED PRODUCT")
+        except Exception as e:
+            print("ERR Add.news.models.48", e)
+
+    def delete(self, *args, **kwargs):
+        # Удаление товара из opensearch
+        try:
+            client.delete_product(
+                index='search_products',
+                id=self.id
+            )
+            print("SUCCESS DELETED PRODUCT")
+        except Exception as e:
+            print("ERR Delete.news.models.59: ", e)
+
+        Basket.objects.filter(id_product=self.id).delete()
+
+        super().delete(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Товар'

@@ -48,7 +48,7 @@
 
     <div class="abs">
         {% for el in products %}
-            {% if category == el.category or category == "Все товары"%}
+            {% if flag == 'true' or category == el.category or category == "Все товары"%}
                 <div class="assortment">
                     <img src="/media/{{el.image}}" onclick="openImage('/media/{{el.image}}')">
 
