@@ -30,6 +30,15 @@ class Products(models.Model):
     def __str__(self):
         return self.title
 
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     es = Elasticsearch()
+    #     es.index(index='products', id=self.id, body={
+    #         'name': self.name,
+    #         'description': self.description,
+    #         'price': self.price
+    #     })
+
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'

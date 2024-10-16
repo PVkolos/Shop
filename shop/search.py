@@ -1,5 +1,9 @@
+import os
+
 from opensearchpy import OpenSearch, RequestError
-from pprint import pprint
+
+#todo добавить логгирование
+
 
 class Search:
     def __init__(self):
@@ -61,29 +65,33 @@ class Search:
         print(answer)
 
 
+client = Search()
+client.create_index('search_products')
+
+
 if __name__ == '__main__':
     client = Search()
-    # client.create_index('search_products')
-    # client.create_product(
-    #     id=1,
-    #     index='search_products',
-    #     title='Пакет ПВД 45х45 "Розы Парижа" Альтпак /6уп х 50шт/',
-    #     additional_info='Пакет ПВД 45х45 "Розы Парижа" Альтпак /6уп х 50шт/\nцена - 13.41 за штуку, понял????',
-    #     category='Пакеты'
-    # )
-    # client.create_product(
-    #     id=2,
-    #     index='search_products',
-    #     title='Банка 0,28л прозрачная квадратная /70х70х80/ Новосиб',
-    #     additional_info='банку взял короче вообще, слыш?\nцена - 13.41 за штуку, понял????\nуступать не собираюсь!!!',
-    #     category='банка'
-    # )
-    # client.create_product(
-    #     id=3,
-    #     index='search_products',
-    #     title='Перец молотый в стиках порционный 0,25гр. (1000шт/кор.)',
-    #     additional_info='перчика сыпани ка, булка/6уп х 50шт/\nцена - 13.41 за штуку, нети????',
-    #     category='еда'
-    # )
+    client.create_index('search_products')
+    client.create_product(
+        id=None,
+        index='search_products',
+        title='Пакет ПВД 45х45 "Розы Парижа" Альтпак /6уп х 50шт/',
+        additional_info='Пакет ПВД 45х45 "Розы Парижа" Альтпак /6уп х 50шт/\nцена - 13.41 за штуку, понял????',
+        category='Пакеты'
+    )
+    client.create_product(
+        id=None,
+        index='search_products',
+        title='Банка 0,28л прозрачная квадратная /70х70х80/ Новосиб/50шт',
+        additional_info='банку взял короче вообще, слыш?\nцена - 13.41 за штуку, понял????\nуступать не собираюсь!!!',
+        category='банка'
+    )
+    client.create_product(
+        id=None,
+        index='search_products',
+        title='Перец молотый в стиках порционный 0,25гр. (1000шт/кор.)/50шт',
+        additional_info='перчика сыпани ка, булка/6уп х 50шт/\nцена - 13.41 за штуку, нети????',
+        category='еда'
+    )
 
-    client.search_product('пакет целлофан', ['title', 'additional_info'])
+    client.search_product('50шт', ['title', 'additional_info'])
