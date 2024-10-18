@@ -607,7 +607,7 @@
 
     .abs_basket {
         top: 35%;
-        margin-left: 0px;
+        margin-left: 10%;
     }
 
   .bask{
@@ -664,6 +664,9 @@
 
     .abs {
         top: 40%;
+    }
+    .abs_basket {
+        margin-left: 5%;
     }
 
 }
