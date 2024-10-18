@@ -136,7 +136,7 @@
 	--vs-primary: 29 92 255;
 }
 .dialog_menu {
-	padding: 1rem 3rem;
+	padding: 5px 10px;
 	background: white;
 	max-width: 400px;
 	padding-top: 2rem;
@@ -338,6 +338,8 @@
 .assortment img{
   width: 100%;
   float: center;
+    height: auto;
+    max-height: 300px;
 }
 
 .text_block {
@@ -347,11 +349,16 @@
 }
 
 .text_block h3 {
-    font-size: 20px;
+    font-size: 17px;
   font-weight: bold;
   width: 65%;
   word-wrap: break-word; /* Переносит слова на новую строку по необходимости */
   overflow-wrap: break-word; /* Переносит слова, если они слишком длинные */
+    overflow: hidden;
+    display: -webkit-box;
+   -webkit-line-clamp: 4; /* number of lines to show */
+           line-clamp: 4;
+   -webkit-box-orient: vertical;
 }
 
 .text_block h4 {
