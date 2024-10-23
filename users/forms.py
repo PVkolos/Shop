@@ -16,7 +16,7 @@ class RegisterUserForm(UserCreationForm):
     #     model = User
     #     fields = ('username', 'email', 'password1', 'password2', 'phone')
     username = PhoneNumberField(label='Номер телефона', region='RU')
-    email = forms.CharField(label='Email', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    email = forms.CharField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-input'}))
     last_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-input'}))
     first_name = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-input'}))
     # forms.NumberInput

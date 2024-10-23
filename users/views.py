@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import RegisterUserForm
+from django.contrib.auth import get_user_model
 
 
 menu = [{'title': "О сайте", 'url_name': 'about'},
@@ -35,11 +36,19 @@ class RegisterUser(DataMixin, CreateView):
         c_def = self.get_user_context(title="Регистрация")
         return dict(list(context.items()) + list(c_def.items()))
 
+    # def form_invalid(self, form):
+    #     print(form.errors)
+    #     return redirect('register')
+
     def form_valid(self, form):
-        user = form.save()
-        print(user, self.request)
-        login(self.request, user)
-        return redirect('home')
+        email = form.cleaned_data.get('email')
+        if get_user_model().objects.filter(email=email).exists():
+            form.add_error('email', 'Такая почта уже зарегистрирована. Выберете другую почту или войдите в существующий аккаунт.')
+            return render(self.request, 'users/register.html', {'form': form})
+        else:
+            user = form.save()
+            login(self.request, user)
+            return redirect('register')
 
 
 class LoginUser(DataMixin, LoginView):
