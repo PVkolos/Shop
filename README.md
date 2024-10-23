@@ -23,3 +23,6 @@
 3. python manage.py load_db (команда необходима для загрузки текущих товаров в базу opensearch)
 
 4. python manage.py runserver
+
+рекомендуется использовать python3.10 для корректной работы некоторых библиотек 
+(pip install setuptools)
