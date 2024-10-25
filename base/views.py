@@ -10,6 +10,7 @@ import json
 from .forms import OrderForm
 import requests
 from shop.search import client
+# import pymorphy2
 
 
 def index(request):
@@ -37,15 +38,20 @@ def search_on(request, query):
 def assortment(request):
     request.session['button_active'] = 'assortment'
     if 'search' in request.GET:
-        category = f'Результат запроса: "{request.GET.get('search')}"'
-        response = client.search_product(request.GET.get('search'), ['title', 'additional_info', 'category'])
-        ids = []
+        query = request.GET['search']
+        category = f'Результат запроса: "{query}"'
+        # response = client.search_product(request.GET.get('search'), ['title', 'additional_info', 'category'])
+        # ids = []
         products = []
+        response = client.search_few_products(request.GET.get('search').split(), ['title', 'additional_info', 'category'])
         flag = 'true'
-        for product in response['hits']['hits']:
-            if product['_id'].isdigit():
-                ids.append([int(product['_id']), product['_score']])
-                products.append(Products.objects.get(id=int(product['_id'])))
+        for product in response:
+            print(product)
+        # for product in response['hits']['hits']:
+        #     if product['_id'].isdigit():
+        #         ids.append([int(product['_id']), product['_score']])
+
+            products.append(Products.objects.get(id=int(product[0])))
 
         # return render(request, 'base/assortment.html',
         #               {'products': products, 'flag': 'true', 'products_itog': products_itog, 'active_b': 'assortment'})
