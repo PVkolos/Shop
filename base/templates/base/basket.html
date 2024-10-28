@@ -33,23 +33,27 @@
                  </dialog>
 
                     <div class="text_block">
-                        <div class="button_bask" style="">
-                            <button class="btn btn-info" onclick="openDialog('{{ el.id }}')">
+                        <h3 class='title_desktop' style="">{{ el.title }}</h3><br>
+                        <h4 class='price_mobile'>{{ el.price }}</h4>
+                        <h3 class='title_mobile'>{{ el.title }}</h3>
+                        <h4 class="price">Цена: {{ el.price }}</h4>
+                        <h5 class="nail_desktop">В наличии: {{ el.quantity }}</h5>
+                        <h5 class="nail_mobile">В наличии: {{ el.quantity }}</h5>
+                        <div class="button_asort" style="">
+                            <button class="btn btn-info" id="info" onclick="openDialog('{{ el.id }}')">
                                 <span class="text_about1">Описание</span>
                             </button>
                             <button id="delete-to-cart-{{ el.id }}" class="btn btn-danger" onclick="removeFromCart('{{ el.id }}')">
                                 <span class="text_out1"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Из корзины</a></span>
                             </button>
-                            <div class="quantity_product" id="product-card" quantity="{{ el.quantity }}">
-                                  <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
-                                  <input type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="100" data-product-id="{{ el.id }}">
-                                  <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>
-                            </div>
+                            <div class="quantity_product_a" data-id="{{ el.id }}" id="product-card" quantity="{{ el.quantity }}">
+                                      <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
+                                      <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="100" data-product-id="{{ el.id }}">
+                                      <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>
+                                </div>
                         </div>
 
-                        <h3 style="margin-top: -40px;">{{ el.title }}</h3><br>
-                        <h4>Цена: {{ el.price }}</h4>
-                        <h5>В наличии: {{ el.quantity }}</h5>
+
                 </div>
 
             </div>

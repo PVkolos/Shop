@@ -67,7 +67,7 @@
 
                         <div class="text_block">
                             <div class="button_asort" style="">
-                                <button class="btn btn-info" onclick="openDialog('{{ el.id }}')">
+                                <button class="btn btn-info" id="info" onclick="openDialog('{{ el.id }}')">
                                     <span class="text_about1">Описание</span>
                                     <span class="text_about2"><img src="/media/svg_ico/card-text.svg"></span>
                                 </button>
@@ -86,21 +86,28 @@
                                     </button>
                                 {% else %}
         <!--                            <a href="{% url 'delete_to_cart' %}?id={{el.id}}"><button class="btn btn-warning">Убрать из корзины</button></a>-->
-                                    <button id="delete-to-cart-{{ el.id }}" class="btn btn-danger" onclick="removeFromCart('{{ el.id }}')">
+                                    <button id="delete-to-cart-{{ el.id }}" class="btn btn-danger" name="{{ el.id }}" onclick="removeFromCart('{{ el.id }}')">
                                         <span class="text_out1" id="2span_delete-to-cart-{{ el.id }}">Из корзины</span>
                                         <span class="text_out2" id="span_delete-to-cart-{{ el.id }}"><img src="/media/svg_ico/cart-dash.svg"></span>
                                     </button>
                                 {% endif %}
-                            </div>
+
                                 <div class="quantity_product_a" data-id="{{ el.id }}" id="product-card" quantity="{{ el.quantity }}">
                                       <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
                                       <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="100" data-product-id="{{ el.id }}">
                                       <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>
                                 </div>
 
-                            <h3 style="margin-top: -100px;">{{ el.title }}</h3><br>
-                            <h4>Цена: {{ el.price }}</h4>
-                            <h5>В наличии: {{ el.quantity }}</h5>
+
+                            </div>
+
+
+                            <h3 class='title_desktop' style="margin-top: -100px;">{{ el.title }}</h3><br>
+                            <h4 class='price_mobile'>{{ el.price }}</h4>
+                            <h3 class='title_mobile'>{{ el.title }}</h3>
+                            <h4 class="price">Цена: {{ el.price }}</h4>
+                            <h5 class="nail_desktop">В наличии: {{ el.quantity }}</h5>
+                            <h5 class="nail_mobile">В наличии: {{ el.quantity }}</h5>
                     </div>
                 </div>
             {% endif %}
@@ -177,6 +184,27 @@
 
 const increaseBtns = document.querySelectorAll('.increase-btn');
 const decreaseBtns = document.querySelectorAll('.decrease-btn');
+// if (window.innerWidth <= 706){
+//  const down = document.querySelectorAll('.btn-danger');
+//  for (let i = 0; i < down.length; i++) {
+//      console.log(down[i].name);
+//      const element = document.querySelector(`[data-id='${down[i].name}']`);
+//      element.style.display = "block";
+//  }
+// }
+
+// const modal_btn = document.querySelectorAll('.x')
+//
+// modal_btn.forEach(function(btn){
+//     btn.addEventListener('click', function (){
+//          const modal = btn.closest('.dialog_menu');
+//          console.log(modal);
+//          if (modal) {
+//              modal.close();
+//          }
+//     })
+// });
+
 
 // Добавляем обработчики событий к каждой кнопке увеличения
 increaseBtns.forEach(function(btn) {
@@ -203,6 +231,9 @@ decreaseBtns.forEach(function(btn) {
     if (counterInput.value > counterInput.min) {
       counterInput.value = parseInt(counterInput.value) - 1;
       updateCartData();
+    } else if (counterInput.value === counterInput.min){
+        const productId = btn.closest('#product-card').getAttribute('data-id');
+        removeFromCart(productId);
     }
   });
 });
@@ -273,8 +304,16 @@ function openDialog(dialogId) {
     dialog.showModal();
 }
 
+function openDialogMobile(dialogId) {
+    if (window.innerWidth <= 706){
+        const dialog = document.getElementById(`dialog-${dialogId}`);
+        dialog.showModal();
+    }
+}
+
 function closeDialog(dialogId) {
     const dialog = document.getElementById(`dialog-${dialogId}`);
+    console.log(dialog);
     dialog.close();
 }
 
@@ -299,8 +338,13 @@ function addToCart(productId) {
          const addToCartSpan = document.getElementById(`span_add-to-cart-${productId}`);
          const addToCart2Span = document.getElementById(`2span_add-to-cart-${productId}`);
          const quantity = document.getElementById(`input_${productId}`);
-         // const windowInnerWidth = window.innerWidth;
-         // if (windowInnerWidth <= 500){
+
+         const windowInnerWidth = window.innerWidth;
+         if (windowInnerWidth <= 706){
+             const element = document.querySelector(`[data-id='${productId}']`);
+             element.style.display = "block";
+         }
+
          addToCartSpan.innerHTML = '<img src="/media/svg_ico/cart-dash.svg">';
          addToCartSpan.id = 'span_delete-to-cart-' + productId;
          addToCartSpan.className = 'text_out2';
@@ -348,8 +392,12 @@ function removeFromCart(productId) {
      const removeFromCartSpan = document.getElementById(`span_delete-to-cart-${productId}`);
      const removeFromCart2Span = document.getElementById(`2span_delete-to-cart-${productId}`);
      const quantity = document.getElementById(`input_${productId}`);
-     // const windowInnerWidth = window.innerWidth;
-     // if (windowInnerWidth <= 500){
+     const windowInnerWidth = window.innerWidth;
+     if (windowInnerWidth <= 706){
+         const element = document.querySelector(`[data-id='${productId}']`);
+             console.log(element);
+             element.style.display = "none";
+     }
      removeFromCartSpan.innerHTML = '<img src="/media/svg_ico/cart-plus.svg">';
      removeFromCartSpan.id = 'span_add-to-cart-' + productId;
      removeFromCartSpan.className = 'text_in2';

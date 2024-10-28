@@ -46,7 +46,6 @@ def assortment(request):
         response = client.search_few_products(request.GET.get('search').split(), ['title', 'additional_info', 'category'])
         flag = 'true'
         for product in response:
-            print(product)
         # for product in response['hits']['hits']:
         #     if product['_id'].isdigit():
         #         ids.append([int(product['_id']), product['_score']])
