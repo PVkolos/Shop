@@ -66,7 +66,7 @@
             <h5 class="total-quantity">Товары: {{number}} штук</h5>
             <h3 class="total-price">Итого: {{summa}} рублей</h3>
             <div class="button_buy">
-                <button onclick="openPopup()" class="btn btn-success">Заказать</button>
+                <button onclick="openPopup('{{request.user.username}}', '{{summa}}', '{{request.user.last_name}}')" class="btn btn-success">Заказать</button>
             </div>
         </div>
     </div>
@@ -84,7 +84,8 @@
                 (Будьте внимательны, через него с вами будут связываться наши менеджеры для уточнения условий заказа):</p>
             <input type="tel" id="phone" name="phone">
               <p id="p_err" class="error_form_popup"></p>
-            <button onclick="submitForm(event)" type="button" class="btn btn-success">Заказать</button>
+            <button type="button" class="btn btn-success" id="pay">Заказать</button>
+<!--            <button onclick="submitForm(event)" type="button" class="btn btn-success">Заказать</button>-->
             <button onclick="closePopup()" type="button" class="btn btn-danger">Отмена</button>
           </div>
         </div>
@@ -94,7 +95,7 @@
         <div class="pad_text">
             <h5 class="total-q">Товары: {{number}} штук</h5>
             <h3 class="total-p">Итого: {{summa}} рублей</h3>
-            <button onclick="openPopup()" class="btn btn-success">Заказать</button>
+            <button onclick="openPopup('{{request.user.username}}', '{{summa}}', '{{request.user.last_name}}')" class="btn btn-success">Заказать</button>
         </div>
     </div>
 
@@ -107,6 +108,7 @@
 <script>
 const increaseBtns = document.querySelectorAll('.increase-btn');
 const decreaseBtns = document.querySelectorAll('.decrease-btn');
+let totalPrice = 0;
 
 // Добавляем обработчики событий к каждой кнопке увеличения
 increaseBtns.forEach(function(btn) {
@@ -141,10 +143,8 @@ function updateCartData() {
     const totalQuantityElement2 = document.querySelector('.total-q');
     const totalPriceElement2 = document.querySelector('.total-p');
 
-
     let requests = [];
     let totalQuantity = 0;
-    let totalPrice = 0;
 
     counterInputs.forEach(input => {
         const productId = input.dataset.productId;
@@ -168,7 +168,6 @@ function updateCartData() {
         .then(response => response.json())
         .then(data => {
             // Обновляем общую стоимость
-            console.log(data.product_price);
             totalPrice += data.product_price;
         })
         .catch(error => {
@@ -202,7 +201,36 @@ counterInputs.forEach(input => {
 });
 
 
-function openPopup() {
+function openPopup(username, summa, name) {
+    if (totalPrice !== 0){
+        summa = totalPrice;
+    }
+    let request = fetch('/pay/create_payment/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': "{{ csrf_token }}"
+            },
+            body: JSON.stringify({
+                'username': username,
+                'summa': summa,
+                'name': name
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(12222222235555555);
+            console.log(summa);
+            console.log(data.link);
+            document.getElementById("pay").onclick = function () {
+                location.href = data.link;
+            };
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+    // получить в ответе от сервера ссылку на юкассу и задать эту ссылку второй кнопке заказать
+
   var popup = document.getElementById("popup");
   popup.style.display = "block";
 }

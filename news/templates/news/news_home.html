@@ -9,14 +9,11 @@
 <!--    <h1>Добавление товара</h1>-->
     {% if user.is_superuser %}
         <div id="content" class="colM">
-
-              <h1>Добавить Товар</h1>
-
+<!--              <h1>Добавить Товар</h1>-->
               <div id="content-main">
                 <form method="post" enctype="multipart/form-data" id="products_form" action="{% url 'add_product' %}" novalidate=""><input type="hidden" name="csrfmiddlewaretoken" value="0emvpvbJy0DT5TzbBMQsZaSLFuWYuTX8T7oKAETMsqOUk1axtXCL7GuXlUdghMHO">
                   {% csrf_token %}
                     <fieldset class="module aligned ">
-
                         <div class="form-title">
                                         <div class="flex-container">
                                                 <label class="required" for="id_title">Название товара:</label>
@@ -32,7 +29,7 @@
                         <div class="form-additional_info">
                                         <div class="flex-container">
                                                 <label class="required" for="id_additional_info">Описание товара:</label>
-                                                    <textarea name="additional_info" cols="40" rows="10" class="vLargeTextField" required="" id="id_additional_info"></textarea>
+                                                    <textarea name="additional_info" cols="40" rows="5" class="vLargeTextField" required="" id="id_additional_info"></textarea>
                                         </div>
                         </div>
                         <div class="form-photo_products">

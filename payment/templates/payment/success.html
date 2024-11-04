@@ -1,0 +1,20 @@
+{% extends 'base/layout.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'payment/css/success.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1 class="h1_suc">Спасибо за покупку!</h1>
+    <p class="p_suc">Ваш заказ успешно оформлен и в ближайшее время будет обработан нашими специалистами.</p>
+    <a class="a_suc" href="{% url 'home' %}">Вернуться на главную страницу</a>
+  </div>
+
+{% endblock %}
+
+{% block title %}
+    Спасибо!
+{% endblock %}

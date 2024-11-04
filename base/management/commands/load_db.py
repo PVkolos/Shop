@@ -20,6 +20,6 @@ class Command(BaseCommand):
                     additional_info=product.additional_info,
                     category=product.category
                 )
-                print(f"INFO: База данных выгружена в opensearch индекс {'search_products'}")
+            print(f"INFO: База данных выгружена в opensearch индекс {'search_products'}")
         except:
             raise CommandError('Initalization failed.')

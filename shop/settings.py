@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'users',
     'news',
     'base',
+    'payment',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -114,6 +115,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+SUCCESS_URL = 'http://127.0.0.1:8000/pay/success'
 
 
 # Static files (CSS, JavaScript, Images)
