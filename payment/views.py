@@ -23,6 +23,17 @@ Configuration.secret_key = SECRET_KEY_KASSA
 idempotence_key = str(uuid.uuid4())
 
 
+def recalculation(description):
+    for string in description.split('\n')[1:]:
+        id_product = int(string.split('ID - ')[1].split('.')[0])
+        quantity = int(string.split('КОЛИЧЕСТВО - ')[1].split(' шт')[0])
+
+        product = Products.objects.get(id=id_product)
+        product.quantity -= quantity
+        product.save()
+
+
+
 def success(request):
     if request.method == 'POST':
         # todo тест всей функции на хостинге
@@ -36,17 +47,22 @@ def success(request):
                 idempotence_key
             )
 
+            # Обновление статуса платежа на "оплачен"
             order = Orders.objects.get(id_yk=req_data['object']['id'])
             order.status = 1
             order.save()
+
+            # Уведомление владельца о поступившем заказе
             req = f"https://api.telegram.org/bot{BOT_ID}/sendMessage?chat_id={CHAT_ID}&text=" + order.description
             requests.get(req)
+
+            # Перерасчет количества товара после покупки
+            recalculation(order.description)
 
     return render(request, 'payment/success.html')
 
 
 def create_link(username, price, description):
-    idempotence_key = str(uuid.uuid4())
     payment = Payment.create({
         "amount": {
           "value": price,
@@ -77,6 +93,8 @@ def create_payment(request):
         for el in products:
             product_user = Products.objects.get(id=el.id_product)
             product_user.quantity_basket = el.quantity
+
+            # ПЕРЕМЕННАЯ НЕ ПОДЛЕЖИТ ИЗМЕНЕНИЮ, либо необходимо менять тело функции recalculation()
             description += f'ID - {product_user.id}. НАЗВАНИЕ - {product_user.title}. КОЛИЧЕСТВО - {el.quantity} шт. ЦЕНА - {product_user.price} руб. СУММА ЛОТА - {el.quantity * product_user.price} руб.\n'
 
         link = create_link(data['username'], str(data['summa']).replace(',', '.'), f"Заказ {data['username']} на сумму {str(data['summa']).replace(',', '.')} руб\n")
@@ -90,4 +108,3 @@ def create_payment(request):
         order.save()
 
         return JsonResponse(response_data)
-

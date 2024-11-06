@@ -40,20 +40,11 @@ def assortment(request):
     if 'search' in request.GET:
         query = request.GET['search']
         category = f'Результат запроса: "{query}"'
-        # response = client.search_product(request.GET.get('search'), ['title', 'additional_info', 'category'])
-        # ids = []
         products = []
         response = client.search_few_products(request.GET.get('search').split(), ['title', 'additional_info', 'category'])
         flag = 'true'
         for product in response:
-        # for product in response['hits']['hits']:
-        #     if product['_id'].isdigit():
-        #         ids.append([int(product['_id']), product['_score']])
-
             products.append(Products.objects.get(id=int(product[0])))
-
-        # return render(request, 'base/assortment.html',
-        #               {'products': products, 'flag': 'true', 'products_itog': products_itog, 'active_b': 'assortment'})
 
     else:
         category = request.GET.get("category", "Все товары")
@@ -83,16 +74,11 @@ def basket(request):
     products = list(Basket.objects.filter(username=request.user.username))
     products_itog = []
     products_id = []
-    # products_info = dict()
-    pr = ''
     for el in products: # Перебираем все продукты из корзины пользователя
         product_user = Products.objects.get(id=el.id_product) # Достаем данные о товаре из общей таблицы
         product_user.quantity_basket = el.quantity
         products_itog.append(product_user)
         products_id.append(product_user.id)
-        # pr += f'{product_user.id}//---+=&!{product_user.title}//---+=&!{product_user.quantity_basket}//---+=&!{product_user.price}//---+=&!{product_user.quantity_basket * product_user.price}//---+=&&'
-        # products_info[product_user.id] = [product_user.title, product_user.quantity_basket, product_user.price, product_user.quantity_basket * product_user.price]
-    print(round(sum(el.price * el.quantity_basket for el in products_itog), 2))
     return render(request, 'base/basket.html',
                   {'products_id': products_id, 'products': products_itog, 'active_b': 'basket',
                    'number': sum([el.quantity_basket for el in products_itog]), 'summa': round(sum(el.price * el.quantity_basket for el in products_itog), 2)})

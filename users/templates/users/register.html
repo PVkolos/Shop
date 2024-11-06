@@ -7,23 +7,6 @@
 
 {% block content %}
 <div class="register_div">
-<!--    <h1>{{title}}</h1>-->
-<!--    <a href="{% url 'login' %}">-->
-<!--        <h3 class="login">(Войти)</h3>-->
-<!--    </a>-->
-
-<!--    <form class="register" method="post">-->
-<!--          {% csrf_token %}-->
-<!--    &lt;!&ndash;        <input type="hidden" name="csrfmiddlewaretoken" value="HC1q6gedG3fSxj2dv1UQXruDvqASU4FX0pDmMC88fZVXr063IbmncBoHLeGlrR0Y">&ndash;&gt;-->
-<!--          <p><label for="id_username">Номер телефона:</label><input type="tel" name="username" autofocus="" required="" id="id_username"></p>-->
-<!--          <p><label for="id_last_name">Имя:</label><input type="text" name="last_name" class="form-input" required="" id="id_last_name"></p>-->
-<!--          <p><label for="id_email">Email:</label><input type="text" name="email" class="form-input" required="" id="id_email"></p>-->
-<!--          <p><label for="id_first_name">Фамилия:</label><input type="text" name="first_name" class="form-input" required="" id="id_first_name"></p>-->
-<!--          <p><label for="id_password1">Пароль:</label><input type="password" name="password1" class="form-input" required="" id="id_password1"></p>-->
-<!--          <p><label for="id_password2">Повтор пароля:</label><input type="password" name="password2" class="form-input" required="" id="id_password2">-->
-<!--          </p><button class="btn btn-warning" type="submit">Регистрация</button>-->
-<!--    </form>-->
-
      <form class="register" method="post">
          <h1>{{title}}</h1>
         {% csrf_token %}
@@ -33,33 +16,6 @@
             <h3 class="login">Войти в существующий</h3>
         </a>
     </form>
-
-<!--    <section>-->
-<!--          <form class="register" method="post">-->
-<!--            {% csrf_token %}-->
-<!--           <div class="signin">-->
-<!--            <div class="content">-->
-<!--             <h2>Регистрация</h2>-->
-<!--             <div class="form">-->
-<!--              <div class="inputBox"><input type="tel" name="username" required="" autocomplete="on" maxlength="20" id="id_username"><i>Номер телефона</i></div>-->
-<!--              <div class="inputBox"><input type="text" name="last_name" required="" autocomplete="on" maxlength="20" id="id_last_name"><i>Имя</i></div>-->
-<!--             <div class="inputBox"><input type="text" name="email" required="" autocomplete="on" maxlength="20" id="id_email"><i>Email</i></div>-->
-<!--             <div class="inputBox"><input type="text" name="first_name" required="" autocomplete="on" maxlength="20" id="id_first_name"><i>Фамилия</i></div>-->
-<!--              <div class="inputBox"><input type="password" name="password1" required="" autocomplete="on" id="id_password1"> <i>Пароль</i></div>-->
-<!--             <div class="inputBox"><input type="password" name="password2" required="" autocomplete="on" id="id_password2"> <i>Повтор пароля</i></div>-->
-<!--              <div class="links"> <a href="#">Forgot Password</a> <a href="#">Signup</a>-->
-<!--              </div>-->
-<!--              <div class="inputBox">-->
-
-<!--&lt;!&ndash;               <input type="submit" value="Войти">&ndash;&gt;-->
-<!--              </div>-->
-<!--             </div>-->
-<!--            </div>-->
-<!--           </div>-->
-<!--              <button class="btn btn-warning" type="submit">Регистрация</button>-->
-<!--          </form>-->
-<!--    </section>-->
-
 </div>
 
 
