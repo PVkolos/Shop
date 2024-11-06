@@ -67,7 +67,7 @@ def assortment(request):
         products_itog.append(product_user.id)
     for el in products:
         if el.id in products_itog:
-            item = Basket.objects.filter(id_product=el.id)[0]
+            item = Basket.objects.filter(id_product=el.id, username=request.user.username)[0]
             el.quantity_basket = item.quantity
         else:
             el.quantity_basket = 0
@@ -92,9 +92,10 @@ def basket(request):
         products_id.append(product_user.id)
         # pr += f'{product_user.id}//---+=&!{product_user.title}//---+=&!{product_user.quantity_basket}//---+=&!{product_user.price}//---+=&!{product_user.quantity_basket * product_user.price}//---+=&&'
         # products_info[product_user.id] = [product_user.title, product_user.quantity_basket, product_user.price, product_user.quantity_basket * product_user.price]
+    print(round(sum(el.price * el.quantity_basket for el in products_itog), 2))
     return render(request, 'base/basket.html',
                   {'products_id': products_id, 'products': products_itog, 'active_b': 'basket',
-                   'number': sum([el.quantity_basket for el in products_itog]), 'summa': sum(el.price * el.quantity_basket for el in products_itog)})
+                   'number': sum([el.quantity_basket for el in products_itog]), 'summa': round(sum(el.price * el.quantity_basket for el in products_itog), 2)})
 
 
 def add_product(request):

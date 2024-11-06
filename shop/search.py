@@ -85,21 +85,24 @@ class Search(metaclass=SingletonMeta):
 
     def search_few_products(self, query: list, fields: list):
         query_norm = [el for el in query]
-        for word in query:
-            for el in morph.parse(word):
-                query_norm.append(el.normal_form)
-                query_norm.append(el.inflect({'gent'}).word) # Родительный
-                query_norm.append(el.inflect({'plur', 'gent'}).word)
-                query_norm.append(el.inflect({'datv'}).word) # Дательный
-                query_norm.append(el.inflect({'plur', 'datv'}).word)
-                query_norm.append(el.inflect({'accs'}).word) # Винительный
-                query_norm.append(el.inflect({'plur', 'accs'}).word)
-                query_norm.append(el.inflect({'ablt'}).word) # Творительный
-                query_norm.append(el.inflect({'plur', 'ablt'}).word)
-                query_norm.append(el.inflect({'loct'}).word) # Предложный
-                query_norm.append(el.inflect({'plur', 'loct'}).word)
+        try:
+            for word in query:
+                for el in morph.parse(word):
+                    query_norm.append(el.normal_form)
+                    query_norm.append(el.inflect({'gent'}).word) # Родительный
+                    query_norm.append(el.inflect({'plur', 'gent'}).word)
+                    query_norm.append(el.inflect({'datv'}).word) # Дательный
+                    query_norm.append(el.inflect({'plur', 'datv'}).word)
+                    query_norm.append(el.inflect({'accs'}).word) # Винительный
+                    query_norm.append(el.inflect({'plur', 'accs'}).word)
+                    query_norm.append(el.inflect({'ablt'}).word) # Творительный
+                    query_norm.append(el.inflect({'plur', 'ablt'}).word)
+                    query_norm.append(el.inflect({'loct'}).word) # Предложный
+                    query_norm.append(el.inflect({'plur', 'loct'}).word)
 
-        query_norm = set(query_norm)
+            query_norm = set(query_norm)
+        except Exception as e:
+            print('Слово не склоняется', e)
 
         ids = []
         ids_lib = dict()

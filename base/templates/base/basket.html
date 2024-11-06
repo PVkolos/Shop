@@ -129,9 +129,30 @@ decreaseBtns.forEach(function(btn) {
     if (counterInput.value > counterInput.min) {
       counterInput.value = parseInt(counterInput.value) - 1;
       updateCartData();
+    } else if (counterInput.value === counterInput.min){
+        const productId = btn.closest('#product-card').getAttribute('data-id');
+        removeFromCart(productId);
+
+        const productCard = btn.closest('.assortment');
+       if (productCard) {
+        productCard.remove();}
     }
   });
 });
+
+
+function removeFromCart(productId) {
+    fetch('/delete_to_cart/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+            'product_id': productId
+        })
+    })
+}
 
     // Функция для обновления данных о корзине
 function updateCartData() {

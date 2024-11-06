@@ -208,8 +208,9 @@
 
 .abs {
   margin-left: 450px;
-  top: 35%;
-  position: absolute;
+  margin-top: 150px;
+  /*position: absolute;*/
+    margin-bottom: 100px;
 
   justify-content: space-around;
   display: flex;

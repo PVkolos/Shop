@@ -1,3 +1,5 @@
 venv
 .idea
 *.pyc
+.gitignore
+shop/settings.py

@@ -117,10 +117,10 @@ USE_I18N = True
 USE_TZ = True
 
 SUCCESS_URL = 'http://127.0.0.1:8000/pay/success'
-CHAT_ID = ''
-BOT_ID = ''
+CHAT_ID = '1229555610'
+BOT_ID = '1961763657:AAHdsPKDKtuIKMlUciC0VIuKUJsmvBMxByZELuiTg'
 ACCOUNT_ID_KASSA = None
-SECRET_KEY_KASSA = ''
+SECRET_KEY_KASSA = 'test_isAIS47B7O-EbEuYABhBguXYZ-ph0KPsguVlIVeWWDI'
 
 
 # Static files (CSS, JavaScript, Images)
