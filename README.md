@@ -13,13 +13,12 @@
 3. Просмотр товаров/добавление в корзину (несколько способов)/в дальнейшем подключу кассу для заказа
 4. Адаптивная верстка для всех страниц сайта (даже неплохо выглядит)
 
-Запуск:
+Установка зависимостей и необходимого софта:
+0. ВАЖНО. В ПРОЕКТЕ ИСПОЛЬЗУЕТСЯ ВЕРСИЯ PYTHON 3.10.11. КОРРЕКТНАЯ РАБОТА САЙТА НА БОЛЕЕ НОВЫХ ВЕРСИЯХ PYTHON НЕ ГАРАНТИРУЕТСЯ!
 1. pip install -r requirements.txt
+2. Установите докер на ваш компьютер. Затем:
 
-2.1. Установите Docker
-
-2.2. docker run --rm -p 9200:9200 -p 9600:9600 -e "discovery.type=single-node" opensearchproject/opensearch:2.6.0
-
-3. python manage.py load_db (команда необходима для загрузки текущих товаров в базу opensearch)
-
-4. python manage.py runserver
+Запуск проекта:
+1. docker run --rm -p 9200:9200 -p 9600:9600 -e "discovery.type=single-node" opensearchproject/opensearch:2.6.0
+2. python manage.py load_db (команда необходима для загрузки текущих товаров в базу opensearch)
+3. python manage.py runserver

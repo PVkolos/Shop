@@ -83,11 +83,15 @@ def basket(request):
     products = list(Basket.objects.filter(username=request.user.username))
     products_itog = []
     products_id = []
+    # products_info = dict()
+    pr = ''
     for el in products: # Перебираем все продукты из корзины пользователя
         product_user = Products.objects.get(id=el.id_product) # Достаем данные о товаре из общей таблицы
         product_user.quantity_basket = el.quantity
         products_itog.append(product_user)
         products_id.append(product_user.id)
+        # pr += f'{product_user.id}//---+=&!{product_user.title}//---+=&!{product_user.quantity_basket}//---+=&!{product_user.price}//---+=&!{product_user.quantity_basket * product_user.price}//---+=&&'
+        # products_info[product_user.id] = [product_user.title, product_user.quantity_basket, product_user.price, product_user.quantity_basket * product_user.price]
     return render(request, 'base/basket.html',
                   {'products_id': products_id, 'products': products_itog, 'active_b': 'basket',
                    'number': sum([el.quantity_basket for el in products_itog]), 'summa': sum(el.price * el.quantity_basket for el in products_itog)})
