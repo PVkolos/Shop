@@ -1,7 +1,12 @@
 {% extends 'base/layout.html' %}
 
-{% block content %}
 {% load static %}
+
+{% block css %}
+	<link rel="shortcut icon" href="{%  static 'base/img/basket.png' %}">
+{% endblock %}
+
+{% block content %}
     <div class="abs_basket">
         {% for el in products %}
 <!--            <div class="assortment_basket">-->

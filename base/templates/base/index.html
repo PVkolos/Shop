@@ -1,7 +1,13 @@
 {% extends 'base/layout.html' %}
 
 {% block title %}
-    Главная страница сайта мерча
+    Добро пожаловать!
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+	<link rel="shortcut icon" href="{%  static 'base/img/index.png' %}">
 {% endblock %}
 
 {% block content %}

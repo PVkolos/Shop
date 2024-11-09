@@ -1,4 +1,9 @@
 {% extends 'base/layout.html' %}
+{% load static %}
+
+{% block css %}
+	<link rel="shortcut icon" href="{%  static 'base/img/about.png' %}">
+{% endblock %}
 
 {% block content %}
     <div class="description">
