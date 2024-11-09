@@ -198,7 +198,7 @@ def update_cart(request):
             product_basket.save()
 
             product = Products.objects.get(id=product_id)
-            product_price = float(product.price) * int(quantity)
+            product_price = round(float(product.price) * int(quantity), 2)
 
             # Возвращаем данные в формате JSON
             response_data = {

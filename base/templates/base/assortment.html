@@ -48,7 +48,8 @@
             {% if flag == 'true' or category == el.category or category == "Все товары" %}
                 {% if el.quantity > 0 %}
                     <div class="assortment">
-                        <img src="/media/{{el.image}}" onclick="openImage('/media/{{el.image}}')">
+<!--                        <img src="/media/{{el.image}}" onclick="openImage('/media/{{el.image}}')">-->
+                        <img src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">
 
     <!--                     <dialog id="dialog-{{ el.id }}" class="dialog_menu">-->
     <!--                            <h2>{{ el.title }}</h2>-->
@@ -57,7 +58,6 @@
     <!--                     </dialog>-->
                         <dialog id="dialog-{{ el.id }}" class="dialog_menu">
                              <h2>{{ el.title }}</h2>
-                            <p>Описание выбранного вами товара:</p>
                              <p>{{ el.additional_info }}</p>
                             <p></p>
                             <button onclick="closeDialog('{{ el.id }}')" aria-label="close" class="x">❌</button>
@@ -92,7 +92,7 @@
 
                                     <div class="quantity_product_a" data-id="{{ el.id }}" id="product-card" quantity="{{ el.quantity }}">
                                           <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
-                                          <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="100" data-product-id="{{ el.id }}">
+                                          <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="{{el.quantity}}" data-product-id="{{ el.id }}">
                                           <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>
                                     </div>
 
@@ -225,6 +225,29 @@ decreaseBtns.forEach(function(btn) {
     }
   });
 });
+
+
+// Обработчик события изменения количества товара в input
+function handleQuantityChange(event) {
+    if (parseInt(event.target.value) === 0){
+        const productId = event.target.closest('#product-card').getAttribute('data-id');
+        removeFromCart(productId);
+    } else if (parseInt(event.target.max) >= parseInt(event.target.value)){
+        updateCartData();
+    } else if (parseInt(event.target.max) < parseInt(event.target.value)){
+        const id_input = event.target.closest('#product-card').getAttribute('data-id');
+        const input = event.target.closest(`#input_${id_input}`)
+        input.value = event.target.max;
+        updateCartData();
+    }
+}
+
+// Добавляем обработчик события изменения количества товара для каждого input
+const counterInputs = document.querySelectorAll('.counter-input');
+counterInputs.forEach(input => {
+    input.addEventListener('change', handleQuantityChange);
+});
+
 
 
 function updateCartData() {
