@@ -6,7 +6,7 @@
     font-family: Comic Sans MS, Comic Sans, cursive;
   color: white;
   transition: transform .6s ease;
-  font-size: 60px;
+  font-size: 40px;
 }
 
 .glow-on-hover {
@@ -104,11 +104,15 @@
 
 @media only screen and (max-width: 500px){
   .prvt {
-  margin: 55% 0 0 0;
-
+    margin: 55% 0 0 0;
      text-align: center
   }
+
   .prvt h2, .prvt h3 {
+      font-size: 25px;
     display: inline-block;
   }
+  .prvt u {
+        font-size: 25px;
+    }
 }

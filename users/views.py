@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from .forms import RegisterUserForm
+from .forms import RegisterUserForm, LoginUserForm
 from django.contrib.auth import get_user_model
 
 
@@ -52,7 +52,7 @@ class RegisterUser(DataMixin, CreateView):
 
 
 class LoginUser(DataMixin, LoginView):
-    form_class = AuthenticationForm
+    form_class = LoginUserForm
     template_name = 'users/login.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):

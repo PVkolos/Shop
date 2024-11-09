@@ -9,12 +9,16 @@
 
 <div class="prvt">
     <h2>Ваши данные</h2><br>
-    <h3><b>Имя:</b> <u>{{ request.user.last_name }}</u></h3>
-    <h3><b>Фамилия:</b> <u>{{ request.user.first_name }}</u></h3>
-    <h3><b>Номер телефона:</b> <u>{{ request.user.username }}</u></h3>
-    <h3><b>Почта:</b> <u>{{ request.user.email }}</u></h3>
-    <h3><b>Товаров в корзине:</b></h3><br>
-    <button class="glow-on-hover" type="button">Редактировать данные</button>
+    <h3><b>Имя:</b> <u>{{ request.user.last_name }}</u></h3><br>
+    <h3><b>Фамилия:</b> <u>{{ request.user.first_name }}</u></h3><br>
+    <h3><b>Номер телефона:</b> <u>{{ request.user.username }}</u></h3><br>
+    <h3><b>Почта:</b> <u>{{ request.user.email }}</u></h3><br>
+<!--    <h3><b>Товаров в корзине:</b></h3><br><br>-->
+<!--    <button class="glow-on-hover" type="button">Редактировать данные</button>-->
+    <a href="{% url 'login' %}">
+        <button onclick="" class="glow-on-hover" type="button">Войти в другой аккаунт</button>
+    </a>
+
 </div>
 
 {% endblock %}

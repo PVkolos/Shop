@@ -12,6 +12,7 @@ class Orders(models.Model):
     status = models.IntegerField('Статус оплаты', default=0)
     id_yk = models.CharField('ID из Yookassa', max_length=100, default='')
     description = models.CharField('Детали заказа', max_length=10000, default='')
+    index = models.CharField('Почтовый индекс', max_length=20, default='')
 
     class Meta:
         verbose_name = 'Ордер'

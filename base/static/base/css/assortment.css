@@ -77,10 +77,10 @@
     color: white;
 }
 
-.dialog_menu {
-    width: 500px;
-    height: 10000px;
-}
+/*.dialog_menu {*/
+/*    width: 500px;*/
+/*    height: 10000px;*/
+/*}*/
 
 
 :root {
@@ -142,7 +142,7 @@
 .dialog_menu {
 	padding: 5px 10px;
 	background: white;
-	max-width: 400px;
+	max-width: 60%;
 	padding-top: 2rem;
 	border-radius: 20px;
 	border: 0;
@@ -186,6 +186,9 @@
 	}
 }
 
+.fa-solid {
+    display: none;
+}
 
 .assortment {
     position:relative;
@@ -793,7 +796,13 @@
     /*    margin-left: 0;*/
     /*}*/
 
+    .dialog_menu {
+        max-width: 90%;
+    }
+
 }
+
+
 
 @media only screen and (max-width: 530px){
     .mobileUl ul li,

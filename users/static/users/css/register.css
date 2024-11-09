@@ -82,6 +82,9 @@ form button[type="submit"]:hover {
     margin-top: 100px;
     margin-bottom: 100px;
   }
+  .login_form {
+    margin-top: 200px;
+  }
 
   .register_div {
     font-size: 15px;

@@ -18,10 +18,7 @@
                 <input class="search__input" type="search" name="search" placeholder="Поиск">
                 <button class="btn_search" type="submit">Искать</button>
         </form>
-
     </div>
-
-
 
     <ul class="div_menu_list">
         <li><a class="list_menu"><h3>Каталог</h3><i class="fa fa-bars" aria-hidden="true"></i></a>
@@ -100,13 +97,15 @@
                                     </div>
 
                                 </div>
+                                <div class="text_info">
+                                    <h3 class='title_desktop' style="">{{ el.title }}</h3><br>
+                                    <h4 class='price_mobile'>{{ el.price }}</h4>
+                                    <h3 class='title_mobile'>{{ el.title }}</h3>
+                                    <h4 class="price">Цена: {{ el.price }}</h4>
+                                    <h5 class="nail_desktop">В наличии: {{ el.quantity }}</h5>
+                                    <h5 class="nail_mobile">В наличии: {{ el.quantity }}</h5>
+                                </div>
 
-                                <h3 class='title_desktop' style="margin-top: -100px;">{{ el.title }}</h3><br>
-                                <h4 class='price_mobile'>{{ el.price }}</h4>
-                                <h3 class='title_mobile'>{{ el.title }}</h3>
-                                <h4 class="price">Цена: {{ el.price }}</h4>
-                                <h5 class="nail_desktop">В наличии: {{ el.quantity }}</h5>
-                                <h5 class="nail_mobile">В наличии: {{ el.quantity }}</h5>
                         </div>
                     </div>
                 {% endif %}
@@ -176,36 +175,24 @@
 
 <script>
 
-// function toggleDropdown() {
-//     console.log(12);
-//   var dropdown = document.getElementById("dropdownMenu");
-//
-//   dropdown.classList.toggle("show");
-// }
 
+const click_div = document.querySelectorAll('.assortment');
 const increaseBtns = document.querySelectorAll('.increase-btn');
 const decreaseBtns = document.querySelectorAll('.decrease-btn');
-// if (window.innerWidth <= 706){
-//  const down = document.querySelectorAll('.btn-danger');
-//  for (let i = 0; i < down.length; i++) {
-//      console.log(down[i].name);
-//      const element = document.querySelector(`[data-id='${down[i].name}']`);
-//      element.style.display = "block";
-//  }
-// }
 
-// const modal_btn = document.querySelectorAll('.x')
-//
-// modal_btn.forEach(function(btn){
-//     btn.addEventListener('click', function (){
-//          const modal = btn.closest('.dialog_menu');
-//          console.log(modal);
-//          if (modal) {
-//              modal.close();
-//          }
-//     })
-// });
+click_div.forEach(function(div) {
+    div.addEventListener('click', function(event) {
+        if (event.target.tagName !== "IMG" && event.target.tagName !== "BUTTON" && event.target.tagName !== "SPAN" && event.target.tagName !== "INPUT" && event.target.tagName !== "I"){
+            const quantityDiv = div.querySelector('.quantity_product_a');
+            if (quantityDiv) {
+                const dataId = quantityDiv.getAttribute('data-id');
+                console.log('Data ID:', dataId);
+                openDialogMobile(dataId);
+            }
+        }
 
+    });
+});
 
 // Добавляем обработчики событий к каждой кнопке увеличения
 increaseBtns.forEach(function(btn) {
@@ -248,7 +235,6 @@ function updateCartData() {
     counterInputs.forEach(input => {
         const productId = input.dataset.productId;
         const quantity = input.value;
-        console.log(productId, quantity);
 
         if (quantity != 0){
             // Создаем асинхронный запрос на сервер и добавляем его в массив запросов
@@ -396,7 +382,6 @@ function removeFromCart(productId) {
      const windowInnerWidth = window.innerWidth;
      if (windowInnerWidth <= 706){
          const element = document.querySelector(`[data-id='${productId}']`);
-             console.log(element);
              element.style.display = "none";
      }
      removeFromCartSpan.innerHTML = '<img src="/media/svg_ico/cart-plus.svg">';
@@ -417,7 +402,6 @@ function removeFromCart(productId) {
     removeFromCartButton.onclick = function() {
         addToCart(productId);
     };
-    console.log(removeFromCartButton);
 }
 
 

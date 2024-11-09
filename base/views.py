@@ -145,37 +145,37 @@ def delete_to_cart_basket(request):
     return redirect('basket')
 
 
-def order_view(request):
-    if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            # Обработка данных формы
-            products = form.cleaned_data['products']
-            email = form.cleaned_data['email']
-            phone = form.cleaned_data['phone']
-            values = form.cleaned_data['values']
-
-            name = request.user.username
-
-            text = ''
-            summ = 0
-            values = values.split(',')
-            products = products.replace('[', '').replace(']', '').split(',')
-            for i in range(len(products)):
-                product = Products.objects.get(id=products[i])
-                price = product.price * int(values[i])
-                text += f'{product.title}   -   {values[i]} штук. {product.price} руб за штуку ({price} руб).\n'
-                summ += price
-            message = f'Пользователь {name} заказал:\n{text}\nНомер телефона: {phone}\nEmail: {email}\n\nИтоговая сумма заказа: {summ}'
-            #todo отправка на email и Tg админа текста выше. Отправка на email пользователя этого же текста
-            req = "https://api.telegram.org/bot5741436353:AAEG8LiZhpCiNHM6Yf6aWpHTb6l_jUyqqfo/sendMessage?chat_id=1229555610&text=Заказ.\n" + message
-            requests.get(req)
-
-            return redirect('success')
-        else:
-            print('Not Valid Form')
-    else:
-        form = OrderForm()
+# def order_view(request):
+#     if request.method == 'POST':
+#         form = OrderForm(request.POST)
+#         if form.is_valid():
+#             # Обработка данных формы
+#             products = form.cleaned_data['products']
+#             email = form.cleaned_data['email']
+#             phone = form.cleaned_data['phone']
+#             values = form.cleaned_data['values']
+#
+#             name = request.user.username
+#
+#             text = ''
+#             summ = 0
+#             values = values.split(',')
+#             products = products.replace('[', '').replace(']', '').split(',')
+#             for i in range(len(products)):
+#                 product = Products.objects.get(id=products[i])
+#                 price = product.price * int(values[i])
+#                 text += f'{product.title}   -   {values[i]} штук. {product.price} руб за штуку ({price} руб).\n'
+#                 summ += price
+#             message = f'Пользователь {name} заказал:\n{text}\nНомер телефона: {phone}\nEmail: {email}\n\nИтоговая сумма заказа: {summ}'
+#             #todo отправка на email и Tg админа текста выше. Отправка на email пользователя этого же текста
+#             req = "https://api.telegram.org/bot5741436353:AAEG8LiZhpCiNHM6Yf6aWpHTb6l_jUyqqfo/sendMessage?chat_id=1229555610&text=Заказ.\n" + message
+#             requests.get(req)
+#
+#             return redirect('success')
+#         else:
+#             print('Not Valid Form')
+#     else:
+#         form = OrderForm()
 
     # context = {'form': form}
     # return render(request, 'order.html', context)

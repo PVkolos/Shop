@@ -11,6 +11,8 @@ from yookassa import Payment
 import uuid
 from payment.models import Orders
 from django.conf import settings
+from base.forms import OrderForm
+
 
 SUCCESS_URL = settings.SUCCESS_URL
 BOT_ID = settings.BOT_ID
@@ -31,7 +33,6 @@ def recalculation(description):
         product = Products.objects.get(id=id_product)
         product.quantity -= quantity
         product.save()
-
 
 
 def success(request):
@@ -108,3 +109,22 @@ def create_payment(request):
         order.save()
 
         return JsonResponse(response_data)
+
+
+def order_view(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            # Обработка данных формы
+            index = form.cleaned_data['index']
+            link = form.cleaned_data['link']
+
+            phone = request.user.username
+            order = list(Orders.objects.filter(phone=phone))[-1]
+            order.index = index
+            order.description = f'Почтовый индекс: {index}\n' + order.description
+            order.save()
+
+            return redirect(link)
+    else:
+        form = OrderForm()

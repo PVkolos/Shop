@@ -55,8 +55,10 @@
                 </div>
             </div>
 	    {% endfor %}
-
+    <div class="zat" style="height: 500px; width: 0; right: 0;"></div>
     </div>
+
+
 
     <div class="bask">
         <div class="pad_text_basket">
@@ -73,16 +75,12 @@
         {% csrf_token %}
         <div id="popup" class="popup">
           <div class="popup-content">
-            <input type="hidden" id="products-input" name="products" value="{{ products_id }}">
-            <input type="hidden" id="email-input" name="email" value="{{ request.user.email }}">
-            <input type="hidden" id="valuesInput" name="values" value="">
-            <h2>Ваш номер телефона</h2>
-            <p>Введите свой номер телефона в таком формате: 8(xxx)xxx-xx-xx
-                (Будьте внимательны, через него с вами будут связываться наши менеджеры для уточнения условий заказа):</p>
-            <input type="tel" id="phone" name="phone">
+            <h2>Индекс доставки</h2>
+            <p>Введите почтовый индекс, куда отправлять заказ </p>
+            <input type="text" id="index" name="index">
+            <input type="text" id="link_form" value="" name="link" style="display: none">
               <p id="p_err" class="error_form_popup"></p>
-            <button type="button" class="btn btn-success" id="pay">Заказать</button>
-<!--            <button onclick="submitForm(event)" type="button" class="btn btn-success">Заказать</button>-->
+            <button type="submit" class="btn btn-success" id="pay">Заказать</button>
             <button onclick="closePopup()" type="button" class="btn btn-danger">Отмена</button>
           </div>
         </div>
@@ -126,10 +124,11 @@ increaseBtns.forEach(function(btn) {
 decreaseBtns.forEach(function(btn) {
   btn.addEventListener('click', function() {
     const counterInput = btn.parentNode.querySelector('.counter-input');
-    if (counterInput.value > counterInput.min) {
+    if (counterInput.value >= counterInput.min) {
       counterInput.value = parseInt(counterInput.value) - 1;
       updateCartData();
-    } else if (counterInput.value === counterInput.min){
+    }
+    if (parseInt(counterInput.value) === (counterInput.min - 1)){
         const productId = btn.closest('#product-card').getAttribute('data-id');
         removeFromCart(productId);
 
@@ -170,7 +169,6 @@ function updateCartData() {
     counterInputs.forEach(input => {
         const productId = input.dataset.productId;
         const quantity = input.value;
-        console.log(productId, quantity);
 
         totalQuantity += parseInt(quantity);
 
@@ -227,6 +225,7 @@ function openPopup(username, summa, name, info, id) {
     if (totalPrice !== 0){
         summa = totalPrice;
     }
+    const link = document.getElementById("link_form");
     let request = fetch('/pay/create_payment/', {
             method: 'POST',
             headers: {
@@ -245,6 +244,7 @@ function openPopup(username, summa, name, info, id) {
         .then(data => {
             console.log(data.link);
             document.getElementById("pay").onclick = function () {
+                link.value = data.link;
                 location.href = data.link;
             };
         })

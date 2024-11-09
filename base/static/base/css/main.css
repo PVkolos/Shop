@@ -23,6 +23,7 @@ body {
 
 .menu {
 	display: flex;
+	margin-bottom: 35px;
 }
 
 .nav {
@@ -71,9 +72,9 @@ body {
 }
 
 .description {
-	top: 35%;
+	top: 25%;
 	left: 10%;
-	width: 35%;
+	width: 65%;
 	position: absolute;
 }
 
@@ -104,6 +105,9 @@ body {
 	border-radius: 5px;
 	font-weight: bold;
 	transition: .4s;
+	display: block;
+	margin-bottom: 100px;
+	width: 225px;
 }
 
 .shop:hover {
@@ -189,23 +193,6 @@ body {
 	margin-bottom: 10px;
 }
 
-/* Адаптивные стили */
-
-@media (max-width: 768px) {
-
-
-	.description {
-		top: 40%;
-		left: 5%;
-		width: 90%;
-	}
-
-	/*.bask {*/
-	/*	padding: 5%;*/
-	/*}*/
-}
-
-
 .j-navbar-mobile {
 	font-family: system, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Segoe WP', Roboto, Ubuntu, Oxygen, Cantarell, 'Fira Sans', 'Helvetica Neue', Helvetica, 'Lucida Grande', 'Droid Sans', Tahoma, 'Microsoft Sans Serif', sans-serif;
 	font-size: 16px;
@@ -254,5 +241,14 @@ body {
 @media only screen and (max-width: 1550px){
     .description {
         width: 80%;
+		top: 20%;
     }
+}
+
+@media only screen and (max-width: 768px) {
+	.description {
+		top: 15%;
+		left: 5%;
+		width: 90%;
+	}
 }
