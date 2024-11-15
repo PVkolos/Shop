@@ -46,7 +46,7 @@
             </ul>
         </li>
     </ul>
-
+    {% if products|length %}
     <div class="abs">
         {% for el in products %}
             {% if flag == 'true' or category == el.category or category == "Все товары" %}
@@ -120,6 +120,9 @@
 <!--        <div class="footer-spacer"></div>-->
 <!--        <div class="footer"></div>-->
     </div>
+    {% else %}
+    <p class="none">По вашим критериям поиска не было найдено товаров</p>
+    {% endif %}
 
     <div id="imageModal" class="modal">
       <span class="close" onclick="closeImageModal()">&times;</span>

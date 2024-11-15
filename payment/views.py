@@ -127,4 +127,5 @@ def order_view(request):
 
             return redirect(link)
     else:
+        return redirect('home')
         form = OrderForm()

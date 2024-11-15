@@ -7,74 +7,67 @@
 {% endblock %}
 
 {% block content %}
-    <div class="abs_basket">
-        {% for el in products %}
-<!--            <div class="assortment_basket">-->
-<!--                <div class="text_block">-->
-<!--                    <img src="media/{{el.image}}">-->
-<!--                    <h3>{{ el.title }}</h3><br>-->
-<!--                    <p>{{ el.price }}</p>-->
-<!--                </div>-->
+    {% if products|length %}
+        <div class="abs_basket">
+            {% for el in products %}
+                <div class="assortment">
+                    <img src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">
 
-<!--                <div class="info_product">-->
-<!--                    <div class="quantity_product">-->
-<!--                      <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>-->
-<!--                      <input type="number" class="counter-input" value="1" min="1" max="100" data-product-id="{{ el.id }}">-->
-<!--                      <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>-->
-<!--                    </div>-->
-<!--&lt;!&ndash;                    <button class="btn btn-warning"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Убрать из корзины</a></button>&ndash;&gt;-->
-<!--                    <button class="btn btn-danger"><span class="text_out1" id="2span_delete-to-cart-{{ el.id }}"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Из корзины</a></span></button>-->
-<!--                </div>-->
-<!--            </div>-->
-	    {% endfor %}
-        {% for el in products %}
-            <div class="assortment">
-                <img src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">
+                     <dialog id="dialog-{{ el.id }}" class="dialog_menu">
+                         <h2>{{ el.title }}</h2>
+                         <p>{{ el.additional_info }}</p>
+                        <p></p>
+                        <button onclick="closeDialog('{{ el.id }}')" aria-label="close" class="x">❌</button>
+                     </dialog>
 
-                 <dialog id="dialog-{{ el.id }}" class="dialog_menu">
-                     <h2>{{ el.title }}</h2>
-                     <p>{{ el.additional_info }}</p>
-                    <p></p>
-                    <button onclick="closeDialog('{{ el.id }}')" aria-label="close" class="x">❌</button>
-                 </dialog>
-
-                <div class="text_block">
-                    <h3 class='title_desktop' style="">{{ el.title }}</h3><br>
-                    <h4 class='price_mobile'>{{ el.price }}</h4>
-                    <h3 class='title_mobile'>{{ el.title }}</h3>
-                    <h4 class="price">Цена: {{ el.price }}</h4>
-                    <h5 class="nail_desktop">В наличии: {{ el.quantity }}</h5>
-                    <h5 class="nail_mobile">В наличии: {{ el.quantity }}</h5>
-                    <div class="button_asort" style="">
-                        <button class="btn btn-info" id="info" onclick="openDialog('{{ el.id }}')">
-                            <span class="text_about1">Описание</span>
-                        </button>
-                        <button id="delete-to-cart-{{ el.id }}" class="btn btn-danger" onclick="removeFromCart('{{ el.id }}')">
-                            <span class="text_out1"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Из корзины</a></span>
-                        </button>
-                        <div class="quantity_product_a" data-id="{{ el.id }}" id="product-card" quantity="{{ el.quantity }}">
-                          <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
-                          <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="{{ el.quantity }}" data-product-id="{{ el.id }}">
-                          <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>
+                    <div class="text_block">
+                        <h3 class='title_desktop' style="">{{ el.title }}</h3><br>
+                        <h4 class='price_mobile'>{{ el.price }}</h4>
+                        <h3 class='title_mobile'>{{ el.title }}</h3>
+                        <h4 class="price">Цена: {{ el.price }}</h4>
+                        <h5 class="nail_desktop">В наличии: {{ el.quantity }}</h5>
+                        <h5 class="nail_mobile">В наличии: {{ el.quantity }}</h5>
+                        <div class="button_asort" style="">
+                            <button class="btn btn-info" id="info" onclick="openDialog('{{ el.id }}')">
+                                <span class="text_about1">Описание</span>
+                            </button>
+                            <button id="delete-to-cart-{{ el.id }}" class="btn btn-danger" onclick="removeFromCart('{{ el.id }}')">
+                                <span class="text_out1"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Из корзины</a></span>
+                            </button>
+                            <div class="quantity_product_a" data-id="{{ el.id }}" id="product-card" quantity="{{ el.quantity }}">
+                              <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
+                              <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="{{ el.quantity }}" data-product-id="{{ el.id }}">
+                              <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-	    {% endfor %}
-    <div class="zat" style="height: 500px; width: 0; right: 0;"></div>
-    </div>
-
-
-
-    <div class="bask">
-        <div class="pad_text_basket">
-            <h5 class="total-quantity">Товары: {{number}} штук</h5>
-            <h3 class="total-price">Итого: {{summa}} рублей</h3>
-            <div class="button_buy">
-                <button onclick="openPopup('{{request.user.username}}', '{{summa}}', '{{request.user.last_name}}',  '{{info}}', '{{request.user.id}}')" class="btn btn-success">Заказать</button>
+            {% endfor %}
+            <div class="zat" style="height: 500px; width: 0; right: 0;"></div>
+        </div>
+        <div class="bask">
+            <div class="pad_text_basket">
+                <h5 class="total-quantity">Товары: {{number}} штук</h5>
+                <h3 class="total-price">Итого: {{summa}} рублей</h3>
+                <div class="button_buy">
+                    <button onclick="openPopup('{{request.user.username}}', '{{summa}}', '{{request.user.last_name}}',  '{{info}}', '{{request.user.id}}')" class="btn btn-success">Заказать</button>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="mobile_bask">
+            <div class="pad_text">
+                <h5 class="total-q">Товары: {{number}} штук</h5>
+                <h3 class="total-p">Итого: {{summa}} рублей</h3>
+                <button onclick="openPopup('{{request.user.username}}', '{{summa}}', '{{request.user.last_name}}', '{{info}}', '{{request.user.id}}')" class="btn btn-success">Заказать</button>
+            </div>
+        </div>
+    {% else %}
+        <div style="text-align: center;  margin-top: 24%">
+            <h2 style="font-size: 30px; color: white;">В текущий момент, вы не добавляли в корзину ни одного товара</h2>
+            <a href="" style="font-size: 30px" target="_blank"><img src="http://doodoo.ru/smiles/grust/s010.gif" border="0"></a>
+        </div>
+    {% endif %}
 
 
     <form id="order-form" method="post" action="{% url 'order' %}">
@@ -91,14 +84,6 @@
           </div>
         </div>
     </form>
-
-    <div class="mobile_bask">
-        <div class="pad_text">
-            <h5 class="total-q">Товары: {{number}} штук</h5>
-            <h3 class="total-p">Итого: {{summa}} рублей</h3>
-            <button onclick="openPopup('{{request.user.username}}', '{{summa}}', '{{request.user.last_name}}', '{{info}}', '{{request.user.id}}')" class="btn btn-success">Заказать</button>
-        </div>
-    </div>
 
     <div id="imageModal" class="modal">
       <span class="close" onclick="closeImageModal()">&times;</span>
@@ -145,13 +130,18 @@ increaseBtns.forEach(function(btn) {
 // Добавляем обработчики событий к каждой кнопке уменьшения
 decreaseBtns.forEach(function(btn) {
   btn.addEventListener('click', function() {
+
     const counterInput = btn.parentNode.querySelector('.counter-input');
-    if (counterInput.value >= counterInput.min) {
-      counterInput.value = parseInt(counterInput.value) - 1;
-      updateCartData();
+    if (parseInt(counterInput.value) > parseInt(counterInput.min)) {
+        console.log(1, counterInput.value);
+        counterInput.value = parseInt(counterInput.value) - 1;
+        updateCartData();
     }
-    if (parseInt(counterInput.value) === (counterInput.min - 1)){
+    else if (parseInt(counterInput.value) === (parseInt(counterInput.min))){
         const productId = btn.closest('#product-card').getAttribute('data-id');
+        console.log(2, counterInput.value);
+        counterInput.value = parseInt(counterInput.value) - 1;
+        updateCartData();
         removeFromCart(productId);
 
         const productCard = btn.closest('.assortment');

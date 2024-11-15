@@ -41,14 +41,20 @@ def assortment(request):
         query = request.GET['search']
         category = f'Результат запроса: "{query}"'
         products = []
+        products_all = []
         response = client.search_few_products(request.GET.get('search').split(), ['title', 'additional_info', 'category'])
         flag = 'true'
         for product in response:
+            products_all.append(Products.objects.get(id=int(product[0])))
             products.append(Products.objects.get(id=int(product[0])))
 
     else:
         category = request.GET.get("category", "Все товары")
-        products = Products.objects.all()
+        products_all = Products.objects.all()
+        products = []
+        for product in products_all:
+            if product.category == category or category == 'Все товары':
+                products.append(product)
         flag = 'false'
 
     products_ = list(Basket.objects.filter(username=request.user.username))
@@ -56,13 +62,13 @@ def assortment(request):
     for el in products_: # Перебираем все продукты из корзины пользователя
         product_user = Products.objects.get(id=el.id_product) # Достаем данные о товаре из общей таблицы
         products_itog.append(product_user.id)
-    for el in products:
+    for el in products_all:
         if el.id in products_itog:
             item = Basket.objects.filter(id_product=el.id, username=request.user.username)[0]
             el.quantity_basket = item.quantity
         else:
             el.quantity_basket = 0
-
+    print(1111, products, products_itog, category)
     return render(request, 'base/assortment.html', {'flag': flag, 'products': products, 'category': category, 'products_itog': products_itog, 'active_b': 'assortment'})
 
 
@@ -79,6 +85,7 @@ def basket(request):
         product_user.quantity_basket = el.quantity
         products_itog.append(product_user)
         products_id.append(product_user.id)
+    # if not products_itog: products_itog = None
     return render(request, 'base/basket.html',
                   {'products_id': products_id, 'products': products_itog, 'active_b': 'basket',
                    'number': sum([el.quantity_basket for el in products_itog]), 'summa': round(sum(el.price * el.quantity_basket for el in products_itog), 2)})
@@ -103,7 +110,7 @@ def add_product(request):
                 for chunk in image.chunks():
                     destination.write(chunk)
 
-            return redirect('assortment')  # Замените 'home' на имя вашего URL-шаблона
+            return redirect('assortment')
 
     return redirect('home')  # Отображаем шаблон HTML для добавления товара
 
@@ -143,42 +150,6 @@ def delete_to_cart_basket(request):
     if Basket.objects.filter(username=user, id_product=id_).exists():
         Basket.objects.filter(id_product=id_, username=user).delete()
     return redirect('basket')
-
-
-# def order_view(request):
-#     if request.method == 'POST':
-#         form = OrderForm(request.POST)
-#         if form.is_valid():
-#             # Обработка данных формы
-#             products = form.cleaned_data['products']
-#             email = form.cleaned_data['email']
-#             phone = form.cleaned_data['phone']
-#             values = form.cleaned_data['values']
-#
-#             name = request.user.username
-#
-#             text = ''
-#             summ = 0
-#             values = values.split(',')
-#             products = products.replace('[', '').replace(']', '').split(',')
-#             for i in range(len(products)):
-#                 product = Products.objects.get(id=products[i])
-#                 price = product.price * int(values[i])
-#                 text += f'{product.title}   -   {values[i]} штук. {product.price} руб за штуку ({price} руб).\n'
-#                 summ += price
-#             message = f'Пользователь {name} заказал:\n{text}\nНомер телефона: {phone}\nEmail: {email}\n\nИтоговая сумма заказа: {summ}'
-#             #todo отправка на email и Tg админа текста выше. Отправка на email пользователя этого же текста
-#             req = "https://api.telegram.org/bot5741436353:AAEG8LiZhpCiNHM6Yf6aWpHTb6l_jUyqqfo/sendMessage?chat_id=1229555610&text=Заказ.\n" + message
-#             requests.get(req)
-#
-#             return redirect('success')
-#         else:
-#             print('Not Valid Form')
-#     else:
-#         form = OrderForm()
-
-    # context = {'form': form}
-    # return render(request, 'order.html', context)
 
 
 def success(request):

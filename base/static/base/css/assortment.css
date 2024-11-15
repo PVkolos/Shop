@@ -31,7 +31,7 @@
 
 .mobilebtn {
     position: absolute;
-    margin: 200px 0% 0% 500px;
+    margin: 300px 0 0 500px;
 }
 
 .but_mobile {
@@ -133,7 +133,14 @@
     display: block;
   }
 }
-
+.none {
+    color: white;
+    text-align: center;
+    margin-top: 17%;
+    font-size: 200%;
+    font-weight: bold;
+    margin-left: 30%;
+}
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 :root {
@@ -612,6 +619,11 @@
 }*/
 
 @media only screen and (max-width: 1200px){
+    .none {
+        margin: 200px 0 0 0;
+        text-align: center;
+    }
+
     .pad{
         display: none;
     }
