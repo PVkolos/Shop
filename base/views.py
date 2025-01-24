@@ -9,8 +9,9 @@ from django.http import JsonResponse
 import json
 from .forms import OrderForm
 import requests
-from shop.search import client
-# import pymorphy2
+# from shop.search import client
+from shop.regexp import search_strings
+from django.db.models import Q
 
 
 def index(request):
@@ -21,18 +22,18 @@ def about(request):
     return render(request, 'base/about.html', {'active_b': 'about'})
 
 
-def search_on(request, query):
-    response = client.search_product(query, ['title', 'additional_info', 'category'])
-    # pprint(response)
-    ids = []
-    products = []
-    products_itog = []
-    for product in response['hits']['hits']:
-        if product['_id'].isdigit():
-            ids.append([int(product['_id']), product['_score']])
-            products.append(Products.objects.get(id=int(product['_id'])))
-
-    return render(request, 'base/assortment.html', {'products': products, 'flag': 'true', 'products_itog': products_itog, 'active_b': 'assortment'})
+# def search_on(request, query):
+#     response = client.search_product(query, ['title', 'additional_info', 'category'])
+#     # pprint(response)
+#     ids = []
+#     products = []
+#     products_itog = []
+#     for product in response['hits']['hits']:
+#         if product['_id'].isdigit():
+#             ids.append([int(product['_id']), product['_score']])
+#             products.append(Products.objects.get(id=int(product['_id'])))
+#
+#     return render(request, 'base/assortment.html', {'products': products, 'flag': 'true', 'products_itog': products_itog, 'active_b': 'assortment'})
 
 
 def assortment(request):
@@ -40,14 +41,11 @@ def assortment(request):
     if 'search' in request.GET:
         query = request.GET['search']
         category = f'Результат запроса: "{query}"'
-        products = []
-        products_all = []
-        response = client.search_few_products(request.GET.get('search').split(), ['title', 'additional_info', 'category'])
+        base = Products.objects.filter(~Q(quantity=0))
+        response = search_strings(request.GET.get('search').split(), ['title', 'additional_info', 'category'], base)
         flag = 'true'
-        for product in response:
-            products_all.append(Products.objects.get(id=int(product[0])))
-            products.append(Products.objects.get(id=int(product[0])))
-
+        products = response.copy()
+        products_all = response.copy()
     else:
         category = request.GET.get("category", "Все товары")
         products_all = Products.objects.all()
@@ -60,15 +58,22 @@ def assortment(request):
     products_ = list(Basket.objects.filter(username=request.user.username))
     products_itog = []  # id товаров из корзины
     for el in products_: # Перебираем все продукты из корзины пользователя
-        product_user = Products.objects.get(id=el.id_product) # Достаем данные о товаре из общей таблицы
-        products_itog.append(product_user.id)
+        try:
+            product_user = Products.objects.get(id=el.id_product) # Достаем данные о товаре из общей таблицы
+            products_itog.append(product_user.id)
+        except Exception as e:
+            if 'not exist' in str(e):
+                user = request.user.username
+                if Basket.objects.filter(username=user, id_product=el.id_product).exists():
+                    Basket.objects.filter(id_product=el.id_product, username=user).delete()
+                print("ERR: views.py assortment. Вероятно, товар быд удален")
     for el in products_all:
         if el.id in products_itog:
             item = Basket.objects.filter(id_product=el.id, username=request.user.username)[0]
             el.quantity_basket = item.quantity
+            print(11, el.title, item.quantity)
         else:
             el.quantity_basket = 0
-    print(1111, products, products_itog, category)
     return render(request, 'base/assortment.html', {'flag': flag, 'products': products, 'category': category, 'products_itog': products_itog, 'active_b': 'assortment'})
 
 
@@ -81,10 +86,17 @@ def basket(request):
     products_itog = []
     products_id = []
     for el in products: # Перебираем все продукты из корзины пользователя
-        product_user = Products.objects.get(id=el.id_product) # Достаем данные о товаре из общей таблицы
-        product_user.quantity_basket = el.quantity
-        products_itog.append(product_user)
-        products_id.append(product_user.id)
+        try:
+            product_user = Products.objects.get(id=el.id_product) # Достаем данные о товаре из общей таблицы
+            product_user.quantity_basket = el.quantity
+            products_itog.append(product_user)
+            products_id.append(product_user.id)
+        except Exception as e:
+            if 'not exist' in str(e):
+                user = request.user.username
+                if Basket.objects.filter(username=user, id_product=el.id_product).exists():
+                    Basket.objects.filter(id_product=el.id_product, username=user).delete()
+                print("ERR: views.py assortment. Вероятно, товар быд удален")
     # if not products_itog: products_itog = None
     return render(request, 'base/basket.html',
                   {'products_id': products_id, 'products': products_itog, 'active_b': 'basket',
@@ -120,9 +132,10 @@ def add_to_cart(request):
         try:
             data = json.loads(request.body)
             id_ = data.get('product_id')
+            quantity_ = data.get('quantity')
             user = request.user.username
             if not Basket.objects.filter(username=user, id_product=id_).exists():
-                product = Basket.objects.create(id_product=id_, username=user)
+                product = Basket.objects.create(id_product=id_, username=user, quantity=quantity_)
                 product.save()
             return JsonResponse({'sucsess': 'true'})
         except json.JSONDecodeError:
@@ -159,26 +172,53 @@ def success(request):
 def update_cart(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            product_id = data.get('product_id')
-            quantity = data.get('quantity')
+            if not request.user.is_authenticated:
+                # return redirect('login')
+                pass
+            else:
+                data = json.loads(request.body)
+                product_id = data.get('product_id')
+                quantity = data.get('quantity')
+                # print(product_id, quantity)
 
-            user = request.user.username
-            product_basket = Basket.objects.filter(username=user, id_product=product_id)[0]
-            product_basket.quantity = quantity
-            product_basket.save()
+                user = request.user.username
+                product_basket = Basket.objects.filter(username=user, id_product=product_id)[0]
+                product_basket.quantity = quantity
+                product_basket.save()
 
-            product = Products.objects.get(id=product_id)
-            product_price = round(float(product.price) * int(quantity), 2)
+                product = Products.objects.get(id=product_id)
+                product_price = round(float(product.price) * int(quantity), 2)
 
-            # Возвращаем данные в формате JSON
-            response_data = {
-                'product_price': product_price
-            }
-            return JsonResponse(response_data)
+                # Возвращаем данные в формате JSON
+                response_data = {
+                    'product_price': product_price
+                }
+                return JsonResponse(response_data)
+
         except json.JSONDecodeError:
             # Обработка ошибки неверного формата JSON
             pass
+
+
+def is_basket(request):
+    if request.method == 'POST':
+        try:
+            # if not request.user.is_authenticated:
+            #     return redirect('login')
+            data = json.loads(request.body)
+            product_id = data.get('product_id')
+            user = request.user.username
+            if Basket.objects.filter(username=user, id_product=product_id).exists():
+                response_data = {
+                    'is': 'true'
+                }
+            else:
+                response_data = {
+                    'is': 'false'
+                }
+            return JsonResponse(response_data)
+        except Exception as e:
+            print(e)
 
 
 # def update_db_plus(request):

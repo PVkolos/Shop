@@ -74,7 +74,6 @@
   --color-dark: #2f2f2f;
   --color-light: #fff;
   --color-brand: #57bd84;
-  --font-fam: 'Lato', sans-serif;
   --height: 5rem;
   --btn-width: 6rem;
   --bez: cubic-bezier(0, 0, 0.43, 1.49);
@@ -327,30 +326,13 @@
   float: center;
 }
 
-.assortment img{
-  width: 100%;
-  float: center;
-    height: auto;
-    max-height: 300px;
-}
+
 
 .text_block {
-  font-family: Comic Sans MS, Comic Sans, cursive;
+  font-family: 'Roboto-Regular', sans-serif;
   font-weight: bold;
   width: 100%;
 
-}
-
-.text_block h3 {
-    font-size: 17px;
-  font-weight: bold;
-  width: 65%;
-  word-wrap: break-word; /* Переносит слова на новую строку по необходимости */
-  overflow-wrap: break-word; /* Переносит слова, если они слишком длинные */
-    overflow: hidden;
-   -webkit-line-clamp: 2; /* number of lines to show */
-           line-clamp: 2;
-   -webkit-box-orient: vertical;
 }
 
 .title_desktop {
@@ -377,7 +359,7 @@
 
 .logo2 {
   font-size: 40px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Roboto-Regular', sans-serif;
   color: #00D4C6;
   text-decoration: none;
   display: block;
@@ -416,7 +398,7 @@
 
 
 .counter p {
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Roboto-Regular', sans-serif;
   font-size: 20px;
   margin: 0% 0% 0% 50%;
 }
@@ -441,10 +423,6 @@
 .info_product button a{
   text-decoration: none;
   font-size: 17px;
-}
-
-.price_mobile {
-    display: none;
 }
 
 .assortment_basket input {
@@ -707,11 +685,6 @@
     .price {
         display: none;
     }
-    .price_mobile {
-        display: block;
-        margin: 0;
-    }
-
     #info {
         display: none;
     }

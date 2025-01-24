@@ -28,3 +28,5 @@ def add_product(request):
             return redirect('assortment')
 
     return redirect('home')
+
+

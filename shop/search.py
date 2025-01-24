@@ -133,8 +133,8 @@ class Search(metaclass=SingletonMeta):
         return ids_lib
 
 
-client = Search()
-morph = pymorphy2.MorphAnalyzer()
+# client = Search()
+# morph = pymorphy2.MorphAnalyzer()
 
 if __name__ == '__main__':
     client = Search()
@@ -161,5 +161,10 @@ if __name__ == '__main__':
     #     category='еда'
     # )
 
-    # print(client.search_product('ошибке', ['title', 'additional_info']))
-    print(client.search_few_products(['пакет', 'ошибка'], ['title', 'additional_info', 'category']))
+    print(client.search_product('ошибке', ['title', 'additional_info']))
+    # print(client.search_few_products(['пакет', 'ошибка'], ['title', 'additional_info', 'category']))
+
+
+'''
+
+'''

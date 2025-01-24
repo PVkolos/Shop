@@ -1,7 +1,13 @@
+import time
+
 import requests
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 import json
+from .forms import OrderForm
+
+from django.template.defaulttags import csrf_token
 from users.models import Basket
 from news.models import Products
 
@@ -11,7 +17,7 @@ from yookassa import Payment
 import uuid
 from payment.models import Orders
 from django.conf import settings
-from base.forms import OrderForm
+from django.views.decorators.csrf import csrf_exempt
 
 
 SUCCESS_URL = settings.SUCCESS_URL
@@ -22,10 +28,11 @@ ACCOUNT_ID_KASSA = settings.ACCOUNT_ID_KASSA
 
 Configuration.account_id = ACCOUNT_ID_KASSA
 Configuration.secret_key = SECRET_KEY_KASSA
-idempotence_key = str(uuid.uuid4())
 
 
 def recalculation(description):
+    user = description.split('\n')[1].split('Заказ ')[1].split()[0]
+
     for string in description.split('\n')[1:]:
         id_product = int(string.split('ID - ')[1].split('.')[0])
         quantity = int(string.split('КОЛИЧЕСТВО - ')[1].split(' шт')[0])
@@ -33,37 +40,47 @@ def recalculation(description):
         product = Products.objects.get(id=id_product)
         product.quantity -= quantity
         product.save()
+        product_basket = Basket.objects.get(id_product=id_product, username=user)
+        product_basket.delete()
 
 
+@csrf_exempt
 def success(request):
     if request.method == 'POST':
-        # todo тест всей функции на хостинге
-        req_data = request.get_json()
-        status = req_data['object']['status']
-        # print(req_data['object']['status'])
-        if status == 'waiting_for_capture':
-            # Подтверждение платежа
-            Payment.capture(
-                req_data['object']['id'],
-                idempotence_key
-            )
+        try:
+            # todo тест всей функции на хостинге
+            req_data = json.loads(request.body)
+            status = req_data['object']['status']
+            # print(req_data['object']['status'])
+            if status == 'waiting_for_capture':
+                # Подтверждение платежа
+                idempotence_key = str(uuid.uuid4())
+                Payment.capture(
+                    req_data['object']['id'],
+                    idempotence_key
+                )
 
-            # Обновление статуса платежа на "оплачен"
-            order = Orders.objects.get(id_yk=req_data['object']['id'])
-            order.status = 1
-            order.save()
+                # Обновление статуса платежа на "оплачен"
+                orders = list(Orders.objects.filter(id_yk=req_data['object']['id']))
+                for order in orders:
+                    order.status = 1
+                    order.save()
 
-            # Уведомление владельца о поступившем заказе
-            req = f"https://api.telegram.org/bot{BOT_ID}/sendMessage?chat_id={CHAT_ID}&text=" + order.description
+                # Уведомление владельца о поступившем заказе
+                req = f"https://api.telegram.org/bot{BOT_ID}/sendMessage?chat_id={CHAT_ID}&text=" + order.description
+                requests.get(req)
+
+                # Перерасчет количества товара после покупки
+                recalculation(order.description)
+        except Exception as e:
+            req = f"https://api.telegram.org/bot{BOT_ID}/sendMessage?chat_id={CHAT_ID}&text=" + str(e)
             requests.get(req)
-
-            # Перерасчет количества товара после покупки
-            recalculation(order.description)
 
     return render(request, 'payment/success.html')
 
 
 def create_link(username, price, description):
+    idempotence_key = str(uuid.uuid4())
     payment = Payment.create({
         "amount": {
           "value": price,
@@ -126,6 +143,8 @@ def order_view(request):
             order.save()
 
             return redirect(link)
+        else:
+            redirect('home') # todo страница ошибок
     else:
         return redirect('home')
         form = OrderForm()

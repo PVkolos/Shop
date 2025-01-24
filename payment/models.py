@@ -4,7 +4,6 @@ from django.db import models
 
 
 class Orders(models.Model):
-
     phone = models.CharField('Номер телефона', max_length=20)
     name = models.CharField('Имя пользователя', max_length=20)
     date = models.DateField('Дата', default=datetime.now)
@@ -17,6 +16,9 @@ class Orders(models.Model):
     class Meta:
         verbose_name = 'Ордер'
         verbose_name_plural = 'Ордера'
+
+    def __str__(self):
+        return self.phone
 
 
 '''

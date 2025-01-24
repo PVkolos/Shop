@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import RegisterUserForm, LoginUserForm
 from django.contrib.auth import get_user_model
+from payment.models import Orders
+from django.utils.html import mark_safe
 
 
 menu = [{'title': "О сайте", 'url_name': 'about'},
@@ -48,7 +50,7 @@ class RegisterUser(DataMixin, CreateView):
         else:
             user = form.save()
             login(self.request, user)
-            return redirect('register')
+            return redirect('private')
 
 
 class LoginUser(DataMixin, LoginView):
@@ -60,9 +62,31 @@ class LoginUser(DataMixin, LoginView):
         c_def = self.get_user_context(title="Авторизация")
         return dict(list(context.items()) + list(c_def.items()))
 
+
     def get_success_url(self):
         return reverse_lazy('home')
 
 
 def private_office(request):
     return render(request, 'users/private_office.html', {'active_b': 'private'})
+
+
+def orders(request):
+    orders_ = Orders.objects.filter(status=1, phone=request.user.username)
+    for order in orders_:
+        try:
+            desc = order.description
+            desc_ = ''
+            for i in range(len(desc)):
+                if desc[i] + desc[i + 1] == 'ID':
+                    desc_ += str(i + 1) + ') '
+                desc_ += desc[i]
+            order.description = mark_safe(desc_)
+            # print(desc.split('\n'))
+            # desc = desc.split('\n')[1:]
+            # order.description = '\n'.join(desc)
+            # order.price = order.description.split('\n')[0].split('сумму ')[1]
+            # order.description = '\n'.join(order.description.split('\n')[1:])
+        except Exception as e:
+            pass
+    return render(request, 'users/orders.html', {'active_b': 'private', 'orders': orders_})

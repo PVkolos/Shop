@@ -29,7 +29,8 @@ class RegisterUserForm(UserCreationForm):
 
 
 class LoginUserForm(AuthenticationForm):
-    username = forms.CharField(label='Номер телефона', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    username = PhoneNumberField(label='Номер телефона', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    # username = forms.CharField(label='Номер телефона', widget=forms.TextInput(attrs={'class': 'form-input'}))
     password = forms.CharField(
         label='Пароль',
         strip=False,

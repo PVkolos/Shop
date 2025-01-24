@@ -16,7 +16,7 @@ urlpatterns = [
     # path('order', views.order_view, name='order'),
     path('success', views.success, name='success'),
     path('update_cart/', views.update_cart, name='update_cart'),
+    path('is_basket/', views.is_basket, name='is_basket'),
     # path('update_db_plus/', views.update_cart, name='update_db_plus'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -93,6 +93,9 @@ form button[type="submit"]:hover {
   .register p {
     margin-bottom: 0;
   }
+  .register {
+    margin: 65px 0;
+  }
 
 
 }

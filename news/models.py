@@ -1,5 +1,5 @@
 from django.db import models
-from shop.search import client
+# from shop.search import client
 
 from users.models import Basket
 
@@ -38,13 +38,13 @@ class Products(models.Model):
 
         # Добавление товара в opensearch
         try:
-            client.create_product(
-                id=self.id,
-                index='search_products',
-                title=self.title,
-                additional_info=self.additional_info,
-                category=self.category
-            )
+            # client.create_product(
+            #     id=self.id,
+            #     index='search_products',
+            #     title=self.title,
+            #     additional_info=self.additional_info,
+            #     category=self.category
+            # )
             print("SUCCESS ADDED PRODUCT")
         except Exception as e:
             print("ERR Add.news.models.48", e)
@@ -52,10 +52,10 @@ class Products(models.Model):
     def delete(self, *args, **kwargs):
         # Удаление товара из opensearch
         try:
-            client.delete_product(
-                index='search_products',
-                id=self.id
-            )
+            # client.delete_product(
+            #     index='search_products',
+            #     id=self.id
+            # )
             print("SUCCESS DELETED PRODUCT")
         except Exception as e:
             print("ERR Delete.news.models.59: ", e)

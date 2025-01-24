@@ -6,21 +6,32 @@
 {% block css %}
     <link rel="shortcut icon" href="{%  static 'users/images/lk.png' %}">
     <link rel="stylesheet" href="{% static 'users/css/lk.css' %}">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 {% endblock %}
 
-<div class="prvt">
-    <h2>Ваши данные</h2><br>
-    <h3><b>Имя:</b> <u>{{ request.user.last_name }}</u></h3><br>
-    <h3><b>Фамилия:</b> <u>{{ request.user.first_name }}</u></h3><br>
-    <h3><b>Номер телефона:</b> <u>{{ request.user.username }}</u></h3><br>
-    <h3><b>Почта:</b> <u>{{ request.user.email }}</u></h3><br>
-<!--    <h3><b>Товаров в корзине:</b></h3><br><br>-->
-<!--    <button class="glow-on-hover" type="button">Редактировать данные</button>-->
-    <a href="{% url 'login' %}">
-        <button onclick="" class="glow-on-hover" type="button">Войти в другой аккаунт</button>
-    </a>
+    <div class="acc">
+        <div class="shapka">
+            <a href="{% url 'private' %}"><button type="button" class="btn btn-acc btn-outline-secondary">Персональные данные</button></a>
+            <a href="{% url 'orders' %}"><button type="button" class="btn btn-acc btn-outline-secondary">Ваши заказы</button></a>
+        </div>
 
-</div>
+        <div class="prvt">
+<!--            <h2>Ваши данные</h2><br>-->
+            <p class="title">Ваши данные</p>
+            <h3><b>Имя:</b> <u>{{ request.user.last_name }}</u></h3><br>
+            <h3><b>Фамилия:</b> <u>{{ request.user.first_name }}</u></h3><br>
+            <h3><b>Номер телефона:</b> <u>{{ request.user.username }}</u></h3><br>
+            <h3><b>Почта:</b> <u>{{ request.user.email }}</u></h3><br>
+        <!--    <h3><b>Товаров в корзине:</b></h3><br><br>-->
+        <!--    <button class="glow-on-hover" type="button">Редактировать данные</button>-->
+            <a href="{% url 'login' %}">
+                <button class="btn btn-acc btn-outline-secondary" type="button">Войти в другой аккаунт</button>
+            </a>
+
+        </div>
+    </div>
+
 
 {% endblock %}
 

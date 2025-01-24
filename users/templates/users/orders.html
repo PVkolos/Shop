@@ -1,0 +1,35 @@
+{% extends 'base/layout.html' %}
+
+{% block content %}
+{% load static %}
+
+{% block css %}
+    <link rel="shortcut icon" href="{%  static 'users/images/lk.png' %}">
+    <link rel="stylesheet" href="{% static 'users/css/lk.css' %}">
+
+{% endblock %}
+
+    <div class="acc2">
+         <div class="shapka">
+            <a href="{% url 'private' %}"><button type="button" class="btn btn-acc btn-outline-secondary">Персональные данные</button></a>
+            <a href="{% url 'orders' %}"><button type="button" class="btn btn-acc btn-outline-secondary">Ваши заказы</button></a>
+        </div>
+        <div class="orders">
+            <p class="title">Ваши заказы</p>
+             {% for order in orders %}
+                <div class="order">
+                     <p><span class="get">Дата:</span> {{ order.date }}<br><span class="get">Почтовый индекс</span> - {{order.index}}<br><span class="get">Сумма: </span> <span>{{ order.summ }}</span><br></p>
+                    <span class="get">Описание:</span><br>
+                    <span>{{ order.description|linebreaksbr }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block title %}
+    Мои заказы
+{% endblock %}

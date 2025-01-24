@@ -1,5 +1,5 @@
-.prvt{
-    margin: 15% 0% 0 15%;
+.acc, .acc2{
+    margin: 15% 0 0 15%;
 }
 
 .prvt h3, .prvt h2 {
@@ -7,6 +7,48 @@
   color: white;
   transition: transform .6s ease;
   font-size: 40px;
+}
+
+.orders p {
+    font-size: 20px;
+    color: black;
+}
+
+.orders .title, .prvt .title {
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    margin-top: 10px;
+}
+
+.order .get {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.order {
+    width: 800px;
+    height: auto;
+    background-color: #7395AE;
+    border-radius: 15px;
+    margin-top: 40px;
+    padding: 10px;
+}
+
+.shapka button {
+    /*position: static;*/
+    font-size: 180%;
+    width: 30%;
+    margin-left: 50px;
+    color: white;
+    background-color: #7395AE;
+    /*margin: 0 auto;*/
+}
+
+.btn-acc {
+    color: white;
+    background-color: #7395AE;
+    font-size: 120%;
 }
 
 .glow-on-hover {
@@ -71,42 +113,98 @@
 
 
 @media only screen and (max-width: 1600px){
-  .prvt {
+  .acc, .acc2 {
     margin-top: 20%;
     color: black;
   }
 
+    .shapka button {
+        font-size: 150%;
+    }
+
 }
 
-@media only screen and (max-width: 1300px){
-  .prvt {
+@media only screen and (max-width: 1250px){
+  .acc, acc2 {
     margin-top: 25%;
   }
+    .shapka button {
+        /*font-size: 130%;*/
+        width: 40%;
+    }
+
 }
 
 @media only screen and (max-width: 1000px){
-  .prvt {
+  .acc, .acc2 {
     margin-top: 30%;
   }
+    .acc2 {
+        margin-left: 5px;
+    }
   .prvt h2, .prvt h3 {
-    font-size: 50px;
+    font-size: 40px;
+  }
+  .shapka button {
+      margin-left: 0;
+      width: 45%;
+  }
+  .order {
+      width: 90%;
   }
 }
 
 @media only screen and (max-width: 790px){
-  .prvt {
+  .acc {
     margin-top: 55%;
   }
+    .acc2 {
+        margin-top: 40%;
+    }
   .prvt h2, .prvt h3 {
     font-size: 30px;
   }
+  .shapka button {
+      font-size: 130%;
+      margin-top: -20%;
+  }
+  .prvt h2{
+        margin-top: 10%;
+    }
+  .prvt button {
+        margin-top: 20px;
+    }
+}
+
+@media only screen and (max-width: 640px){
+    .shapka button {
+        width: 48%;
+        font-size: 105%;
+    }
+    .order {
+        width: 100%;
+    }
+    .shapka {
+        /*margin-bottom: 10px;*/
+        margin-left: -40px;
+        /*position: relative;*/
+        /*margin-top: 10%;*/
+        /*margin-left: auto;*/
+    }
 }
 
 @media only screen and (max-width: 500px){
-  .prvt {
+  .acc {
     margin: 55% 0 0 0;
-     text-align: center
+     /*text-align: center*/
   }
+    .acc2 {
+        margin: 55% 0 0 0;
+        margin-bottom: 100px;
+    }
+    .prvt h2{
+        margin-top: 20%;
+    }
 
   .prvt h2, .prvt h3 {
       font-size: 25px;
@@ -115,4 +213,14 @@
   .prvt u {
         font-size: 25px;
     }
+    .shapka button {
+        margin-top: -10%;
+        font-size: 90%;
+    }
+    .shapka {
+        margin-left: 0;
+    }
+    /*.prvt button {*/
+    /*    margin-top: 20px;*/
+    /*}*/
 }

@@ -11,13 +11,17 @@
         <div class="abs_basket">
             {% for el in products %}
                 <div class="assortment">
-                    <img src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">
+                    <img class="img-main" src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">
 
                      <dialog id="dialog-{{ el.id }}" class="dialog_menu">
+                         <img data-id="{{ el.id }}" id="img-{{ el.id }}" style="margin-top: 12px" class="dialog-img" src="{% static 'news/' %}{{ el.image }}">
                          <h2>{{ el.title }}</h2>
                          <p>{{ el.additional_info }}</p>
                         <p></p>
                         <button onclick="closeDialog('{{ el.id }}')" aria-label="close" class="x">❌</button>
+                         <button id="dialog_delete-to-cart-{{ el.id }}" class="btn btn-danger" onclick="removeFromCart('{{ el.id }}')">
+                            <span class="text_out1"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Из корзины</a></span>
+                        </button>
                      </dialog>
 
                     <div class="text_block">
@@ -70,33 +74,50 @@
     {% endif %}
 
 
-    <form id="order-form" method="post" action="{% url 'order' %}">
-        {% csrf_token %}
-        <div id="popup" class="popup">
-          <div class="popup-content">
-            <h2>Индекс доставки</h2>
-            <p>Введите почтовый индекс, куда отправлять заказ </p>
-            <input type="text" id="index" name="index">
-            <input type="text" id="link_form" value="" name="link" style="display: none">
-              <p id="p_err" class="error_form_popup"></p>
-            <button type="submit" class="btn btn-success" id="pay">Заказать</button>
-            <button onclick="closePopup()" type="button" class="btn btn-danger">Отмена</button>
-          </div>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <form id="order-form" method="post" action="{% url 'order' %}">
+                {% csrf_token %}
+                <h2>Индекс доставки</h2>
+                <p>Введите почтовый индекс, куда отправлять заказ </p>
+                <input type="text" id="index" name="index">
+                <input type="text" id="link_form" value="" name="link" style="display: none">
+                  <p id="p_err" class="error_form_popup"></p>
+
+                <button type="submit" class="btn btn-success" id="pay" disabled>Заказать</button>
+                <button onclick="closePopup()" type="button" class="btn btn-danger">Отмена</button>
+            </form>
         </div>
-    </form>
+    </div>
 
     <div id="imageModal" class="modal">
       <span class="close" onclick="closeImageModal()">&times;</span>
       <img id="modalImage" src="">
     </div>
 
-
 <script>
 const click_div = document.querySelectorAll('.assortment');
 const increaseBtns = document.querySelectorAll('.increase-btn');
 const decreaseBtns = document.querySelectorAll('.decrease-btn');
 let totalPrice = 0;
-// let totalPrice = 0;
+
+let flag = false;
+const form = document.getElementById('order-form');
+const indexField = document.getElementById('index');
+const submitButton = document.getElementById('pay');
+
+document.addEventListener('DOMContentLoaded', function() {
+  indexField.addEventListener('input', function() {
+    submitButton.disabled = ((this.value.trim() === '') || (!flag));
+  });
+  //Можно добавить проверку на наличие других необходимых полей, чтобы убедиться, что форма готова к отправке
+  form.addEventListener('submit', function(event){
+    if(indexField.value.trim() === ''){
+      event.preventDefault();
+      alert('Заполните поле "Индекс"');
+    }
+  });
+});
 
 click_div.forEach(function(div) {
     div.addEventListener('click', function(event) {
@@ -231,6 +252,7 @@ function handleQuantityChange(event) {
         if (productCard) {
             productCard.remove();
        }
+        updateCartData();
     } else if (parseInt(event.target.max) >= parseInt(event.target.value)){
         updateCartData();
     } else if (parseInt(event.target.max) < parseInt(event.target.value)){
@@ -270,9 +292,15 @@ function openPopup(username, summa, name, info, id) {
         .then(response => response.json())
         .then(data => {
             console.log(data.link);
+            flag = true;
+            submitButton.disabled = ((indexField.value.trim() === '') || (!flag));
+            // let condition = index.value.trim() === "";
+            // if (!condition) {
+            //     submitButton.disabled = false;
+            // }
             document.getElementById("pay").onclick = function () {
                 link.value = data.link;
-                location.href = data.link;
+                // location.href = data.link;
             };
         })
         .catch(error => {

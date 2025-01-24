@@ -3,6 +3,7 @@
 
 {% block css %}
     <link rel="shortcut icon" href="{%  static 'base/img/ass.png' %}">
+<!--    <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>-->
 {% endblock %}
 
 {% block content %}
@@ -53,7 +54,7 @@
                 {% if el.quantity > 0 %}
                     <div class="assortment">
 <!--                        <img src="/media/{{el.image}}" onclick="openImage('/media/{{el.image}}')">-->
-                        <img src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">
+                        <img class="img-main" src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">
 
     <!--                     <dialog id="dialog-{{ el.id }}" class="dialog_menu">-->
     <!--                            <h2>{{ el.title }}</h2>-->
@@ -61,9 +62,26 @@
     <!--                            <button onclick="closeDialog('{{ el.id }}')">X</button>-->
     <!--                     </dialog>-->
                         <dialog id="dialog-{{ el.id }}" class="dialog_menu">
+                            <img data-id="{{ el.id }}" id="img-{{ el.id }}" style="margin-top: 10px" class="dialog-img" src="{% static 'news/' %}{{ el.image }}">
                              <h2>{{ el.title }}</h2>
                              <p>{{ el.additional_info }}</p>
                             <p></p>
+                            {% if not request.user.is_authenticated %}
+                                <a href="{% url 'register' %}"><button class="btn btn-success">
+                                    <span class="text_in1">В корзину</span>
+                                    <span class="text_in2"><img src="/media/svg_ico/cart-plus.svg"></span>
+                                </button></a>
+                            {% elif el.id not in products_itog %}
+                                <button id="dialog_add-to-cart-{{ el.id }}" class="btn btn-success" onclick="addToCart('{{ el.id }}')">
+                                    <span class="text_in1" id="dialog_2span_add-to-cart-{{ el.id }}">В корзину</span>
+                                    <span class="text_in2" id="dialog_span_add-to-cart-{{ el.id }}"><img src="/media/svg_ico/cart-plus.svg"></span>
+                                </button>
+                            {% else %}
+                                <button id="dialog_delete-to-cart-{{ el.id }}" class="btn btn-danger" name="{{ el.id }}" onclick="removeFromCart('{{ el.id }}')">
+                                    <span class="text_out1" id="dialog_2span_delete-to-cart-{{ el.id }}">Из корзины</span>
+                                    <span class="text_out2" id="dialog_span_delete-to-cart-{{ el.id }}"><img src="/media/svg_ico/cart-dash.svg"></span>
+                                </button>
+                            {% endif %}
                             <button onclick="closeDialog('{{ el.id }}')" aria-label="close" class="x">❌</button>
                         </dialog>
 
@@ -93,7 +111,6 @@
                                             <span class="text_out2" id="span_delete-to-cart-{{ el.id }}"><img src="/media/svg_ico/cart-dash.svg"></span>
                                         </button>
                                     {% endif %}
-
                                     <div class="quantity_product_a" data-id="{{ el.id }}" id="product-card" quantity="{{ el.quantity }}">
                                           <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
                                           <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="{{el.quantity}}" data-product-id="{{ el.id }}">
@@ -179,13 +196,64 @@
     </div>
 
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 <script>
 
 
 const click_div = document.querySelectorAll('.assortment');
 const increaseBtns = document.querySelectorAll('.increase-btn');
+const dialog_increaseBtns = document.querySelectorAll('.dialog_increase-btn');
 const decreaseBtns = document.querySelectorAll('.decrease-btn');
+const modal = document.getElementById('modalImage'); // ID вашего модального окна
+const modalImages = document.querySelectorAll('.dialog-img');
+const counter_input = document.querySelectorAll('.counter-input');
+
+counter_input.forEach(function (input) {
+    console.log(input.value);
+    if (parseInt(input.value) === 0){
+        const div_ = input.parentNode;
+        div_.style.display = "none";
+    }
+})
+
+// Функция для инициализации Hammer.js для изображения
+// function initImageZoom(image, imgID) {
+//     var image = $(imgID);
+//     var wrap = $(wrapperID);
+//     var  width = image.width();
+//     var  height = image.height();
+//     var  newX = 0;
+//     var  newY = 0;
+//     var  offset = wrap.offset();
+//
+//     $(imgID).hammer().on("pinch", function(event) {
+//         var photo = $(this);
+//         newWidth = photo.width() * event.gesture.scale;
+//         newHeight = photo.height() * event.gesture.scale;
+//         // Convert from screen to image coordinates
+//         var x;
+//         var y;
+//         x -= offset.left + newX;
+//         y -= offset.top + newY;
+//         newX += -x * (newWidth - width) / newWidth;
+//         newY += -y * (newHeight - height) / newHeight;
+//         photo.css('-webkit-transform', "scale3d("+event.gesture.scale+", "+event.gesture.scale+", 1)");
+//         wrap.css('-webkit-transform', "translate3d("+newX+"px, "+newY+"px, 0)");
+//         width = newWidth;
+//         height = newHeight;
+//     });
+//
+//
+// }
+// // Инициализируем обработчики жестов для каждого изображения
+// modalImages.forEach(image => {
+//     console.log(image);
+//     id_ = image.getAttribute('data-id');
+//   initImageZoom(image, `id-${id_}`);
+//   // console.log(image);
+// });
+
+
 
 click_div.forEach(function(div) {
     div.addEventListener('click', function(event) {
@@ -211,8 +279,10 @@ increaseBtns.forEach(function(btn) {
         if (parseInt(counterInput.value) == 0) {
             addToCart(productId);
         }
-        counterInput.value = parseInt(counterInput.value) + 1;
-        updateCartData();
+        else {
+            counterInput.value = parseInt(counterInput.value) + 1;
+            updateCartData();
+        }
         }
 
   });
@@ -236,11 +306,12 @@ decreaseBtns.forEach(function(btn) {
 
 // Обработчик события изменения количества товара в input
 function handleQuantityChange(event) {
+    const productId = event.target.closest('#product-card').getAttribute('data-id');
     if (parseInt(event.target.value) === 0){
-        const productId = event.target.closest('#product-card').getAttribute('data-id');
         removeFromCart(productId);
     } else if (parseInt(event.target.max) >= parseInt(event.target.value)){
         updateCartData();
+        // addToCart(productId, event.target.value);
     } else if (parseInt(event.target.max) < parseInt(event.target.value)){
         const id_input = event.target.closest('#product-card').getAttribute('data-id');
         const input = event.target.closest(`#input_${id_input}`)
@@ -259,31 +330,52 @@ counterInputs.forEach(input => {
 
 function updateCartData() {
     const counterInputs = document.querySelectorAll('.counter-input');
-
+    console.log('{{request.user.is_authenticated}}');
     let requests = [];
 
     counterInputs.forEach(input => {
         const productId = input.dataset.productId;
         const quantity = input.value;
+        let flag = true;
 
         if (quantity != 0){
             // Создаем асинхронный запрос на сервер и добавляем его в массив запросов
-            let request = fetch('/update_cart/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': "{{ csrf_token }}"
-            },
-            body: JSON.stringify({
-                'product_id': productId,
-                'quantity': quantity
-            })
-        })
-        .catch(error => {
-            console.error('Ошибка при обновлении корзины:', error);
-        });
 
-        requests.push(request);
+            let is_bsk = fetch('/is_basket/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': "{{ csrf_token }}"
+                },
+                body: JSON.stringify({
+                    'product_id': productId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data['is'] === 'false'){
+                    addToCart(productId, quantity);
+                    flag = false;
+                }
+            })
+            if (flag) {
+                let request = fetch('/update_cart/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': "{{ csrf_token }}"
+                    },
+                    body: JSON.stringify({
+                        'product_id': productId,
+                        'quantity': quantity
+                    })
+                })
+                .catch(error => {
+                    console.error('Ошибка при обновлении корзины:', error);
+                });
+
+                requests.push(request);
+            }
         }
 
     });
@@ -335,7 +427,7 @@ function closeDialog(dialogId) {
 }
 
 
-function addToCart(productId) {
+function addToCart(productId, quantity_='1') {
     fetch('/add_to_cart/', {
         method: 'POST',
         headers: {
@@ -343,46 +435,62 @@ function addToCart(productId) {
             'X-CSRFToken': "{{ csrf_token }}"
         },
         body: JSON.stringify({
-            'product_id': productId
+            'product_id': productId,
+            'quantity': quantity_
         })
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Товар добавлен в корзину:', data);
-        // Здесь можно выполнить дополнительные действия после добавления товара в корзину
+        // console.log('Товар добавлен в корзину:', data);
 
          const addToCartButton = document.getElementById(`add-to-cart-${productId}`);
+         const dialog_addToCartButton = document.getElementById(`dialog_add-to-cart-${productId}`);
          const addToCartSpan = document.getElementById(`span_add-to-cart-${productId}`);
+         const dialog_addToCartSpan = document.getElementById(`dialog_span_add-to-cart-${productId}`);
          const addToCart2Span = document.getElementById(`2span_add-to-cart-${productId}`);
+         const dialog_addToCart2Span = document.getElementById(`dialog_2span_add-to-cart-${productId}`);
          const quantity = document.getElementById(`input_${productId}`);
+         const div_input = quantity.parentNode;
+
+         div_input.style.display = "flex";
 
          const windowInnerWidth = window.innerWidth;
          if (windowInnerWidth <= 706){
-             const element = document.querySelector(`[data-id='${productId}']`);
-             element.style.display = "block";
+             // const element = document.querySelector(`[data-id='${productId}']`);
+             div_input.style.display = "block";
          }
 
          addToCartSpan.innerHTML = '<img src="/media/svg_ico/cart-dash.svg">';
          addToCartSpan.id = 'span_delete-to-cart-' + productId;
          addToCartSpan.className = 'text_out2';
-         quantity.value = '1';
-         // }
-         // else{
-        // console.log(addToCart2Span);
-        // console.log();
+
+         dialog_addToCartSpan.innerHTML = '<img src="/media/svg_ico/cart-dash.svg">';
+         dialog_addToCartSpan.id = 'dialog_span_delete-to-cart-' + productId;
+         dialog_addToCartSpan.className = 'text_out2';
+
+         quantity.value = quantity_;
+
          addToCart2Span.textContent = 'Из корзины';
          addToCart2Span.id = '2span_delete-to-cart-' + productId;
          addToCart2Span.className = 'text_out1';
+
+         dialog_addToCart2Span.textContent = 'Из корзины';
+         dialog_addToCart2Span.id = 'dialog_2span_delete-to-cart-' + productId;
+         dialog_addToCart2Span.className = 'text_out1';
+
          // }
         // Изменить метод onclick на функцию removeFromCart()
         addToCartButton.onclick = function() {
             removeFromCart(productId);
         };
-
         addToCartButton.id = 'delete-to-cart-' + productId;
-
         addToCartButton.className = "btn btn-danger";
-        console.log(addToCartButton);
+
+        dialog_addToCartButton.onclick = function() {
+            removeFromCart(productId);
+        };
+        dialog_addToCartButton.id = 'dialog_delete-to-cart-' + productId;
+        dialog_addToCartButton.className = "btn btn-danger";
 
     })
     .catch(error => {
@@ -406,9 +514,16 @@ function removeFromCart(productId) {
 
     // Найдите кнопку "Убрать из корзины" по ее уникальному ID
     const removeFromCartButton = document.getElementById(`delete-to-cart-${productId}`);
+    const dialog_removeFromCartButton = document.getElementById(`dialog_delete-to-cart-${productId}`);
      const removeFromCartSpan = document.getElementById(`span_delete-to-cart-${productId}`);
+     const dialog_removeFromCartSpan = document.getElementById(`dialog_span_delete-to-cart-${productId}`);
      const removeFromCart2Span = document.getElementById(`2span_delete-to-cart-${productId}`);
+     const dialog_removeFromCart2Span = document.getElementById(`dialog_2span_delete-to-cart-${productId}`);
      const quantity = document.getElementById(`input_${productId}`);
+     const div_input = quantity.parentNode;
+
+     div_input.style.display = "none";
+
      const windowInnerWidth = window.innerWidth;
      if (windowInnerWidth <= 706){
          const element = document.querySelector(`[data-id='${productId}']`);
@@ -417,21 +532,33 @@ function removeFromCart(productId) {
      removeFromCartSpan.innerHTML = '<img src="/media/svg_ico/cart-plus.svg">';
      removeFromCartSpan.id = 'span_add-to-cart-' + productId;
      removeFromCartSpan.className = 'text_in2';
-     // }
-     // else{
+
+     dialog_removeFromCartSpan.innerHTML = '<img src="/media/svg_ico/cart-plus.svg">';
+     dialog_removeFromCartSpan.id = 'dialog_span_add-to-cart-' + productId;
+     dialog_removeFromCartSpan.className = 'text_in2';
+
      removeFromCart2Span.textContent = 'В корзину';
      removeFromCart2Span.id = '2span_add-to-cart-' + productId;
      removeFromCart2Span.className = 'text_in1';
+
+     dialog_removeFromCart2Span.textContent = 'В корзину';
+     dialog_removeFromCart2Span.id = 'dialog_2span_add-to-cart-' + productId;
+     dialog_removeFromCart2Span.className = 'text_in1';
+
      quantity.value = '0';
-     // }
 
     removeFromCartButton.className = "btn btn-success";
     removeFromCartButton.id = 'add-to-cart-' + productId;
-
-    // Изменить метод onclick на функцию addToCart()
     removeFromCartButton.onclick = function() {
         addToCart(productId);
     };
+
+    dialog_removeFromCartButton.className = "btn btn-success";
+    dialog_removeFromCartButton.id = 'dialog_add-to-cart-' + productId;
+    dialog_removeFromCartButton.onclick = function() {
+        addToCart(productId);
+    };
+
 }
 
 

@@ -1,5 +1,5 @@
 from .models import Products
-from shop.search import client
+# from shop.search import client
 from django.contrib import admin
 
 from users.models import Basket
@@ -10,10 +10,10 @@ class ProductsAdmin(admin.ModelAdmin):
         # Удаление товара из opensearch
         try:
             for _id in [int(el.id) for el in queryset]:
-                client.delete_product(
-                    index='search_products',
-                    id=_id
-                )
+                # client.delete_product(
+                #     index='search_products',
+                #     id=_id
+                # )
                 Basket.objects.filter(id_product=_id).delete()
                 print(f"SUCCESS DELETED PRODUCT {_id} ADMIN")
         except Exception as e:

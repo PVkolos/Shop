@@ -199,6 +199,7 @@
 }
 
 .assortment {
+    border-radius: 20px;
     position:relative;
     margin-right: 15px;
   display: inline-block;
@@ -355,7 +356,8 @@
   float: center;
 }
 
-.assortment img{
+.img-main{
+    border-radius: 5%;
   width: 100%;
   float: center;
     height: auto;
@@ -372,7 +374,7 @@
 .text_block h3 {
     font-size: 17px;
   font-weight: bold;
-  width: 65%;
+  /*width: 65%;*/
   word-wrap: break-word; /* Переносит слова на новую строку по необходимости */
   overflow-wrap: break-word; /* Переносит слова, если они слишком длинные */
     overflow: hidden;
@@ -545,6 +547,10 @@
   padding: 0;
 }
 
+.dialog-img{
+    width: 500px;
+    height: auto;
+}
 
 .div_menu_list li:hover > ul{
   display: block;
@@ -715,6 +721,7 @@
     .price_mobile {
         display: block;
         margin: 0;
+        margin-top: -10px;
     }
 
     #info {
@@ -748,7 +755,7 @@
         color: white;
     }
 
-    .assortment img {
+    .img-main {
       display: block;
       width: 100%;
       height: 150px; /* Статическая высота */
