@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
+from users.models import Basket
 from .models import Products
 
 def news_home(request):
     products = Products.objects.all()
-    return render(request, 'news/news_home.html', {'products': products})
+    all_quantity = len(list(Basket.objects.filter(username=request.user.username)))
+    return render(request, 'news/news_home.html', {'all_q': all_quantity, 'products': products})
 
 
 def add_product(request):
@@ -13,8 +15,10 @@ def add_product(request):
         price = request.POST['price']
         additional_info = request.POST['additional_info']
         image = request.FILES['image']
-        category = request.POST['category']
+        category = request.POST.getlist('category')
         quantity = request.POST['quantity']
+
+        category = "-=-".join(category)
 
         if image.name.split('.')[-1] in ['jpg', 'jpeg', 'png']:
             product = Products(title=title, price=price, additional_info=additional_info, image='images/' + image.name, category=category, quantity=quantity)

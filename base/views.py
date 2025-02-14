@@ -15,11 +15,13 @@ from django.db.models import Q
 
 
 def index(request):
-    return render(request, 'base/index.html', {'active_b': 'index'})
+    all_quantity = len(list(Basket.objects.filter(username=request.user.username)))
+    return render(request, 'base/index.html', {'all_q': all_quantity, 'active_b': 'index'})
 
 
 def about(request):
-    return render(request, 'base/about.html', {'active_b': 'about'})
+    all_quantity = len(list(Basket.objects.filter(username=request.user.username)))
+    return render(request, 'base/about.html', {'all_q': all_quantity, 'active_b': 'about'})
 
 
 # def search_on(request, query):
@@ -47,16 +49,17 @@ def assortment(request):
         products = response.copy()
         products_all = response.copy()
     else:
-        category = request.GET.get("category", "Все товары")
+        category = request.GET.get("category", "Новинки 2025")
         products_all = Products.objects.all()
         products = []
         for product in products_all:
-            if product.category == category or category == 'Все товары':
+            if (category.strip() in product.category.split("-=-")) or category == 'Все товары':
                 products.append(product)
         flag = 'false'
 
     products_ = list(Basket.objects.filter(username=request.user.username))
     products_itog = []  # id товаров из корзины
+
     for el in products_: # Перебираем все продукты из корзины пользователя
         try:
             product_user = Products.objects.get(id=el.id_product) # Достаем данные о товаре из общей таблицы
@@ -67,18 +70,20 @@ def assortment(request):
                 if Basket.objects.filter(username=user, id_product=el.id_product).exists():
                     Basket.objects.filter(id_product=el.id_product, username=user).delete()
                 print("ERR: views.py assortment. Вероятно, товар быд удален")
+    all_quantity = len(products_itog)
     for el in products_all:
         if el.id in products_itog:
             item = Basket.objects.filter(id_product=el.id, username=request.user.username)[0]
             el.quantity_basket = item.quantity
-            print(11, el.title, item.quantity)
+            # all_quantity += item.quantity
         else:
             el.quantity_basket = 0
-    return render(request, 'base/assortment.html', {'flag': flag, 'products': products, 'category': category, 'products_itog': products_itog, 'active_b': 'assortment'})
+    return render(request, 'base/as3.html', {'all_q': all_quantity, 'flag': flag, 'products': products, 'category': category, 'products_itog': products_itog, 'active_b': 'assortment'})
 
 
 def contacts(request):
-    return render(request, 'base/contacts.html', {'active_b': 'contacts'})
+    all_quantity = len(list(Basket.objects.filter(username=request.user.username)))
+    return render(request, 'base/contacts.html', {'all_q': all_quantity, 'active_b': 'contacts'})
 
 
 def basket(request):
@@ -98,8 +103,9 @@ def basket(request):
                     Basket.objects.filter(id_product=el.id_product, username=user).delete()
                 print("ERR: views.py assortment. Вероятно, товар быд удален")
     # if not products_itog: products_itog = None
+    all_quantity = len(products_itog)
     return render(request, 'base/basket.html',
-                  {'products_id': products_id, 'products': products_itog, 'active_b': 'basket',
+                  {'all_q': all_quantity, 'products_id': products_id, 'products': products_itog, 'active_b': 'basket',
                    'number': sum([el.quantity_basket for el in products_itog]), 'summa': round(sum(el.price * el.quantity_basket for el in products_itog), 2)})
 
 

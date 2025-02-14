@@ -21,6 +21,13 @@
 
     <title>{% block title %} {% endblock %}</title>
 
+    <style>
+        body{
+            /*cursor: url("{% static 'base/img/wing.cur' %}"), none;*/
+            cursor: grab;
+        }
+    </style>
+
 
 </head>
 <body background="{% static 'base/img/bg.webp' %}" >
@@ -40,7 +47,10 @@
                         <li><a href="{% url 'register' %}"><i class="fas fa-shopping-cart" style="display: none;"></i>Корзина</a></li>
                         <li><a href="{% url 'register' %}"><i class="fas fa-user" style="display: none;"></i>Личный кабинет</a></li>
                     {% else %}
-                        <li><a class="link {% if active_b == 'basket' %}active{%endif%}" href="{% url 'basket' %}"><i class="fas fa-shopping-cart" style="display: none;"></i>Корзина</a></li>
+                        <div class="bskt">
+                            <b id="all_q">{{ all_q }}</b>
+                            <li><a class="link {% if active_b == 'basket' %}active{%endif%}" href="{% url 'basket' %}"><i class="fas fa-shopping-cart" style="display: none;"></i>Корзина</a></li>
+                        </div>
                         <li><a class="link {% if active_b == 'private' %}active{%endif%}" href="{% url 'private' %}"><i class="fas fa-user" style="display: none;"></i>Личный кабинет</a></li>
                         {% if user.is_superuser %}
                             <li><a href="{% url 'news_home' %}" class="link"><i class="bi bi-bag-plus-fill"></i></a></li>
@@ -62,7 +72,10 @@
                 <li class="mobile_li"><a href="{% url 'register' %}"><i class="fas fa-shopping-cart"></i></a></li>
                 <li class="mobile_li"><a href="{% url 'register' %}"><i class="fas fa-user"></i></a></li>
             {% else %}
-                <li class="mobile_li"><a class="link {% if active_b == 'basket' %}active{%endif%}" href="{% url 'basket' %}"><i class="fas fa-shopping-cart"></i></a></li>
+                <div class="bskt_mobile" id="bskt_mobile" style="height: 0; margin-top: -23px;">
+                    <b id="all_q_mobile" style="color: white; position: relative; top: 20px; left: 30px;">{{ all_q }}</b>
+                    <li class="mobile_li"><a class="link {% if active_b == 'basket' %}active{%endif%}" href="{% url 'basket' %}"><i class="fas fa-shopping-cart"></i></a></li>
+                </div>
                 <li class="mobile_li"><a class="link {% if active_b == 'private' %}active{%endif%}" href="{% url 'private' %}"><i class="fas fa-user"></i></a></li>
             {% if user.is_superuser %}
                     <li class="mobile_li"><a href="{% url 'news_home' %}" class="link"><i class="bi bi-bag-plus-fill"></i></a></li>

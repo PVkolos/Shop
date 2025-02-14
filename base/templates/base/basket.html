@@ -26,28 +26,28 @@
 
                     <div class="text_block">
                         <h3 class='title_desktop' style="">{{ el.title }}</h3><br>
-                        <h4 class='price_mobile'>{{ el.price }}</h4>
+                        <h4 class='price_mobile'>{{ el.price }} ₽/шт</h4>
                         <h3 class='title_mobile'>{{ el.title }}</h3>
-                        <h4 class="price">Цена: {{ el.price }}</h4>
+                        <h4 class="price">Цена: {{ el.price }} ₽/шт</h4>
                         <h5 class="nail_desktop">В наличии: {{ el.quantity }}</h5>
                         <h5 class="nail_mobile">В наличии: {{ el.quantity }}</h5>
                         <div class="button_asort" style="">
                             <button class="btn btn-info" id="info" onclick="openDialog('{{ el.id }}')">
                                 <span class="text_about1">Описание</span>
                             </button>
-                            <button id="delete-to-cart-{{ el.id }}" class="btn btn-danger" onclick="removeFromCart('{{ el.id }}')">
-                                <span class="text_out1"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Из корзины</a></span>
+                            <button id="delete-to-cart-{{ el.id }}" class="btn btn-danger" onclick="removeFromCart('{{ el.id }}')" style="">
+                                <span class="text_out1"><a href="{% url 'delete_to_cart_basket' %}?id={{ el.id }}">Удалить из корзины</a></span>
                             </button>
                             <div class="quantity_product_a" data-id="{{ el.id }}" id="product-card" quantity="{{ el.quantity }}">
-                              <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
-                              <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="{{ el.quantity }}" data-product-id="{{ el.id }}">
                               <button class="decrease-btn"><i class="bi bi-dash-lg"></i></button>
+                              <input id='input_{{ el.id }}' type="number" class="counter-input" value="{{ el.quantity_basket }}" min="1" max="{{ el.quantity }}" data-product-id="{{ el.id }}">
+                              <button class="increase-btn"><i class="bi bi-plus-lg"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
-            <div class="zat" style="height: 500px; width: 0; right: 0;"></div>
+<!--            <div class="zat" style="height: 500px; width: 0; right: 0;"></div>-->
         </div>
         <div class="bask">
             <div class="pad_text_basket">
@@ -100,7 +100,6 @@ const click_div = document.querySelectorAll('.assortment');
 const increaseBtns = document.querySelectorAll('.increase-btn');
 const decreaseBtns = document.querySelectorAll('.decrease-btn');
 let totalPrice = 0;
-
 let flag = false;
 const form = document.getElementById('order-form');
 const indexField = document.getElementById('index');
@@ -154,13 +153,11 @@ decreaseBtns.forEach(function(btn) {
 
     const counterInput = btn.parentNode.querySelector('.counter-input');
     if (parseInt(counterInput.value) > parseInt(counterInput.min)) {
-        console.log(1, counterInput.value);
         counterInput.value = parseInt(counterInput.value) - 1;
         updateCartData();
     }
     else if (parseInt(counterInput.value) === (parseInt(counterInput.min))){
         const productId = btn.closest('#product-card').getAttribute('data-id');
-        console.log(2, counterInput.value);
         counterInput.value = parseInt(counterInput.value) - 1;
         updateCartData();
         removeFromCart(productId);
@@ -184,6 +181,11 @@ function removeFromCart(productId) {
             'product_id': productId
         })
     })
+
+    const all_q = document.getElementById(`all_q`);
+    const all_q_mobile = document.getElementById(`all_q_mobile`);
+    all_q.innerHTML = parseInt(all_q.innerHTML, 10) - 1;
+    all_q_mobile.innerHTML = parseInt(all_q_mobile.innerHTML, 10) - 1;
 }
 
     // Функция для обновления данных о корзине
@@ -193,6 +195,7 @@ function updateCartData() {
     const totalPriceElement = document.querySelector('.total-price');
     const totalQuantityElement2 = document.querySelector('.total-q');
     const totalPriceElement2 = document.querySelector('.total-p');
+
 
     let requests = [];
     let totalQuantity = 0;

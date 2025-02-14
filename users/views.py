@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView
 from .forms import RegisterUserForm, LoginUserForm
 from django.contrib.auth import get_user_model
 from payment.models import Orders
+from users.models import Basket
 from django.utils.html import mark_safe
 
 
@@ -35,7 +36,8 @@ class RegisterUser(DataMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Регистрация")
+        all_quantity = len(list(Basket.objects.filter(username=self.request.user.username)))
+        c_def = self.get_user_context(title="Регистрация", all_q=all_quantity, active_b='private')
         return dict(list(context.items()) + list(c_def.items()))
 
     # def form_invalid(self, form):
@@ -46,7 +48,7 @@ class RegisterUser(DataMixin, CreateView):
         email = form.cleaned_data.get('email')
         if get_user_model().objects.filter(email=email).exists():
             form.add_error('email', 'Такая почта уже зарегистрирована. Выберете другую почту или войдите в существующий аккаунт.')
-            return render(self.request, 'users/register.html', {'form': form})
+            return render(self.request, 'users/register.html', {'form': form, 'all_q': len(list(Basket.objects.filter(username=self.request.user.username))), 'active_b': 'private'})
         else:
             user = form.save()
             login(self.request, user)
@@ -59,16 +61,23 @@ class LoginUser(DataMixin, LoginView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Авторизация")
+        all_quantity = len(list(Basket.objects.filter(username=self.request.user.username)))
+        c_def = self.get_user_context(title="Авторизация", all_q=all_quantity, active_b='private')
         return dict(list(context.items()) + list(c_def.items()))
 
+    # def form_invalid(self, form):
+    #     from django.contrib import messages
+    #     # Отображение пользовательского сообщения об ошибке
+    #     messages.error(self.request, "Неверное имя пользователя или пароль.")
+    #     return super().form_invalid(form)
 
     def get_success_url(self):
         return reverse_lazy('home')
 
 
 def private_office(request):
-    return render(request, 'users/private_office.html', {'active_b': 'private'})
+    all_quantity = len(list(Basket.objects.filter(username=request.user.username)))
+    return render(request, 'users/private_office.html', {'all_q': all_quantity, 'active_b': 'private'})
 
 
 def orders(request):
@@ -89,4 +98,5 @@ def orders(request):
             # order.description = '\n'.join(order.description.split('\n')[1:])
         except Exception as e:
             pass
-    return render(request, 'users/orders.html', {'active_b': 'private', 'orders': orders_})
+    all_quantity = len(list(Basket.objects.filter(username=request.user.username)))
+    return render(request, 'users/orders.html', {'all_q': all_quantity, 'active_b': 'private', 'orders': orders_[::-1]})

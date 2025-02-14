@@ -30,7 +30,7 @@
                         <div class="form-additional_info">
                                         <div class="flex-container">
                                                 <label class="required" for="id_additional_info">Описание товара:</label>
-                                                    <textarea name="additional_info" cols="40" rows="5" class="vLargeTextField" required="" id="id_additional_info"></textarea>
+                                                    <textarea name="additional_info" cols="40" rows="2" class="vLargeTextField" required="" id="id_additional_info"></textarea>
                                         </div>
                         </div>
                         <div class="form-photo_products">
@@ -42,23 +42,136 @@
                         <div class="form-category">
                             <div class="flex-container">
                                 <label class="required" for="id_category">Категория:</label>
-                                <select name="category" required="" id="id_category">
-                                  <option value="" selected="">---------</option>
-                                  <option value="Пакеты">Пакеты</option>
-                                  <option value="Пластиковая одноразовая посуда">Пластиковая одноразовая посуда</option>
-                                  <option value="Бумажная одноразовая посуда">Бумажная одноразовая посуда</option>
-                                  <option value="Пластиковая упаковка">Пластиковая упаковка</option>
-                                  <option value="Бумажная упаковка">Бумажная упаковка</option>
-                                  <option value="Ланч боксы и лотки">Ланч боксы и лотки</option>
-                                  <option value="Пленка и скотч">Пленка и скотч</option>
-                                  <option value="Товары хоз назначения">Товары хоз назначения</option>
-                                  <option value="Монтажные летны">Монтажные летны</option>
-                                  <option value="Сезонные товары">Сезонные товары</option>
-                                  <option value="Продукты питания">Продукты питания</option>
-                                  <option value="Бытовая химия">Бытовая химия</option>
-                                  <option value="Подарочная упаковка">Подарочная упаковка</option>
-                                  <option value="Новогодняя продукция">Новогодняя продукция</option>
-                                  <option value="Канцелярские товары">Канцелярские товары</option>
+                                <select name="category" required="" id="id_category" multiple="multiple" size="10">
+
+                                  <option selected="" value="Новинки 2025">Новинки 2025</option>
+                                  <option value="Ланч-боксы и лотки">Ланч-боксы и лотки</option>
+                                  <option value="Автохимия и автокосметика">Автохимия и автокосметика</option>
+                                  <option value="Новинки от Grass">Новинки от Grass</option>
+                                  <option value="Уцененные товары">Уцененные товары</option>
+
+                                    <option disabled>Пакеты</option>
+                                  <option value="Фасовочные пакеты">Фасовочные пакеты</option>
+                                  <option value="Пакеты-Майка">Пакеты-Майка</option>
+                                  <option value="Мусорные пакеты">Мусорные пакеты</option>
+                                  <option value="Бумажные пакеты">Бумажные пакеты</option>
+                                  <option value="Пакеты с вырубленной ручкой">Пакеты с вырубленной ручкой</option>
+                                  <option value="Пакеты с петлевой ручкой">Пакеты с петлевой ручкой</option>
+                                  <option value="Пакеты Zip Lock и слайдеры">Пакеты Zip Lock и слайдеры</option>
+
+                                    <option disabled>Пластиковая одноразовая посуда</option>
+                                  <option value="Тарелки, креманки">Тарелки, креманки</option>
+                                  <option value="Столовые приборы">Столовые приборы</option>
+                                  <option value="Стаканы, чашки">Стаканы, чашки</option>
+                                  <option value="Контейнеры пластиковые">Контейнеры пластиковые</option>
+
+                                    <option disabled>Бумажная одноразовая посуда</option>
+                                  <option value="Бумажные тарелки">Бумажные тарелки</option>
+                                  <option value="Бумажные стаканы">Бумажные стаканы</option>
+                                  <option value="Суши палочки, зубочистки, размешиватели">Суши палочки, зубочистки, размешиватели</option>
+                                  <option value="Держатели, манжеты для стаканов">Держатели, манжеты для стаканов</option>
+
+                                    <option disabled>Пластиковая упаковка</option>
+                                  <option value="Ведра пищевые">Ведра пищевые</option>
+                                  <option value="Бутылки ПЭТ">Бутылки ПЭТ</option>
+                                  <option value="Упаковка для кондитерских изделий">Упаковка для кондитерских изделий</option>
+                                  <option value="Упаковка для салатов">Упаковка для салатов</option>
+                                  <option value="Тортницы">Тортницы</option>
+                                  <option value="Яйцебоксы">Яйцебоксы</option>
+
+                                    <option disabled>Бумажная упаковка</option>
+                                  <option value="Упаковка для кондитерских изделий">Упаковка для кондитерских изделий</option>
+                                  <option value="Подложки для торта">Подложки для торта</option>
+                                  <option value="Оберточная бумага">Оберточная бумага</option>
+                                  <option value="Коробки на вынос, картонные лотки">Коробки на вынос, картонные лотки</option>
+                                  <option value="Пакеты Дой-пак">Пакеты Дой-пак</option>
+
+                                    <option disabled>Упаковка фаст-фуд, суши</option>
+                                  <option value="Пакеты, коробки для фри">Пакеты, коробки для фри</option>
+                                  <option value="Суши и лапша (бумажные) WOK">Суши и лапша (бумажные) WOK</option>
+                                  <option value="Сэндвичи, бургеры, ролл">Сэндвичи, бургеры, ролл</option>
+                                  <option value="Соусники">Соусники</option>
+                                  <option value="Коробки для пиццы">Коробки для пиццы</option>
+
+                                    <option disabled>Пленка и скотч</option>
+                                  <option value="Пленка пищевая">Пленка пищевая</option>
+                                  <option value="Скотч">Скотч</option>
+                                  <option value="Пленка ПВХ">Пленка ПВХ</option>
+
+                                    <option disabled>Салфетки, полотенца, туалетная бумага</option>
+                                  <option value="Салфетки">Салфетки</option>
+                                  <option value="Полотенца">Полотенца</option>
+                                  <option value="Туалетная бумага">Туалетная бумага</option>
+                                  <option value="Влажные салфетки">Влажные салфетки</option>
+
+                                    <option disabled>Товары хоз назначения</option>
+                                  <option value="Тряпки, салфетки для уборки">Тряпки, салфетки для уборки</option>
+                                  <option value="Губки для посуды">Губки для посуды</option>
+                                  <option value="Средства индивидуальной защиты">Средства индивидуальной защиты</option>
+                                  <option value="Перчатки">Перчатки</option>
+                                  <option value="Ватные диски">Ватные диски</option>
+                                  <option value="Резинки для банкнот">Резинки для банкнот</option>
+                                  <option value="Крышки ПЭТ, металл">Крышки ПЭТ, металл</option>
+                                  <option value="Мешки ПП. сетка овощная">Мешки ПП. сетка овощная</option>
+                                  <option value="Дождевики-плащи">Дождевики-плащи</option>
+                                  <option value="Другие товары хоз назначения">Другие товары хоз назначения</option>
+
+                                    <option disabled>Товары для хранения и запекания</option>
+                                  <option value="Алюминиевые формы">Алюминиевые формы</option>
+                                  <option value="Бумажные формы для запекания">Бумажные формы для запекания</option>
+                                  <option value="Пергамент, бумага для выпечки">Пергамент, бумага для выпечки</option>
+                                  <option value="Рукав и пакеты для запекания">Рукав и пакеты для запекания</option>
+                                  <option value="Фольга алюминиевая">Фольга алюминиевая</option>
+                                  <option value="Вакуумные пакеты">Вакуумные пакеты</option>
+                                  <option value="Пакеты для гриля">Пакеты для гриля</option>
+                                  <option value="Мешки кондитерские">Мешки кондитерские</option>
+                                  <option value="Пакеты для льда и заморозки">Пакеты для льда и заморозки</option>
+                                  <option value="Термопакеты">Термопакеты</option>
+
+                                    <option disabled>Подарочная упаковка и товары для праздника</option>
+                                  <option value="Подарочные коробки">Подарочные коробки</option>
+                                  <option value="Упаковочная бумага и пленка">Упаковочная бумага и пленка</option>
+                                  <option value="Ленты">Ленты</option>
+                                  <option value="Прочие товары (под. упаковка и для праздника)">Прочие товары (под. упаковка и для праздника)</option>
+
+                                    <option disabled>Канцелярские товары</option>
+                                  <option value="Ценники">Ценники</option>
+                                  <option value="Накладные, товарные чеки">Накладные, товарные чеки</option>
+                                  <option value="Термоленты и термоэтикетки">Термоленты и термоэтикетки</option>
+                                  <option value="Чековая кассовая лента">Чековая кассовая лента</option>
+                                  <option value="Ручки, маркеры">Ручки, маркеры</option>
+                                  <option value="Прочие канцелярские товары">Прочие канцелярские товары</option>
+
+                                    <option disabled>Товары для сервировки</option>
+                                  <option value="Свечи">Свечи</option>
+                                  <option value="Скатерти">Скатерти</option>
+                                  <option value="Трубочки коктейль/шейк">Трубочки коктейль/шейк</option>
+                                  <option value="Пики деревянные для канапэ">Пики деревянные для канапэ</option>
+                                  <option value="Пики пластиковые для канапэ">Пики пластиковые для канапэ</option>
+
+                                    <option disabled>Новогодняя продукция</option>
+                                  <option value="Новогодние пакеты">Новогодние пакеты</option>
+                                  <option value="Новогодние пакеты бумажные">Новогодние пакеты бумажные</option>
+                                  <option value="Новогодние пакеты с пласт. ручкой">Новогодние пакеты с пласт. ручкой</option>
+                                  <option value="Новогодние коробки">Новогодние коробки</option>
+                                  <option value="Новогодние салфетки">Новогодние салфетки</option>
+                                  <option value="Новогодние стаканы">Новогодние стаканы</option>
+                                  <option value="Новогодние скатерти">Новогодние скатерти</option>
+
+                                    <option disabled>Бытовая химия</option>
+                                  <option value="Средства для мытья стекол">Средства для мытья стекол</option>
+                                  <option value="Средства для мытья полов">Средства для мытья полов</option>
+                                  <option value="Средства для кухни">Средства для кухни</option>
+                                  <option value="Средства для сантехники">Средства для сантехники</option>
+                                  <option value="Средства для мытья посуды">Средства для мытья посуды</option>
+                                  <option value="Освежитель, полироль">Освежитель, полироль</option>
+                                  <option value="Стиральные порошки">Стиральные порошки</option>
+                                  <option value="Кондиционеры для стирки">Кондиционеры для стирки</option>
+                                  <option value="Мыло">Мыло</option>
+                                  <option value="Шампунь, гель, крем">Шампунь, гель, крем</option>
+                                  <option value="Зубные пасты">Зубные пасты</option>
+                                  <option value="Средства от насекомых">Средства от насекомых</option>
+                                  <option value="Прочее для уборки и чистки">Прочее для уборки и чистки</option>
                                 </select>
                             </div>
                         </div>

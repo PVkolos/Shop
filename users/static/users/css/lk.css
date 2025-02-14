@@ -2,6 +2,10 @@
     margin: 15% 0 0 15%;
 }
 
+.acc2 {
+    margin-bottom: 100px;
+}
+
 .prvt h3, .prvt h2 {
     font-family: Comic Sans MS, Comic Sans, cursive;
   color: white;
@@ -152,21 +156,28 @@
   .order {
       width: 90%;
   }
+  .shapka {
+      margin-top: -140px;
+  }
 }
 
 @media only screen and (max-width: 790px){
-  .acc {
-    margin-top: 55%;
-  }
-    .acc2 {
-        margin-top: 40%;
+  /*.acc {*/
+  /*  margin-top: 55%;*/
+  /*}*/
+  /*  .acc2 {*/
+  /*      margin-top: 300px;*/
+  /*  }*/
+
+    .shapka {
+        margin-top: -100px;
     }
   .prvt h2, .prvt h3 {
     font-size: 30px;
   }
   .shapka button {
       font-size: 130%;
-      margin-top: -20%;
+      /*margin-top: -20%;*/
   }
   .prvt h2{
         margin-top: 10%;
@@ -188,7 +199,7 @@
         /*margin-bottom: 10px;*/
         margin-left: -40px;
         /*position: relative;*/
-        /*margin-top: 10%;*/
+        margin-top: -50px;
         /*margin-left: auto;*/
     }
 }
@@ -219,6 +230,7 @@
     }
     .shapka {
         margin-left: 0;
+        /*margin-top: -20px;*/
     }
     /*.prvt button {*/
     /*    margin-top: 20px;*/

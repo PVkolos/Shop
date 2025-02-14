@@ -1,3 +1,19 @@
+/*.but_new {*/
+/*    display: block;*/
+/*}*/
+
+.sublist {
+    display: none;
+    /*list-style-type: disc;*/
+    /*margin-left: 20px;*/
+}
+
+.sublist li {
+    font-weight: normal;
+}
+
+
+
 .title_mobile {
     display: none;
 }
@@ -29,27 +45,24 @@
     list-style: none;
 }
 
-.mobilebtn {
-    position: absolute;
-    margin: 300px 0 0 500px;
-}
-
-.but_mobile {
-    display: none;
-}
+/*.but_mobile {*/
+/*    display: none;*/
+/*}*/
 
 .mobilebtn a {
     text-decoration: none;
     font-size: 20px;
 }
 
+/*TODO*/
 .mobileUl ul li,
 .mobileUl ul a {
   color: black;
   margin-top: 10px;
   transition: transform .6s ease;
   text-decoration: none;
-  font-size: 30px;
+  font-size: 23px;
+    font-weight: bold;
 }
 
 .mobileUl li {
@@ -204,10 +217,10 @@
     margin-right: 15px;
   display: inline-block;
   clear: both;
-  width: 330px;
+  width: 280px;
   /*height: 400px;*/
     height: auto;
-    min-height: 400px;
+    min-height: 350px;
   padding: 5px;
   margin-bottom: 20px;
   /*background: rgb(2, 0, 36);*/
@@ -219,10 +232,12 @@
 }
 
 .abs {
-  margin-left: 450px;
-  margin-top: 150px;
+  /*margin-left: 450px;*/
+  margin-top: 50px;
+    margin-left: 0;
   /*position: absolute;*/
     margin-bottom: 100px;
+    transition: all 0.5s ease;
 
   justify-content: space-around;
   display: flex;
@@ -233,6 +248,7 @@
       margin-left: 324px;
       top: 35%;
       position: absolute;
+        width: calc(100% - 324px);
 
       justify-content: space-around;
       display: flex;
@@ -248,20 +264,33 @@
     color: white;
 }
 
+.mobilebtn {
+    /*overflow: hidden;*/
+    position: absolute;
+    /*margin: 300px 0 0 500px;*/
+    margin: 170px 0 0 5%;
+}
+
+
 .pad {
+    left: -524px;
   padding: 1%;
+    width: 524px;
   height: 100vh;
   color: #fff;
   border-right: 5px solid #4d4d4d;
+    transition: left 0.5s ease;
   font-weight: bold;
     position: fixed;
   top: 0;
-
+    background-color: #1b1b1b;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 
-.pad_text {
-  margin: 40% 0 20% 0;
-}
+/*.pad_text {*/
+/*    position: fixed;*/
+/*}*/
 
 .pad_text_basket {
     margin: 150px 0 20% 0;
@@ -350,6 +379,10 @@
     margin-top: 5px;
 }
 
+.button_asort .btn-danger{
+    display: flex; align-items: center; justify-content: center;
+}
+
 
 .assortment_basket img{
   width: 100%;
@@ -390,6 +423,8 @@
 .text_block h4 {
     color: red;
     width: 65%;
+    font-size: 17px;
+    font-weight: bold;
 }
 
 
@@ -417,6 +452,7 @@
 
 .nail_desktop {
     margin-top: 20px;
+    font-size: 16px;
 }
 
 .counter-input {
@@ -630,12 +666,16 @@
         text-align: center;
     }
 
+    .abs {
+        margin-top: 100px;
+    }
+
     .pad{
         display: none;
     }
-    .abs {
-        margin-left: 0;
-    }
+    /*.abs {*/
+    /*    margin-left: 0;*/
+    /*}*/
     .but_mobile {
         display: inline;
     }
@@ -653,8 +693,17 @@
   }
 
     .abs_basket {
-        top: 35%;
+        width: 98%;
+        top: 30%;
         margin-left: 1%;
+    }
+
+    .abs{
+        margin-top: 200px;
+    }
+
+    .assortment{
+        bottom: 100px;
     }
 
   .bask{
@@ -696,14 +745,16 @@
 
 @media screen and (max-width: 706px){
     .abs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; /* Пространство между карточками */
+        display: flex;
+        flex-wrap: wrap;
+        /*justify-content: space-between; !* Пространство между карточками *!*/
+        justify-content: center;
     }
 
     .assortment {
         min-height: 300px;
       width: calc(50% - 15px); /* Две карточки рядом с учетом отступов*/
+        min-width: 155px;
       box-sizing: border-box;
       /*margin-bottom: 5px; !* Расстояние между рядами карточек *!*/
       background-color: #fff;
@@ -711,6 +762,7 @@
       border: 1px solid #ddd;
         height: 350px;
         margin: 0 5px 5px 5px;
+        /*bottom: 100px;*/
     }
     .button_asort .btn-danger, .button_bask .btn-danger {
         display: none;
@@ -812,9 +864,6 @@
     .nail_desktop {
         display: none;
     }
-    /*.abs_basket {*/
-    /*    margin-left: 0;*/
-    /*}*/
 
     .dialog_menu {
         max-width: 90%;
@@ -831,16 +880,17 @@
     }
 
     .search_container {
-        margin: 150px 0 0 0;
+        margin: 95px 0 0 0;
         width: auto;
     }
 
     .mobilebtn {
-        margin: 220px 0 0 5%;
+        margin: 155px 0 0 5%;
     }
 
     .abs {
-        top: 40%;
+        /*margin-top: 30%;*/
+        margin-top: 250px;
     }
 
 }

@@ -7,6 +7,7 @@ body {
     background-repeat: no-repeat;
     background-position: center center;
     margin-bottom: 200px;
+	/*cursor: url('/static/base/img/wing.png'), auto*/
 }
 
 .navigation {
@@ -15,7 +16,7 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	width: 90%;
-	top: 8%;
+	top: 12%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	color: #fff;
@@ -40,6 +41,16 @@ body {
 
 .icon li a {
 	margin: 0 20px 0 0;
+}
+
+.bskt {
+	margin-top: -8%;
+}
+
+.bskt b {
+	position: relative;
+	margin-left: 70%;
+	top: 25%;
 }
 
 .logo {
@@ -210,6 +221,11 @@ body {
 	padding: 0 16px;
 	list-style: none;
 	display: none;
+}
+
+.bskt_mobile {
+	height: 0;
+	margin-top: -23px;
 }
 
 .mobile_li{
