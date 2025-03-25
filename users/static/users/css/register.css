@@ -4,6 +4,14 @@
   bottom: 100px;
 }
 
+.register_div {
+  background-color: #fafafa;
+}
+
+.register p {
+  margin: 0;
+}
+
 .register_div h1, .registr{
     display: inline-block;
 }

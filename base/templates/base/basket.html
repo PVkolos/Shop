@@ -11,8 +11,8 @@
         <div class="abs_basket">
             {% for el in products %}
                 <div class="assortment">
-                    <img class="img-main" src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">
-
+<!--                    <img class="img-main" src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">-->
+                    <img class="img-main" src="{{MEDIA_URL}}{{el.image}}" onclick="openImage('/media/{{el.image}}')">
                      <dialog id="dialog-{{ el.id }}" class="dialog_menu">
                          <img data-id="{{ el.id }}" id="img-{{ el.id }}" style="margin-top: 12px" class="dialog-img" src="{% static 'news/' %}{{ el.image }}">
                          <h2>{{ el.title }}</h2>
@@ -28,7 +28,7 @@
                         <h3 class='title_desktop' style="">{{ el.title }}</h3><br>
                         <h4 class='price_mobile'>{{ el.price }} ₽/шт</h4>
                         <h3 class='title_mobile'>{{ el.title }}</h3>
-                        <h4 class="price">Цена: {{ el.price }} ₽/шт</h4>
+                        <h4 class="price">{{ el.price }} ₽/шт</h4>
                         <h5 class="nail_desktop">В наличии: {{ el.quantity }}</h5>
                         <h5 class="nail_mobile">В наличии: {{ el.quantity }}</h5>
                         <div class="button_asort" style="">

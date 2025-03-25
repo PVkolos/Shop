@@ -6,11 +6,15 @@
     margin-bottom: 100px;
 }
 
+.acc {
+    background-color: #fafafa;
+}
+
 .prvt h3, .prvt h2 {
     font-family: Comic Sans MS, Comic Sans, cursive;
-  color: white;
+  color: black;
   transition: transform .6s ease;
-  font-size: 40px;
+  font-size: 25px;
 }
 
 .orders p {
@@ -19,7 +23,7 @@
 }
 
 .orders .title, .prvt .title {
-    color: white;
+    color: black;
     font-weight: bold;
     font-size: 30px;
     margin-top: 10px;
@@ -37,6 +41,11 @@
     border-radius: 15px;
     margin-top: 40px;
     padding: 10px;
+}
+
+.shapka {
+
+    margin-top: -60px;
 }
 
 .shapka button {
@@ -147,7 +156,7 @@
         margin-left: 5px;
     }
   .prvt h2, .prvt h3 {
-    font-size: 40px;
+    font-size: 25px;
   }
   .shapka button {
       margin-left: 0;

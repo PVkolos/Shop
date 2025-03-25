@@ -25,6 +25,7 @@ def add_product(request):
             product.save()
 
             image_name = image.name
+            # with open('images/media/' + image_name, 'wb+') as destination:
             with open('media/images/' + image_name, 'wb+') as destination:
                 for chunk in image.chunks():
                     destination.write(chunk)

@@ -25,14 +25,23 @@
         body{
             /*cursor: url("{% static 'base/img/wing.cur' %}"), none;*/
             cursor: grab;
+            margin-left: 70px;
+            margin-right: 70px;
         }
+        @media only screen and (max-width: 1030px) {
+            body {
+                margin-right: 0;
+		        margin-left: 0;
+            }
+        }
+
     </style>
 
 
 </head>
-<body background="{% static 'base/img/bg.webp' %}" >
+<!--<body background="{% static 'base/img/bg.webp' %}" >-->
+<body style="background-color: #f5f5f5; ">
     <header>
-
         <div class="navigation">
             <div><a href="{% url 'home' %}" class="logo">Магазин</a></div>
             <div class="menu">

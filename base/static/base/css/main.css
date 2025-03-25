@@ -1,4 +1,9 @@
+html {
+	background-color: #fafafa;
+}
+
 body {
+	margin-left: 70px; margin-right: 70px;
   font-family: 'Roboto-Regular', sans-serif;
   background-size: 100%;
     padding: 0;
@@ -7,6 +12,7 @@ body {
     background-repeat: no-repeat;
     background-position: center center;
     margin-bottom: 200px;
+	color: black;
 	/*cursor: url('/static/base/img/wing.png'), auto*/
 }
 
@@ -33,7 +39,8 @@ body {
 }
 
 .nav li a {
-	color: #fff;
+	color: black;
+	font-weight: bold;
 	text-decoration: none;
 	margin: 0 30px 0 0;
 	font-size: 18px;
@@ -48,15 +55,16 @@ body {
 }
 
 .bskt b {
+	color: darkred;
 	position: relative;
 	margin-left: 70%;
 	top: 25%;
 }
 
 .logo {
-	margin-left: -10px;
-	margin-top: -50px;
-	font-size: 40px;
+	margin-left: 9px;
+	margin-top: -40px;
+	font-size: 20px;
 	font-family: 'Quicksand', sans-serif;
 	color: #00D4C6;
 	text-decoration: none;
@@ -92,11 +100,11 @@ body {
 .description h1 {
 	margin: 0;
 	font-size: 40px;
-	color: #fff;
+	color: black;
 }
 
 .description p {
-	color: #c7c7c7;
+	color: black;
 	font-size: 20px;
 }
 
@@ -156,9 +164,9 @@ body {
 
 .bask {
 	float: left;
-	padding: 3.5%;
+	/*padding: 3.5%;*/
 	/*height: 100vh;*/
-	color: #fff;
+	color: black;
 	position: fixed;
 	font-weight: bold;
 }
@@ -259,6 +267,13 @@ body {
         width: 80%;
 		top: 20%;
     }
+}
+
+@media only screen and (max-width: 1030px) {
+	body {
+		margin-left: 0;
+		margin-right: 0;
+	}
 }
 
 @media only screen and (max-width: 768px) {

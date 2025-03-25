@@ -8,6 +8,7 @@
 
 {% block content %}
     <div class="shapka" style="display: flex;">
+<!--        <h3 class="active_category" id="active_category">{{ category }}</h3>-->
         <div class="mobilebtn" id="mobilebtn">
             <div class="but_mobile" id="but_mobile">
                 <button class="btn btn-primary" onclick="openMobile()" >
@@ -19,12 +20,12 @@
                     <div class="pad_text">
                         <h3 class="navig">КАТАЛОГ:</h3>
                         <ul class="category" id="main-list">
-                            <li><a href="{% url 'assortment' %}?category=Новинки 2025">Новинки 2025</a></li>
-                            <li><a href="{% url 'assortment' %}?category=Ланч-боксы и лотки">Ланч-боксы и лотки</a></li>
-                            <li><a href="{% url 'assortment' %}?category=Автохимия и автокосметика">Автохимия и автокосметика</a></li>
-                            <li><a href="{% url 'assortment' %}?category=Новинки от Grass">Новинки от Grass</a></li>
-                            <li><a href="{% url 'assortment' %}?category=Уцененные товары">Уцененные товары</a></li>
-                            <li class="item_">Пакеты
+                            <li><a href="{% url 'assortment' %}?category=Новинки 2025"><i class="fa-solid fa-cart-plus"></i> Новинки 2025</a></li>
+                            <li><a href="{% url 'assortment' %}?category=Ланч-боксы и лотки"><i class="fa-solid fa-box-tissue"></i> Ланч-боксы и лотки</a></li>
+                            <li><a href="{% url 'assortment' %}?category=Автохимия и автокосметика"><i class="fa-solid fa-car"></i> Автохимия и автокосметика</a></li>
+                            <li><a href="{% url 'assortment' %}?category=Новинки от Grass"><i class="fa-solid fa-g"></i> Новинки от Grass</a></li>
+                            <li><a href="{% url 'assortment' %}?category=Уцененные товары"><i class="fa-solid fa-percent"></i> Уцененные товары</a></li>
+                            <li class="item_"><i class="fa-sharp fa-solid fa-bag-shopping"></i> Пакеты
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Фасовочные пакеты">Фасовочные пакеты</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Пакеты-Майка">Пакеты-Майка</a></li>
@@ -35,7 +36,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Пакеты Zip Lock и слайдеры">Пакеты Zip Lock и слайдеры</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Пластиковая одноразовая посуда
+                            <li class="item_"><i class="fa-solid fa-bottle-water"></i> Пластиковая одноразовая посуда
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Тарелки, креманки">Тарелки, креманки</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Столовые приборы">Столовые приборы</a></li>
@@ -44,7 +45,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Контейнеры пластиковые">Контейнеры пластиковые</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Бумажная одноразовая посуда
+                            <li class="item_"><i class="fa-solid fa-mug-hot"></i> Бумажная одноразовая посуда
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Бумажные тарелки">Бумажные тарелки</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Бумажные стаканы">Бумажные стаканы</a></li>
@@ -52,7 +53,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Держатели, манжеты для стаканов">Держатели, манжеты для стаканов</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Пластиковая упаковка
+                            <li class="item_"><i class="fa-solid fa-box"></i> Пластиковая упаковка
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Ведра пищевые">Ведра пищевые</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Бутылки ПЭТ">Бутылки ПЭТ</a></li>
@@ -62,7 +63,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Яйцебоксы">Яйцебоксы</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Бумажная упаковка
+                            <li class="item_"><i class="fa-solid fa-boxes-stacked"></i> Бумажная упаковка
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Упаковка для кондитерских изделий">Упаковка для кондитерских изделий</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Подложки для торта">Подложки для торта</a></li>
@@ -71,7 +72,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Пакеты Дой-пак">Пакеты Дой-пак</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Упаковка фаст-фуд, суши
+                            <li class="item_"><i class="fa-solid fa-burger"></i> Упаковка фаст-фуд, суши
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Пакеты, коробки для фри">Пакеты, коробки для фри</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Суши и лапша (бумажные) WOK">Суши и лапша (бумажные) WOK</a></li>
@@ -80,14 +81,14 @@
                                     <li><a href="{% url 'assortment' %}?category=Коробки для пиццы">Коробки для пиццы</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Пленка и скотч
+                            <li class="item_"><i class="fa-solid fa-tape"></i> Пленка и скотч
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Пленка пищевая">Пленка пищевая</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Скотч">Скотч</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Пленка ПВХ">Пленка ПВХ</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Салфетки, полотенца, туалетная бумага
+                            <li class="item_"><i class="fa-solid fa-toilet-paper"></i> Салфетки, полотенца, туалетная бумага
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Салфетки">Салфетки</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Полотенца">Полотенца</a></li>
@@ -95,7 +96,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Влажные салфетки">Влажные салфетки</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Товары хоз назначения
+                            <li class="item_"><i class="fa-solid fa-star-of-life"></i> Товары хоз назначения
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Тряпки, салфетки для уборки">Тряпки, салфетки для уборки</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Губки для посуды">Губки для посуды</a></li>
@@ -109,7 +110,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Другие товары хоз назначения">Другие товары хоз назначения</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Товары для хранения и запекания
+                            <li class="item_"><i class="fa-solid fa-bread-slice"></i> Товары для хранения и запекания
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Алюминиевые формы">Алюминиевые формы</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Бумажные формы для запекания">Бумажные формы для запекания</a></li>
@@ -123,7 +124,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Термопакеты">Термопакеты</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Подарочная упаковка и товары для праздника
+                            <li class="item_"><i class="fa-solid fa-gift"></i> Подарочная упаковка и товары для праздника
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Подарочные коробки">Подарочные коробки</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Упаковочная бумага и пленка">Упаковочная бумага и пленка</a></li>
@@ -131,7 +132,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Прочие товары (под. упаковка и для праздника)">Прочие товары (под. упаковка и для праздника)</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Канцелярские товары
+                            <li class="item_"><i class="fa-solid fa-pen"></i> Канцелярские товары
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Ценники">Ценники</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Накладные, товарные чеки">Накладные, товарные чеки</a></li>
@@ -141,7 +142,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Прочие канцелярские товары">Прочие канцелярские товары</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Товары для сервировки
+                            <li class="item_"><i class="fa-brands fa-servicestack"></i> Товары для сервировки
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Свечи">Свечи</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Скатерти">Скатерти</a></li>
@@ -150,7 +151,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Пики пластиковые для канапэ">Пики пластиковые для канапэ</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Новогодняя продукция
+                            <li class="item_"><i class="fa-solid fa-tree"></i> Новогодняя продукция
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Новогодние пакеты">Новогодние пакеты</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Новогодние пакеты бумажные">Новогодние пакеты бумажные</a></li>
@@ -161,7 +162,7 @@
                                     <li><a href="{% url 'assortment' %}?category=Новогодние скатерти">Новогодние скатерти</a></li>
                                 </ul>
                             </li>
-                            <li class="item_">Бытовая химия
+                            <li class="item_"><i class="fa-solid fa-flask-vial"></i> Бытовая химия
                                 <ul class="sublist">
                                     <li><a href="{% url 'assortment' %}?category=Средства для мытья стекол">Средства для мытья стекол</a></li>
                                     <li><a href="{% url 'assortment' %}?category=Средства для мытья полов">Средства для мытья полов</a></li>
@@ -182,9 +183,9 @@
                     </div>
                 </div>
             </div>
-            <h3 class="active_category" id="active_category">{{ category }}</h3>
+<!--            <h3 class="active_category" id="active_category">{{ category }}</h3>-->
         </div>
-
+        <h3 class="active_category" id="active_category">{{ category }}</h3>
         <form action="" method="GET" class="search_container">
                 <input class="search__input" type="search" name="search" placeholder="Поиск">
                 <button class="btn_search" type="submit">Искать</button>
@@ -197,11 +198,13 @@
 
                 {% if el.quantity > 0 %}
                     <div class="assortment">
-<!--                        <img src="/media/{{el.image}}" onclick="openImage('/media/{{el.image}}')">-->
-                        <img class="img-main" src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">
+                        <img class="img-main" src="{{MEDIA_URL}}{{el.image}}" onclick="openImage('/media/{{el.image}}')">
+<!--                        <img class="img-main" src="/media/{{el.image}}" onclick="openImage('/media/{{el.image}}')">-->
+<!--                        <img class="img-main" src="{% static 'news/' %}{{ el.image }}" onclick="openImage('{% static 'news/' %}{{ el.image }}')">-->
 
                         <dialog id="dialog-{{ el.id }}" class="dialog_menu">
-                            <img data-id="{{ el.id }}" id="img-{{ el.id }}" style="margin-top: 10px" class="dialog-img" src="{% static 'news/' %}{{ el.image }}">
+                            <img data-id="{{ el.id }}" id="img-{{ el.id }}" style="width: auto" class="img-main" src="{{MEDIA_URL}}{{el.image}}" onclick="openImage('/media/{{el.image}}')">
+<!--                            <img data-id="{{ el.id }}" id="img-{{ el.id }}" style="margin-top: 10px" class="dialog-img" src="{% static 'news/' %}{{ el.image }}">-->
                              <h2>{{ el.title }}</h2>
                              <p>{{ el.additional_info|linebreaks }}</p>
                             <p></p>
@@ -261,7 +264,8 @@
                                     <h3 class='title_desktop' style="">{{ el.title }}</h3><br>
                                     <h4 class='price_mobile'>{{ el.price }}</h4>
                                     <h3 class='title_mobile'>{{ el.title }}</h3>
-                                    <h4 class="price">Цена: {{ el.price }} ₽/шт</h4>
+<!--                                    <h4 class="price">Цена: {{ el.price }} ₽/шт</h4>-->
+                                    <h4 class="price">{{ el.price }} ₽/шт</h4>
                                     <h5 class="nail_desktop">В наличии: {{ el.quantity }}</h5>
                                     <h5 class="nail_mobile">В наличии: {{ el.quantity }}</h5>
                                 </div>
@@ -288,12 +292,12 @@
         <button onclick="closeDialogMobile()" class="exit_mobile"><i class="fa-solid fa-xmark"></i></button>
         <div class="mobileUl">
             <ul class="list-mobile" id="main-list_mobile">
-                <li><a href="{% url 'assortment' %}?category=Новинки 2025">Новинки 2025</a></li>
-                <li><a href="{% url 'assortment' %}?category=Ланч-боксы и лотки">Ланч-боксы и лотки</a></li>
-                <li><a href="{% url 'assortment' %}?category=Автохимия и автокосметика">Автохимия и автокосметика</a></li>
-                <li><a href="{% url 'assortment' %}?category=Новинки от Grass">Новинки от Grass</a></li>
-                <li><a href="{% url 'assortment' %}?category=Уцененные товары">Уцененные товары</a></li>
-                <li class="item_">Пакеты
+                <li><a href="{% url 'assortment' %}?category=Новинки 2025"><i class="fa-solid fa-cart-plus"></i> Новинки 2025</a></li>
+                <li><a href="{% url 'assortment' %}?category=Ланч-боксы и лотки"><i class="fa-solid fa-box-tissue"></i> Ланч-боксы и лотки</a></li>
+                <li><a href="{% url 'assortment' %}?category=Автохимия и автокосметика"><i class="fa-solid fa-car"></i> Автохимия и автокосметика</a></li>
+                <li><a href="{% url 'assortment' %}?category=Новинки от Grass"><i class="fa-solid fa-g"></i> Новинки от Grass</a></li>
+                <li><a href="{% url 'assortment' %}?category=Уцененные товары"><i class="fa-solid fa-percent"></i> Уцененные товары</a></li>
+                <li class="item_"><i class="fa-sharp fa-solid fa-bag-shopping"></i> Пакеты
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Фасовочные пакеты">Фасовочные пакеты</a></li>
                         <li><a href="{% url 'assortment' %}?category=Пакеты-Майка">Пакеты-Майка</a></li>
@@ -304,7 +308,7 @@
                         <li><a href="{% url 'assortment' %}?category=Пакеты Zip Lock и слайдеры">Пакеты Zip Lock и слайдеры</a></li>
                     </ul>
                 </li>
-                <li class="item_">Пластиковая одноразовая посуда
+                <li class="item_"><i class="fa-solid fa-bottle-water"></i> Пластиковая одноразовая посуда
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Тарелки, креманки">Тарелки, креманки</a></li>
                         <li><a href="{% url 'assortment' %}?category=Столовые приборы">Столовые приборы</a></li>
@@ -313,7 +317,7 @@
                         <li><a href="{% url 'assortment' %}?category=Контейнеры пластиковые">Контейнеры пластиковые</a></li>
                     </ul>
                 </li>
-                <li class="item_">Бумажная одноразовая посуда
+                <li class="item_"><i class="fa-solid fa-mug-hot"></i> Бумажная одноразовая посуда
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Бумажные тарелки">Бумажные тарелки</a></li>
                         <li><a href="{% url 'assortment' %}?category=Бумажные стаканы">Бумажные стаканы</a></li>
@@ -321,7 +325,7 @@
                         <li><a href="{% url 'assortment' %}?category=Держатели, манжеты для стаканов">Держатели, манжеты для стаканов</a></li>
                     </ul>
                 </li>
-                <li class="item_">Пластиковая упаковка
+                <li class="item_"><i class="fa-solid fa-box"></i> Пластиковая упаковка
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Ведра пищевые">Ведра пищевые</a></li>
                         <li><a href="{% url 'assortment' %}?category=Бутылки ПЭТ">Бутылки ПЭТ</a></li>
@@ -331,7 +335,7 @@
                         <li><a href="{% url 'assortment' %}?category=Яйцебоксы">Яйцебоксы</a></li>
                     </ul>
                 </li>
-                <li class="item_">Бумажная упаковка
+                <li class="item_"><i class="fa-solid fa-boxes-stacked"></i> Бумажная упаковка
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Упаковка для кондитерских изделий">Упаковка для кондитерских изделий</a></li>
                         <li><a href="{% url 'assortment' %}?category=Подложки для торта">Подложки для торта</a></li>
@@ -340,7 +344,7 @@
                         <li><a href="{% url 'assortment' %}?category=Пакеты Дой-пак">Пакеты Дой-пак</a></li>
                     </ul>
                 </li>
-                <li class="item_">Упаковка фаст-фуд, суши
+                <li class="item_"><i class="fa-solid fa-burger"></i> Упаковка фаст-фуд, суши
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Пакеты, коробки для фри">Пакеты, коробки для фри</a></li>
                         <li><a href="{% url 'assortment' %}?category=Суши и лапша (бумажные) WOK">Суши и лапша (бумажные) WOK</a></li>
@@ -349,14 +353,14 @@
                         <li><a href="{% url 'assortment' %}?category=Коробки для пиццы">Коробки для пиццы</a></li>
                     </ul>
                 </li>
-                <li class="item_">Пленка и скотч
+                <li class="item_"><i class="fa-solid fa-tape"></i> Пленка и скотч
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Пленка пищевая">Пленка пищевая</a></li>
                         <li><a href="{% url 'assortment' %}?category=Скотч">Скотч</a></li>
                         <li><a href="{% url 'assortment' %}?category=Пленка ПВХ">Пленка ПВХ</a></li>
                     </ul>
                 </li>
-                <li class="item_">Салфетки, полотенца, туалетная бумага
+                <li class="item_"><i class="fa-solid fa-toilet-paper"></i> Салфетки, полотенца, туалетная бумага
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Салфетки">Салфетки</a></li>
                         <li><a href="{% url 'assortment' %}?category=Полотенца">Полотенца</a></li>
@@ -364,7 +368,7 @@
                         <li><a href="{% url 'assortment' %}?category=Влажные салфетки">Влажные салфетки</a></li>
                     </ul>
                 </li>
-                <li class="item_">Товары хоз назначения
+                <li class="item_"><i class="fa-solid fa-star-of-life"></i> Товары хоз назначения
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Тряпки, салфетки для уборки">Тряпки, салфетки для уборки</a></li>
                         <li><a href="{% url 'assortment' %}?category=Губки для посуды">Губки для посуды</a></li>
@@ -378,7 +382,7 @@
                         <li><a href="{% url 'assortment' %}?category=Другие товары хоз назначения">Другие товары хоз назначения</a></li>
                     </ul>
                 </li>
-                <li class="item_">Товары для хранения и запекания
+                <li class="item_"><i class="fa-solid fa-bread-slice"></i> Товары для хранения и запекания
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Алюминиевые формы">Алюминиевые формы</a></li>
                         <li><a href="{% url 'assortment' %}?category=Бумажные формы для запекания">Бумажные формы для запекания</a></li>
@@ -392,7 +396,7 @@
                         <li><a href="{% url 'assortment' %}?category=Термопакеты">Термопакеты</a></li>
                     </ul>
                 </li>
-                <li class="item_">Подарочная упаковка и товары для праздника
+                <li class="item_"><i class="fa-solid fa-gift"></i> Подарочная упаковка и товары для праздника
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Подарочные коробки">Подарочные коробки</a></li>
                         <li><a href="{% url 'assortment' %}?category=Упаковочная бумага и пленка">Упаковочная бумага и пленка</a></li>
@@ -400,7 +404,7 @@
                         <li><a href="{% url 'assortment' %}?category=Прочие товары (под. упаковка и для праздника)">Прочие товары (под. упаковка и для праздника)</a></li>
                     </ul>
                 </li>
-                <li class="item_">Канцелярские товары
+                <li class="item_"><i class="fa-solid fa-pen"></i> Канцелярские товары
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Ценники">Ценники</a></li>
                         <li><a href="{% url 'assortment' %}?category=Накладные, товарные чеки">Накладные, товарные чеки</a></li>
@@ -410,7 +414,7 @@
                         <li><a href="{% url 'assortment' %}?category=Прочие канцелярские товары">Прочие канцелярские товары</a></li>
                     </ul>
                 </li>
-                <li class="item_">Товары для сервировки
+                <li class="item_"><i class="fa-brands fa-servicestack"></i> Товары для сервировки
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Свечи">Свечи</a></li>
                         <li><a href="{% url 'assortment' %}?category=Скатерти">Скатерти</a></li>
@@ -419,7 +423,7 @@
                         <li><a href="{% url 'assortment' %}?category=Пики пластиковые для канапэ">Пики пластиковые для канапэ</a></li>
                     </ul>
                 </li>
-                <li class="item_">Новогодняя продукция
+                <li class="item_"><i class="fa-solid fa-tree"></i> Новогодняя продукция
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Новогодние пакеты">Новогодние пакеты</a></li>
                         <li><a href="{% url 'assortment' %}?category=Новогодние пакеты бумажные">Новогодние пакеты бумажные</a></li>
@@ -430,7 +434,7 @@
                         <li><a href="{% url 'assortment' %}?category=Новогодние скатерти">Новогодние скатерти</a></li>
                     </ul>
                 </li>
-                <li class="item_">Бытовая химия
+                <li class="item_"><i class="fa-solid fa-flask-vial"></i> Бытовая химия
                     <ul class="sublist">
                         <li><a href="{% url 'assortment' %}?category=Средства для мытья стекол">Средства для мытья стекол</a></li>
                         <li><a href="{% url 'assortment' %}?category=Средства для мытья полов">Средства для мытья полов</a></li>
@@ -470,31 +474,31 @@ const active_category = document.getElementById('active_category');
 const abs = document.getElementById('abs');
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    if (but_mobile) {
-        but_mobile.addEventListener('mouseover', function() {
-            // pad.style.display = "block";
-            pad.style.left = "0px";
-            pad.style.zIndex = "1000";
-            pad.addEventListener("mouseover", function() {
-                active_category.style.display = 'none';
-                abs.style.marginLeft = '530px';
-            });
-            pad.addEventListener("mouseout", function () {
-                // pad.style.display = "none";
-                pad.style.left = "-524px";
-                active_category.style.display = 'block';
-                abs.style.marginLeft = '0px';
-            })
-        });
-
-        // but_mobile.addEventListener('mouseout', function() {
-        //     console.log('Курсор мыши покинул div');
-        //     // Здесь можно добавить любые действия при уходе курсора
-        //     pad.style.display = "none";
-        // });
-    }
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     if (but_mobile) {
+//         but_mobile.addEventListener('mouseover', function() {
+//             // pad.style.display = "block";
+//             pad.style.left = "0px";
+//             pad.style.zIndex = "1000";
+//             pad.addEventListener("mouseover", function() {
+//                 active_category.style.display = 'none';
+//                 abs.style.marginLeft = '530px';
+//             });
+//             pad.addEventListener("mouseout", function () {
+//                 // pad.style.display = "none";
+//                 pad.style.left = "-524px";
+//                 active_category.style.display = 'block';
+//                 abs.style.marginLeft = '0px';
+//             })
+//         });
+//
+//         // but_mobile.addEventListener('mouseout', function() {
+//         //     console.log('Курсор мыши покинул div');
+//         //     // Здесь можно добавить любые действия при уходе курсора
+//         //     pad.style.display = "none";
+//         // });
+//     }
+// });
 
 
 document.addEventListener('DOMContentLoaded', function() {

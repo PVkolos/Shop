@@ -49,6 +49,7 @@ def assortment(request):
         products = response.copy()
         products_all = response.copy()
     else:
+        print(request.GET)
         category = request.GET.get("category", "Новинки 2025")
         products_all = Products.objects.all()
         products = []
