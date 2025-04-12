@@ -1,4 +1,4 @@
-from .models import Products
+from .models import Products, Categories
 # from shop.search import client
 from django.contrib import admin
 
@@ -9,6 +9,7 @@ from .forms import ProductsAdminForm
 
 class ProductsAdmin(admin.ModelAdmin):
     form = ProductsAdminForm
+    list_display = ('title', 'quantity', 'price')
 
     def delete_queryset(self, request, queryset):
         # Удаление товара из opensearch
@@ -30,7 +31,17 @@ class ProductsAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
+class CategoriesAdmin(admin.ModelAdmin):
+    list_display = ('category', 'parent_category')
+    list_filter = ('parent_category', )
+    search_fields = ("category",)
+
+    # class Meta:
+    #     ordering = ("parent_category", "category")
+
+
 admin.site.register(Products, ProductsAdmin)
+admin.site.register(Categories, CategoriesAdmin)
 
 # admin.site.register(Products)
 # admin.site.register(Reviews)

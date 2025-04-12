@@ -55,14 +55,13 @@
     font-size: 20px;
 }
 
-/*TODO*/
 .mobileUl ul li,
 .mobileUl ul a {
   color: black;
   margin-top: 10px;
   transition: transform .6s ease;
   text-decoration: none;
-  font-size: 23px;
+  font-size: 17px;
     font-weight: bold;
 }
 
@@ -87,15 +86,10 @@
 }
 
 .mobilebtn h3 {
-    /*margin-top: 40px;*/
-    /*color: white;*/
+    width: 440px;
+    display: inline;
+    margin-top: -170px;
 }
-
-/*.dialog_menu {*/
-/*    width: 500px;*/
-/*    height: 10000px;*/
-/*}*/
-
 
 :root {
   --rad: .7rem;
@@ -247,7 +241,7 @@
 
 .abs {
   /*margin-left: 450px;*/
-  margin-top: 50px;
+  margin-top: 70px;
     margin-left: 310px;
   /*position: absolute;*/
     margin-bottom: 100px;
@@ -740,9 +734,9 @@
         display: block;
     }
 
-    .active_category {
-        margin-left: 40px;
-        margin-top: 100px;
+    .mobilebtn h3{
+        margin-top: 50%;
+        margin-left: 0;
     }
 
     .none {
@@ -914,9 +908,11 @@
 
 }
 
-
-
 @media only screen and (max-width: 530px){
+    .mobilebtn h3{
+        width: 250%;
+    }
+
     .active_category {
         margin-left: 20px;
         margin-top: 70px;

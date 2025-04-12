@@ -1,14 +1,19 @@
 from django import forms
-from .models import Products, THEME_CHOICES
+from .models import Products, Categories
+from .views import get_categories_from_admin
 
 
 class ProductsAdminForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProductsAdminForm, self).__init__(*args, **kwargs)
+        self.fields['category'].choices = get_categories_from_admin()
+
     class Meta:
         model = Products
         fields = '__all__'
 
     category = forms.MultipleChoiceField(
-        choices=THEME_CHOICES,
+        choices=(),
         widget=forms.SelectMultiple,
         required=False
     )

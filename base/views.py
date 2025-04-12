@@ -1,15 +1,9 @@
-from pprint import pprint
-from re import search
-
 from django.shortcuts import render, redirect
-from news.models import Products
-from unicodedata import category
+from news.models import Products, Categories
+from phonenumbers.unicode_util import Category
 from users.models import Basket
 from django.http import JsonResponse
 import json
-from .forms import OrderForm
-import requests
-# from shop.search import client
 from shop.regexp import search_strings
 from django.db.models import Q
 
@@ -38,6 +32,17 @@ def about(request):
 #     return render(request, 'base/assortment.html', {'products': products, 'flag': 'true', 'products_itog': products_itog, 'active_b': 'assortment'})
 
 
+def get_categories():
+    categories = Categories.objects.all()
+    category_dct = dict()
+    for elements in categories:
+        category_dct[elements.parent_category] = category_dct.get(elements.parent_category, {'image': elements.image, 'categories_list': []})
+        if isinstance(category_dct[elements.parent_category], dict):
+            category_dct[elements.parent_category]['categories_list'].append(elements)
+
+    return category_dct
+
+
 def assortment(request):
     request.session['button_active'] = 'assortment'
     if 'search' in request.GET:
@@ -49,7 +54,6 @@ def assortment(request):
         products = response.copy()
         products_all = response.copy()
     else:
-        print(request.GET)
         category = request.GET.get("category", "Новинки 2025")
         products_all = Products.objects.all()
         products = []
@@ -79,7 +83,7 @@ def assortment(request):
             # all_quantity += item.quantity
         else:
             el.quantity_basket = 0
-    return render(request, 'base/as3.html', {'all_q': all_quantity, 'flag': flag, 'products': products, 'category': category, 'products_itog': products_itog, 'active_b': 'assortment'})
+    return render(request, 'base/as3.html', {'all_q': all_quantity, 'flag': flag, 'products': products, 'category': category, 'products_itog': products_itog, 'categories': get_categories(),'active_b': 'assortment'})
 
 
 def contacts(request):
